@@ -42,6 +42,45 @@
     </section>
 
     <section>
+      <h2>The Search Invariant</h2>
+      <p>At the start of every iteration, if the target exists, one occurrence lies in the inclusive range <code>[left, right]</code>. When <code>nums[mid] &lt; target</code>, sorted order proves indices through <code>mid</code> are impossible, so the new left boundary is <code>mid + 1</code>. The symmetric argument moves <code>right</code> to <code>mid - 1</code>.</p>
+      <p>Every iteration removes at least <code>mid</code>, guaranteeing progress. Assigning <code>left = mid</code> or <code>right = mid</code> in this closed-interval template can create an infinite loop.</p>
+    </section>
+
+    <section>
+      <h2>Exact Search vs. Boundary Search</h2>
+      <table>
+        <tr><th>Goal</th><th>Question at <code>mid</code></th><th>Useful final boundary</th></tr>
+        <tr><td>Exact match</td><td>Is this equal, too small, or too large?</td><td>Return immediately on equality.</td></tr>
+        <tr><td>First value ≥ target</td><td>Could <code>mid</code> be the first valid index?</td><td><code>left</code> is the insertion position.</td></tr>
+        <tr><td>First true answer</td><td>Does candidate <code>mid</code> satisfy a monotonic condition?</td><td>Smallest feasible candidate.</td></tr>
+      </table>
+      <div class="callout">Duplicates make “find target” ambiguous. Ask whether any occurrence, the first occurrence, or the last occurrence is required.</div>
+    </section>
+
+    <section>
+      <h2>Lower-Bound Template</h2>
+      <p>This half-open range <code>[left, right)</code> finds the first index whose value is at least the target. It also gives the correct insertion position when the target is absent.</p>
+      <pre><code>def lower_bound(nums, target):
+    left = 0
+    right = len(nums)
+
+    while left &lt; right:
+        mid = (left + right) // 2
+        if nums[mid] &lt; target:
+            left = mid + 1
+        else:
+            right = mid
+
+    return left</code></pre>
+    </section>
+
+    <section>
+      <h2>Complexity and Edge Cases</h2>
+      <p>Each comparison halves the candidate range, so time is <code>O(log n)</code> and iterative auxiliary space is <code>O(1)</code>. Test an empty list, a one-item list, targets below and above the range, both endpoints, and duplicate values.</p>
+    </section>
+
+    <section>
       <h2>Python Template</h2>
       <pre><code>def binary_search(nums, target):
     left = 0

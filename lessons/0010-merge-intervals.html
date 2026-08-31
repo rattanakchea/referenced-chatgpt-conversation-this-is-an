@@ -43,6 +43,37 @@
     </section>
 
     <section>
+      <h2>The Merge Invariant</h2>
+      <p>After processing the first <code>i</code> sorted intervals, <code>merged</code> contains their complete union as non-overlapping intervals. Because future starts cannot be earlier than the current start, only <code>merged[-1]</code> can overlap the next interval; all earlier merged intervals are permanently finished.</p>
+      <p>This is why sorting is the key transformation. Without it, a new interval might overlap any earlier range, forcing repeated searching or merging.</p>
+    </section>
+
+    <section>
+      <h2>Boundary Semantics</h2>
+      <p>The condition <code>start &lt;= last_end</code> treats touching closed intervals such as <code>[1, 4]</code> and <code>[4, 5]</code> as overlapping. For half-open time ranges such as <code>[start, end)</code>, where a meeting ending at 10 and another starting at 10 do not conflict, use <code>start &lt; last_end</code>.</p>
+      <div class="callout">State what the endpoints mean before writing the overlap condition. One character—<code>&lt;</code> versus <code>&lt;=</code>—can change the answer.</div>
+    </section>
+
+    <section>
+      <h2>Common Interval Variations</h2>
+      <table>
+        <tr><th>Problem</th><th>Sort by</th><th>Greedy decision</th></tr>
+        <tr><td>Merge intervals</td><td>Start</td><td>Extend the last merged end.</td></tr>
+        <tr><td>Attend all meetings</td><td>Start</td><td>Reject if current start is before previous end.</td></tr>
+        <tr><td>Remove minimum overlaps</td><td>End</td><td>Keep the interval that finishes earliest.</td></tr>
+        <tr><td>Minimum meeting rooms</td><td>Start/end events or starts plus a heap</td><td>Release rooms whose meetings ended.</td></tr>
+      </table>
+      <p>The overlap test may look similar across these problems, but the goal determines what information to keep.</p>
+    </section>
+
+    <section>
+      <h2>Complexity, Mutation, and Edge Cases</h2>
+      <p>Sorting dominates at <code>O(n log n)</code>; the scan is <code>O(n)</code>. The output can require <code>O(n)</code> space. This template mutates the input order and may reuse inner interval lists. If callers expect the original input unchanged, sort copied intervals instead:</p>
+      <pre><code>ordered = sorted((start, end) for start, end in intervals)</code></pre>
+      <p>Test empty input, one interval, nested ranges such as <code>[[1, 10], [2, 3]]</code>, touching endpoints, identical intervals, and an interval that bridges several earlier ranges.</p>
+    </section>
+
+    <section>
       <h2>Python Template</h2>
       <pre><code>def merge_intervals(intervals):
     if not intervals:

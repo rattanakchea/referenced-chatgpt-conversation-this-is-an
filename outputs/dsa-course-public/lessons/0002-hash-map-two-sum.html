@@ -40,6 +40,33 @@
     </section>
 
     <section>
+      <h2>The Invariant</h2>
+      <p>Before processing index <code>i</code>, <code>seen</code> contains exactly the values from indices <code>0</code> through <code>i - 1</code>, paired with an index where each value occurred. Therefore, finding <code>target - nums[i]</code> in <code>seen</code> proves that the two indices are distinct and form a valid pair.</p>
+      <p>This also explains the check-before-insert order. With <code>nums = [3, 3]</code> and target <code>6</code>, the first <code>3</code> is stored; the second finds it. Inserting first could incorrectly let a single element match itself.</p>
+    </section>
+
+    <section>
+      <h2>Choosing the Right Lookup Structure</h2>
+      <table>
+        <tr><th>Question you must answer</th><th>Structure</th><th>Stored information</th></tr>
+        <tr><td>Has this value appeared?</td><td><code>set</code></td><td>Values only</td></tr>
+        <tr><td>Where did this value appear?</td><td><code>dict</code></td><td>Value → index</td></tr>
+        <tr><td>How often did it appear?</td><td><code>dict</code> / <code>Counter</code></td><td>Value → count</td></tr>
+      </table>
+      <p>Two Sum must return indices, so a dictionary is the natural choice. The expected running time is <code>O(n)</code> and the extra space is <code>O(n)</code>; dictionary lookup is expected <code>O(1)</code>.</p>
+    </section>
+
+    <section>
+      <h2>Edge Cases and Failure Modes</h2>
+      <ul>
+        <li><strong>Duplicate values:</strong> <code>[3, 3]</code> is valid for target <code>6</code>; check before inserting.</li>
+        <li><strong>Negative values:</strong> complement arithmetic works unchanged, such as <code>-3 + 7 = 4</code>.</li>
+        <li><strong>No solution:</strong> agree on the required sentinel, exception, or problem guarantee.</li>
+        <li><strong>Sorting first:</strong> can enable two pointers, but loses original indices unless values and indices are carried together.</li>
+      </ul>
+    </section>
+
+    <section>
       <h2>Python Template</h2>
       <pre><code>def two_sum(nums, target):
     seen = {}

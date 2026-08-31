@@ -37,6 +37,45 @@
     </section>
 
     <section>
+      <h2>Membership Cost Matters</h2>
+      <table>
+        <tr><th>Container</th><th><code>value in container</code></th><th>Use it when</th></tr>
+        <tr><td><code>list</code></td><td><code>O(n)</code></td><td>Order matters and membership checks are rare.</td></tr>
+        <tr><td><code>set</code></td><td>Expected <code>O(1)</code></td><td>You need fast presence checks and unique values.</td></tr>
+        <tr><td><code>dict</code></td><td>Expected <code>O(1)</code> for keys</td><td>You need presence plus associated data.</td></tr>
+      </table>
+      <p>A loop that performs list membership on every iteration can become <code>O(n²)</code>. Building a set costs <code>O(n)</code> space but usually reduces the full scan to <code>O(n)</code> time.</p>
+      <div class="callout"><code>key in mapping</code> checks dictionary keys, not values. Use <code>key in mapping</code> for fast lookup; searching <code>mapping.values()</code> is linear.</div>
+    </section>
+
+    <section>
+      <h2>Early Return and Loop Meaning</h2>
+      <p>The loop asks one question per element: “Have I already seen this?” A duplicate is decisive, so return <code>True</code> immediately. Returning <code>False</code> inside the loop would only prove that the first checked value was new—not that every value is unique.</p>
+      <pre><code># Wrong: stops after the first new value
+for num in nums:
+    if num in seen:
+        return True
+    return False
+
+# Correct: False means the entire scan found no duplicate
+for num in nums:
+    if num in seen:
+        return True
+    seen.add(num)
+return False</code></pre>
+    </section>
+
+    <section>
+      <h2>Python Details to Remember</h2>
+      <ul>
+        <li>An empty set is <code>set()</code>; <code>{}</code> creates an empty dictionary.</li>
+        <li><code>seen.add(value)</code> changes the set in place and returns <code>None</code>.</li>
+        <li>Set elements and dictionary keys must be hashable, so lists cannot be inserted directly; tuples can.</li>
+        <li><code>discard</code> safely ignores a missing value, while <code>remove</code> raises <code>KeyError</code>.</li>
+      </ul>
+    </section>
+
+    <section>
       <h2>Python Template</h2>
       <pre><code>def has_repeat(nums):
     seen = set()

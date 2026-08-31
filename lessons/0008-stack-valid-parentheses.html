@@ -44,6 +44,49 @@
     </section>
 
     <section>
+      <h2>The Stack Invariant</h2>
+      <p>After reading any prefix of the string, the stack contains exactly the opening brackets that have not yet been matched, in encounter order. The top is the only opener the next closer may legally match. A mismatch or an empty stack proves the prefix can never be repaired by later characters.</p>
+      <p>The final empty-stack check handles the opposite failure: input such as <code>"(("</code> never sees an invalid closer, but still leaves unresolved openers.</p>
+    </section>
+
+    <section>
+      <h2>Recognizing Stack Problems</h2>
+      <ul>
+        <li><strong>Nested structure:</strong> brackets, tags, expression evaluation, directory paths.</li>
+        <li><strong>Undo or cancellation:</strong> adjacent duplicates, backspaces, canonical paths.</li>
+        <li><strong>Most recent unresolved item:</strong> matching events or decoding expressions.</li>
+        <li><strong>Next greater or smaller item:</strong> use a monotonic stack of unresolved indices.</li>
+      </ul>
+      <div class="callout">Store indices instead of values when the answer needs a distance, position, or later update.</div>
+    </section>
+
+    <section>
+      <h2>From Regular to Monotonic Stack</h2>
+      <p>In Daily Temperatures, the stack stores indices whose next warmer day is still unknown. When a warmer temperature arrives, it resolves every colder index on top. Each index is pushed once and popped at most once, so the full algorithm is <code>O(n)</code>, even though a <code>while</code> loop appears inside the <code>for</code> loop.</p>
+      <pre><code>def daily_temperatures(temperatures):
+    answer = [0] * len(temperatures)
+    stack = []  # unresolved indices, temperatures decreasing
+
+    for i, temperature in enumerate(temperatures):
+        while stack and temperatures[stack[-1]] &lt; temperature:
+            previous = stack.pop()
+            answer[previous] = i - previous
+        stack.append(i)
+
+    return answer</code></pre>
+    </section>
+
+    <section>
+      <h2>Complexity and Pitfalls</h2>
+      <p>Valid Parentheses takes <code>O(n)</code> time and up to <code>O(n)</code> space. Avoid <code>pop(0)</code>, which removes from the front of a list and costs <code>O(n)</code>; stack operations belong at the end.</p>
+      <ul>
+        <li>Check <code>not stack</code> before calling <code>pop()</code>.</li>
+        <li>Do not accept a matching prefix without checking that the stack ends empty.</li>
+        <li>If input may contain non-bracket characters, define whether to ignore or reject them.</li>
+      </ul>
+    </section>
+
+    <section>
       <h2>Python Template</h2>
       <pre><code>def is_valid_parentheses(s):
     pairs = {")": "(", "]": "[", "}": "{"}

@@ -37,6 +37,40 @@ n: 1</code></pre>
     </section>
 
     <section>
+      <h2>Three Counting Strategies</h2>
+      <table>
+        <tr><th>Strategy</th><th>Core idea</th><th>Best fit</th></tr>
+        <tr><td>Two maps</td><td>Build one count map per input and compare them.</td><td>Clearest general solution.</td></tr>
+        <tr><td>One balance map</td><td>Increment for the first input and decrement for the second.</td><td>Shows that every final balance must be zero.</td></tr>
+        <tr><td>Fixed array</td><td>Use indices such as <code>ord(ch) - ord("a")</code>.</td><td>Only when the character set is explicitly small and fixed.</td></tr>
+      </table>
+      <p>In an interview, state the input assumptions before choosing a fixed array. A dictionary handles Unicode and arbitrary hashable values without changing the algorithm.</p>
+    </section>
+
+    <section>
+      <h2>Correctness and Complexity</h2>
+      <p>Two strings are anagrams exactly when every character has equal multiplicity in both. The algorithm records those multiplicities, so equal maps are both necessary and sufficient. If the strings have different lengths, they cannot have equal total counts and you can return early.</p>
+      <p>Building the maps takes <code>O(n)</code> time. Space is <code>O(k)</code>, where <code>k</code> is the number of distinct characters. Calling this <code>O(1)</code> space is only accurate when the alphabet is guaranteed to have a fixed maximum size.</p>
+    </section>
+
+    <section>
+      <h2>Count, Consume, and Delete</h2>
+      <p>Many frequency problems build an inventory and then consume it. Reject as soon as a requested value has no remaining count.</p>
+      <pre><code>def can_construct(note, magazine):
+    available = {}
+    for ch in magazine:
+        available[ch] = available.get(ch, 0) + 1
+
+    for ch in note:
+        if available.get(ch, 0) == 0:
+            return False
+        available[ch] -= 1
+
+    return True</code></pre>
+      <p>Deleting zero-count keys is optional for correctness here, but useful when map equality or the number of active keys matters.</p>
+    </section>
+
+    <section>
       <h2>Python Template</h2>
       <pre><code>def build_counts(text):
     counts = {}
