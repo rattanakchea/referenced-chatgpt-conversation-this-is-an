@@ -24,6 +24,39 @@
       <h2>Overview</h2>
       <p>A fixed-size sliding window is the right tool when the problem says exactly <code>k</code> consecutive items. The window length never changes. Only the position changes.</p>
       <p>The repeated move is simple: add the new item entering from the right, remove the old item leaving from the left, then update the answer.</p>
+      <div class="callout">
+        Pattern signal: the problem asks for “exactly <code>k</code>”, “a subarray of length <code>k</code>”, or “distance at most <code>k</code>”. If the window length is fixed, do not make a full second pass for each move.
+      </div>
+    </section>
+
+    <section>
+      <h2>What the pattern is really doing</h2>
+      <div class="grid">
+        <div class="panel">
+          <h3>Think in states</h3>
+          <p>The window state is whatever you need to know about the current <code>k</code> items: sum, count, max, set, or frequency map.</p>
+        </div>
+        <div class="panel">
+          <h3>Slide once</h3>
+          <p>Each step advances the right edge by one, then exits the left edge item. This preserves a moving, valid window without rebuilding from scratch.</p>
+        </div>
+        <div class="panel">
+          <h3>Update the answer</h3>
+          <p>After the window is refreshed, compare the current state to the best answer seen so far.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Common gotchas</h2>
+      <div class="panel">
+        <ul>
+          <li><strong>Off-by-one on the leaving index:</strong> the value leaving is usually <code>nums[right - k]</code>, not <code>nums[right - k + 1]</code>.</li>
+          <li><strong>Forgetting to initialize the first window:</strong> before the loop, compute the state for the first <code>k</code> items.</li>
+          <li><strong>Confusing average and sum:</strong> if the condition is based on average, convert it to a sum comparison with <code>threshold * k</code> when helpful.</li>
+          <li><strong>Using a full O(n * k) rebuild:</strong> the point of the pattern is to keep a running state and update in O(1) per step.</li>
+        </ul>
+      </div>
     </section>
 
     <section>
@@ -151,6 +184,18 @@ assert contains_nearby_duplicate([1, 0, 1, 1], 1) is True</code></pre>
     </section>
 
     <section>
+      <h2>Wrong approach to avoid</h2>
+      <div class="panel">
+        <p>A common mistake is to recompute the sum or the window membership from scratch inside the loop:</p>
+        <pre><code>for right in range(k, len(nums)):
+    # Wrong: recomputes the whole window each time
+    window = nums[right-k:right+1]
+    best = max(best, sum(window))</code></pre>
+        <p>This is still correct in a small toy example, but it turns the pattern into <code>O(n * k)</code> instead of <code>O(n)</code>. The whole reason to use sliding window is to preserve the old state and update just the entering and leaving values.</p>
+      </div>
+    </section>
+
+    <section>
       <h2>Retrieval Practice</h2>
       <div class="panel">
         <ol>
@@ -158,6 +203,7 @@ assert contains_nearby_duplicate([1, 0, 1, 1], 1) is True</code></pre>
           <li>Why is <code>right - k</code> the leaving index?</li>
           <li>When would the window state be a sum?</li>
           <li>When would the window state be a set?</li>
+          <li>What is the cost of recomputing the window from scratch each step?</li>
         </ol>
       </div>
     </section>

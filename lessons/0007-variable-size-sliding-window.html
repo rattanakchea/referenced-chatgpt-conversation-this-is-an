@@ -24,6 +24,29 @@
       <h2>Overview</h2>
       <p>A variable-size sliding window is for problems where the valid range can be short or long. The right pointer usually expands the window. The left pointer shrinks it when the window is invalid, or when you are trying to make a valid window smaller.</p>
       <p>The main mental shift: fixed windows move in lockstep, but variable windows breathe. They expand, then shrink, while preserving a useful condition.</p>
+      <div class="callout">
+        Pattern signal: the problem talks about “longest”, “shortest”, “minimum length”, “smallest valid”, “subarray that satisfies a condition”, or “while the window is invalid, shrink it”. This is a variable window problem.
+      </div>
+    </section>
+
+    <section>
+      <h2>Why this pattern is tricky</h2>
+      <div class="panel">
+        <p>The hardest part is not the loop itself; it is deciding when the answer should be updated. For longest-window problems, you usually update after the window is valid. For shortest-window problems, you often update while the window is valid and then shrink it immediately.</p>
+        <p>In other words, the answer depends on what question you are trying to optimize. The loop structure stays the same; only the timing of the answer update changes.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Common gotchas</h2>
+      <div class="panel">
+        <ul>
+          <li><strong>Updating the answer too early:</strong> if the window is invalid, it is not a valid answer yet.</li>
+          <li><strong>Forgetting to remove the left value before moving left:</strong> otherwise the window state becomes inconsistent with the actual window contents.</li>
+          <li><strong>Using the wrong condition in the while loop:</strong> the inner loop should run while the window breaks the rule, not just while it is “maybe not optimal”.</li>
+          <li><strong>Mixing “window valid” and “window optimal”:</strong> a valid window is not automatically the best answer; you still need to compare or update carefully.</li>
+        </ul>
+      </div>
     </section>
 
     <section>
@@ -117,6 +140,20 @@ while duplicate exists:
     remove s[left]
     left += 1</code></pre>
         </div>
+      </div>
+      <p>Notice the difference: the first style asks, “Do I need to shrink before adding this new character?” The second style asks, “I added it, now how do I repair the window?” Both are valid, but the first style usually makes the invariant cleaner.</p>
+    </section>
+
+    <section>
+      <h2>Wrong approach to avoid</h2>
+      <div class="panel">
+        <p>A very common mistake is to move <code>left</code> and <code>right</code> independently without looking at the actual window condition.</p>
+        <pre><code># Wrong idea: move both pointers blindly
+for right, ch in enumerate(s):
+    window.add(ch)
+    left += 1
+    best = max(best, right - left + 1)</code></pre>
+        <p>This can produce a valid-looking answer for a few examples, but it destroys the invariant. A variable window only works when the window state always matches the real items in the current range.</p>
       </div>
     </section>
 
