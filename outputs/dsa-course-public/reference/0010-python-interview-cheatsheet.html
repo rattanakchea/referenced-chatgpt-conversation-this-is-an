@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python Interview Cheatsheet</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Reference</div>
+      <h1>Python Interview Cheatsheet</h1>
+      <p class="small">Essential Python syntax, containers, and standard-library tools for easy and medium coding interviews.</p>
+    </header>
+
+    <nav class="lesson-nav" aria-label="Reference navigation">
+      <a href="0001-course-roadmap.html">Roadmap</a>
+      <a href="0004-python-membership.html">Membership</a>
+      <a href="0005-frequency-maps.html">Frequency Maps</a>
+      <a href="0006-sliding-window.html">Sliding Window</a>
+    </nav>
+
+    <section>
+      <h2>Fast Patterns</h2>
+      <table>
+        <tr><th>Need</th><th>Use</th><th>Example</th></tr>
+        <tr><td>Have I seen this before?</td><td><code>set</code></td><td><code>if x in seen:</code></td></tr>
+        <tr><td>Where did this value appear?</td><td><code>dict</code></td><td><code>index[x] = i</code></td></tr>
+        <tr><td>How many times did this appear?</td><td><code>dict</code> or <code>Counter</code></td><td><code>count[x] = count.get(x, 0) + 1</code></td></tr>
+        <tr><td>Most recent unresolved item?</td><td><code>list</code> as stack</td><td><code>stack.append(x)</code>, <code>stack.pop()</code></td></tr>
+        <tr><td>Queue for BFS?</td><td><code>deque</code></td><td><code>q.append(x)</code>, <code>q.popleft()</code></td></tr>
+        <tr><td>Smallest item repeatedly?</td><td><code>heapq</code></td><td><code>heappush(heap, x)</code>, <code>heappop(heap)</code></td></tr>
+        <tr><td>Search sorted position?</td><td><code>bisect</code></td><td><code>bisect_left(nums, target)</code></td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Loops</h2>
+      <pre><code>for x in nums:
+    print(x)
+
+for i, x in enumerate(nums):
+    print(i, x)
+
+for i in range(len(nums)):
+    print(i, nums[i])
+
+for i in range(len(nums) - 1, -1, -1):
+    print(i, nums[i])</code></pre>
+    </section>
+
+    <section>
+      <h2>Set: Membership</h2>
+      <pre><code>seen = set()
+
+for x in nums:
+    if x in seen:
+        return True
+    seen.add(x)
+
+return False</code></pre>
+      <p>Use a set when the only question is whether a value appeared before.</p>
+    </section>
+
+    <section>
+      <h2>Dictionary: Index Lookup</h2>
+      <pre><code>index_by_value = {}
+
+for i, x in enumerate(nums):
+    need = target - x
+    if need in index_by_value:
+        return [index_by_value[need], i]
+    index_by_value[x] = i
+
+return [-1, -1]</code></pre>
+      <p>Use a dictionary when you need to map a value to information, such as an index or count.</p>
+    </section>
+
+    <section>
+      <h2>Dictionary: Counting</h2>
+      <pre><code>count = {}
+
+for x in nums:
+    count[x] = count.get(x, 0) + 1</code></pre>
+      <p><code>count.get(x, 0)</code> means: if <code>x</code> already exists, use its count; otherwise use <code>0</code>.</p>
+    </section>
+
+    <section>
+      <h2>Counter</h2>
+      <pre><code>from collections import Counter
+
+count = Counter(nums)
+
+if count[x] &gt; 0:
+    print("available")</code></pre>
+      <p><code>Counter</code> is useful when the problem is mostly about frequencies. Manual dictionaries are still worth practicing because they reveal the update logic.</p>
+    </section>
+
+    <section>
+      <h2>Defaultdict</h2>
+      <pre><code>from collections import defaultdict
+
+graph = defaultdict(list)
+
+for a, b in edges:
+    graph[a].append(b)
+    graph[b].append(a)</code></pre>
+      <p><code>defaultdict(list)</code> is common for graph adjacency lists and grouping values.</p>
+    </section>
+
+    <section>
+      <h2>Deque: Queue</h2>
+      <pre><code>from collections import deque
+
+q = deque([start])
+seen = {start}
+
+while q:
+    node = q.popleft()
+    for nei in graph[node]:
+        if nei not in seen:
+            seen.add(nei)
+            q.append(nei)</code></pre>
+      <p>Use <code>deque</code> for BFS because removing from the left is efficient.</p>
+    </section>
+
+    <section>
+      <h2>Stack</h2>
+      <pre><code>stack = []
+
+for x in values:
+    stack.append(x)
+
+while stack:
+    top = stack.pop()</code></pre>
+      <p>A Python list is the usual interview stack.</p>
+    </section>
+
+    <section>
+      <h2>Heap</h2>
+      <pre><code>from heapq import heappush, heappop
+
+heap = []
+heappush(heap, 5)
+heappush(heap, 2)
+smallest = heappop(heap)  # 2</code></pre>
+      <p>Python heaps are min-heaps. For max-heap behavior, push negative numbers.</p>
+      <pre><code>heappush(heap, -score)
+largest = -heappop(heap)</code></pre>
+    </section>
+
+    <section>
+      <h2>Binary Search Helpers</h2>
+      <pre><code>from bisect import bisect_left, bisect_right
+
+i = bisect_left(nums, target)   # first position where target can go
+j = bisect_right(nums, target)  # position after the last target</code></pre>
+      <p>Use these when the problem is about insertion positions or count of values in a sorted list.</p>
+    </section>
+
+    <section>
+      <h2>Sorting</h2>
+      <pre><code>nums.sort()
+
+pairs.sort(key=lambda pair: pair[0])
+
+words.sort(key=len)
+
+descending = sorted(nums, reverse=True)</code></pre>
+      <p><code>sort</code> changes the list. <code>sorted</code> returns a new list.</p>
+    </section>
+
+    <section>
+      <h2>Strings</h2>
+      <pre><code>s = "abc"
+
+s[0]        # "a"
+s[::-1]     # reversed string
+"".join(chars)
+s.lower()
+ch.isalnum()</code></pre>
+      <p>Strings are immutable. Build many characters with a list, then join once.</p>
+    </section>
+
+    <section>
+      <h2>List Slicing</h2>
+      <pre><code>nums[:k]     # first k items
+nums[k:]     # from k to end
+nums[i:j]    # i through j - 1
+nums[::-1]   # reversed copy</code></pre>
+      <p>Slicing creates a new list or string, so it costs time and space proportional to the slice length.</p>
+    </section>
+
+    <section>
+      <h2>Two Pointers</h2>
+      <pre><code>left = 0
+right = len(nums) - 1
+
+while left &lt; right:
+    total = nums[left] + nums[right]
+    if total == target:
+        return [left, right]
+    if total &lt; target:
+        left += 1
+    else:
+        right -= 1</code></pre>
+    </section>
+
+    <section>
+      <h2>Sliding Window</h2>
+      <pre><code>window = sum(nums[:k])
+best = window
+
+for right in range(k, len(nums)):
+    window += nums[right]
+    window -= nums[right - k]
+    best = max(best, window)</code></pre>
+    </section>
+
+    <section>
+      <h2>Useful Built-ins</h2>
+      <table>
+        <tr><th>Function</th><th>Use</th></tr>
+        <tr><td><code>len(x)</code></td><td>Size of list, string, set, or dictionary.</td></tr>
+        <tr><td><code>sum(nums)</code></td><td>Total numeric values.</td></tr>
+        <tr><td><code>min(a, b)</code>, <code>max(a, b)</code></td><td>Update best or boundary values.</td></tr>
+        <tr><td><code>abs(x)</code></td><td>Distance or absolute difference.</td></tr>
+        <tr><td><code>range(n)</code></td><td>Index loops.</td></tr>
+        <tr><td><code>enumerate(nums)</code></td><td>Loop with index and value.</td></tr>
+        <tr><td><code>zip(a, b)</code></td><td>Loop over two sequences together.</td></tr>
+        <tr><td><code>any(...)</code>, <code>all(...)</code></td><td>Boolean checks across values.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Common Imports</h2>
+      <pre><code>from collections import Counter, defaultdict, deque
+from heapq import heappush, heappop
+from bisect import bisect_left, bisect_right
+from math import inf</code></pre>
+      <p>In interviews, import only what you use. If an interviewer asks you to avoid helper libraries, fall back to the manual templates in this sheet.</p>
+    </section>
+
+    <section>
+      <h2>References</h2>
+      <ul>
+        <li><a href="https://docs.python.org/3/tutorial/datastructures.html">Python Tutorial: Data Structures</a></li>
+        <li><a href="https://docs.python.org/3/library/collections.html">Python Library Reference: collections</a></li>
+        <li><a href="https://docs.python.org/3/library/heapq.html">Python Library Reference: heapq</a></li>
+        <li><a href="https://docs.python.org/3/library/bisect.html">Python Library Reference: bisect</a></li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

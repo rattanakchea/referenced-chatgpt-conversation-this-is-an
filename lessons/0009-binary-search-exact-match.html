@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lesson 9: Binary Search for Exact Match</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Lesson 9</div>
+      <h1>Binary Search for Exact Match</h1>
+      <p class="small">Goal: remove half the search space with each comparison.</p>
+    </header>
+
+    <nav class="lesson-nav" aria-label="Lesson navigation">
+      <a href="0008-stack-valid-parentheses.html">Previous: Stack</a>
+      <a href="../reference/0001-course-roadmap.html">Roadmap</a>
+      <a href="0010-merge-intervals.html">Next: Intervals</a>
+    </nav>
+
+    <section>
+      <h2>Overview</h2>
+      <p>Binary search works on sorted search spaces. Instead of checking every value, inspect the middle. If the middle is too small, everything to the left is also too small. If the middle is too large, everything to the right is also too large.</p>
+    </section>
+
+    <section>
+      <h2>The Interview Move</h2>
+      <p>Keep two boundaries: <code>left</code> and <code>right</code>. The answer, if it exists, must remain inside those boundaries. Every comparison tightens the range.</p>
+      <div class="callout">Binary search is not about finding the middle. It is about proving half the candidates are impossible.</div>
+    </section>
+
+    <section>
+      <h2>Worked Example</h2>
+      <p>Input: <code>nums = [1, 3, 5, 7, 9, 11]</code>, <code>target = 9</code></p>
+      <table>
+        <tr><th>left</th><th>right</th><th>mid</th><th>value</th><th>move</th></tr>
+        <tr><td><code>0</code></td><td><code>5</code></td><td><code>2</code></td><td><code>5</code></td><td>Too small. Move <code>left</code> to <code>3</code>.</td></tr>
+        <tr><td><code>3</code></td><td><code>5</code></td><td><code>4</code></td><td><code>9</code></td><td>Found target.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Python Template</h2>
+      <pre><code>def binary_search(nums, target):
+    left = 0
+    right = len(nums) - 1
+
+    while left &lt;= right:
+        mid = (left + right) // 2
+
+        if nums[mid] == target:
+            return mid
+        if nums[mid] &lt; target:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return -1</code></pre>
+    </section>
+
+    <section>
+      <h2>Retrieval Practice</h2>
+      <div class="panel">
+        <ol>
+          <li>What must be true about the input for basic binary search?</li>
+          <li>If <code>nums[mid] &lt; target</code>, which boundary moves?</li>
+          <li>Why does the loop use <code>left &lt;= right</code>?</li>
+          <li>What is the time complexity?</li>
+        </ol>
+      </div>
+    </section>
+
+    <section>
+      <h2>Coding Problem</h2>
+      <p>Write <code>search_insert_position(nums, target)</code>. Return the index where <code>target</code> is found, or where it should be inserted to keep the list sorted.</p>
+      <pre><code>assert search_insert_position([1, 3, 5, 6], 5) == 2
+assert search_insert_position([1, 3, 5, 6], 2) == 1
+assert search_insert_position([1, 3, 5, 6], 7) == 4
+assert search_insert_position([], 4) == 0</code></pre>
+    </section>
+
+    <section>
+      <h2>Common LeetCode Practice</h2>
+      <ul class="practice-list">
+        <li><a href="https://leetcode.com/problems/binary-search/">Binary Search</a> — exact match in a sorted list.</li>
+        <li><a href="https://leetcode.com/problems/search-insert-position/">Search Insert Position</a> — return the final insertion boundary.</li>
+        <li><a href="https://leetcode.com/problems/first-bad-version/">First Bad Version</a> — binary search over an answer boundary.</li>
+        <li><a href="https://leetcode.com/problems/search-in-rotated-sorted-array/">Search in Rotated Sorted Array</a> — binary search with a sorted half.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>References</h2>
+      <ul>
+        <li><a href="../reference/0008-binary-search.html">Binary Search Reference</a></li>
+        <li><a href="https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/">MIT 6.006 Introduction to Algorithms</a></li>
+      </ul>
+      <p class="small">Ask the agent for feedback after writing the coding problem from memory.</p>
+    </section>
+  </main>
+</body>
+</html>

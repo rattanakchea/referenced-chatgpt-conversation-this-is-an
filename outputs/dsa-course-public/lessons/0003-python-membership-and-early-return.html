@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lesson 3: Python Membership and Early Return</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Lesson 3</div>
+      <h1>Python Membership and Early Return</h1>
+      <p class="small">Goal: write the set-check loop correctly from memory.</p>
+    </header>
+
+    <nav class="lesson-nav" aria-label="Lesson navigation">
+      <a href="0002-hash-map-two-sum.html">Previous: Hash Map Two Sum</a>
+      <a href="../reference/0001-course-roadmap.html">Roadmap</a>
+      <a href="0004-frequency-map-valid-anagram.html">Next: Frequency Maps</a>
+    </nav>
+
+    <section>
+      <h2>The Interview Move</h2>
+      <p>When you only need to know whether something appeared before, use a set. Ask <code>if value in seen</code>. If the answer means the problem is solved, return immediately. If the loop finishes, then no earlier return happened.</p>
+    </section>
+
+    <section>
+      <h2>Worked Example</h2>
+      <p>Input: <code>[5, 1, 5]</code></p>
+      <table>
+        <tr><th>value</th><th>seen before check</th><th>action</th></tr>
+        <tr><td><code>5</code></td><td><code>set()</code></td><td>Not seen. Add <code>5</code>.</td></tr>
+        <tr><td><code>1</code></td><td><code>{5}</code></td><td>Not seen. Add <code>1</code>.</td></tr>
+        <tr><td><code>5</code></td><td><code>{1, 5}</code></td><td>Seen. Return <code>True</code>.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Python Template</h2>
+      <pre><code>def has_repeat(nums):
+    seen = set()
+
+    for num in nums:
+        if num in seen:
+            return True
+        seen.add(num)
+
+    return False</code></pre>
+    </section>
+
+    <section>
+      <h2>Retrieval Practice</h2>
+      <div class="panel">
+        <ol>
+          <li>What is the Python syntax for membership in a set?</li>
+          <li>Why does <code>return False</code> go after the loop?</li>
+          <li>What is the difference between <code>set.add</code> and <code>list.append</code>?</li>
+        </ol>
+      </div>
+    </section>
+
+    <section>
+      <h2>Coding Problem</h2>
+      <p>Write <code>first_repeated_value(nums)</code>. Return the first value that appears for a second time while scanning left to right. If there is no repeat, return <code>None</code>.</p>
+      <pre><code>assert first_repeated_value([2, 5, 1, 2, 3, 5]) == 2
+assert first_repeated_value([1, 2, 3]) is None
+assert first_repeated_value([]) is None
+assert first_repeated_value([7, 7, 8]) == 7</code></pre>
+    </section>
+
+    <section>
+      <h2>Common LeetCode Practice</h2>
+      <ul class="practice-list">
+        <li><a href="https://leetcode.com/problems/contains-duplicate/">Contains Duplicate</a> — direct practice with <code>value in seen</code>.</li>
+        <li><a href="https://leetcode.com/problems/first-unique-character-in-a-string/">First Unique Character in a String</a> — membership plus counts.</li>
+        <li><a href="https://leetcode.com/problems/happy-number/">Happy Number</a> — detect repeated states with a set.</li>
+        <li><a href="https://leetcode.com/problems/jewels-and-stones/">Jewels and Stones</a> — fast membership using a set.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>References</h2>
+      <ul>
+        <li><a href="../reference/0004-python-membership.html">Python Membership Reference</a></li>
+        <li><a href="../reference/0003-hash-map-complements.html">Hash Map Complements Reference</a></li>
+        <li><a href="https://docs.python.org/3/tutorial/datastructures.html#sets">Python Tutorial: Sets</a></li>
+      </ul>
+      <p class="small">Ask the agent for feedback on your function before moving on.</p>
+    </section>
+  </main>
+</body>
+</html>

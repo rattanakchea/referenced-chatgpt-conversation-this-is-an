@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sliding Window Reference</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Reference</div>
+      <h1>Sliding Window</h1>
+      <p class="small">Use two indices to maintain a range instead of recomputing every subarray or substring.</p>
+    </header>
+
+    <section>
+      <h2>Overview</h2>
+      <p>Sliding window handles questions about consecutive items: subarrays in lists or substrings in strings. It replaces repeated recomputation with a maintained state that changes as the window moves.</p>
+    </section>
+
+    <section>
+      <h2>Pattern Types</h2>
+      <table>
+        <tr><th>Type</th><th>When to use it</th><th>State examples</th></tr>
+        <tr><td>Fixed-size</td><td>The problem says exactly <code>k</code> items.</td><td>sum, count, max seen</td></tr>
+        <tr><td>Variable-size</td><td>The window grows and shrinks to satisfy a condition.</td><td>frequency map, unique count, running sum</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Core Ideas</h2>
+      <ul>
+        <li>The window is a consecutive range with a left and right edge.</li>
+        <li>The state summarizes what is currently inside the window.</li>
+        <li>The transition updates state when one item enters and one item leaves.</li>
+        <li>The answer is updated after the window is valid.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Update Timing Rule</h2>
+      <p>Think in three phases. First, the <code>for</code> loop chooses a new right edge. Second, the code updates the window state so it matches that new edge. Third, the <code>while</code> loop moves the left edge only if the current window needs repair or improvement.</p>
+      <pre><code>for right, value in enumerate(items):
+    # Phase 1: right moved to a new item.
+    # Phase 2: include that item in the window state.
+    state += value
+
+    # Phase 3: move left only when needed.
+    while window is invalid or shrinkable:
+        record answer if the current window is useful
+        state -= items[left]
+        left += 1
+
+    record answer if the repaired window is useful</code></pre>
+      <p>The <code>while</code> condition reads the current state. The body of the <code>while</code> changes the state by removing from the left, so the next condition check sees a smaller window.</p>
+    </section>
+
+    <section>
+      <h2>Mental Model: Entrance and Exit</h2>
+      <p>The right pointer is the entrance. New items enter there. The left pointer is the exit. Old items leave there. The window state must match what is currently inside.</p>
+      <ul>
+        <li>When <code>right</code> moves, add the new item or prepare to add it.</li>
+        <li>When <code>left</code> moves, remove the old item.</li>
+        <li>Do not remove from the right inside the shrink loop. Shrinking means the left edge moves.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Longest vs Shortest</h2>
+      <table>
+        <tr><th>Problem type</th><th>When to update answer</th><th>Why</th></tr>
+        <tr><td>Longest valid window</td><td>After shrinking</td><td>The window is valid now, so measure it.</td></tr>
+        <tr><td>Shortest valid window</td><td>Inside the shrink loop</td><td>The window is valid before each shrink, so measure it before removing the left item.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Two Timing Examples</h2>
+      <h3>Longest unique substring</h3>
+      <p>Here the new character might break uniqueness. The code shrinks before adding it so the set never contains a duplicate.</p>
+      <pre><code>while ch in window:
+    window.remove(s[left])
+    left += 1
+
+window.add(ch)
+best = max(best, right - left + 1)</code></pre>
+      <h3>Minimum sum at least target</h3>
+      <p>Here the new number might make the sum large enough. The code must add it first, then measure and shrink while the window is valid.</p>
+      <pre><code>total += value
+
+while total &gt;= target:
+    best = min(best, right - left + 1)
+    total -= nums[left]
+    left += 1</code></pre>
+    </section>
+
+    <section>
+      <h2>Fixed-Size Window</h2>
+      <pre><code>def max_sum_size_k(nums, k):
+    if k &gt; len(nums):
+        return None
+
+    window = sum(nums[:k])
+    best = window
+
+    for right in range(k, len(nums)):
+        window += nums[right]
+        window -= nums[right - k]
+        best = max(best, window)
+
+    return best</code></pre>
+    </section>
+
+    <section>
+      <h2>Variable-Size Window</h2>
+      <pre><code>def min_len_at_least_target(nums, target):
+    left = 0
+    total = 0
+    best = float("inf")
+
+    for right, value in enumerate(nums):
+        total += value
+
+        while total &gt;= target:
+            best = min(best, right - left + 1)
+            total -= nums[left]
+            left += 1
+
+    if best == float("inf"):
+        return 0
+    return best</code></pre>
+    </section>
+
+    <section>
+      <h2>Fixed-Size Checklist</h2>
+      <ol>
+        <li>Return early if <code>k</code> is impossible.</li>
+        <li>Compute the first window.</li>
+        <li>Initialize <code>best</code> from the first window.</li>
+        <li>Loop from <code>k</code> to the end.</li>
+        <li>Add <code>nums[right]</code>.</li>
+        <li>Remove <code>nums[right - k]</code>.</li>
+        <li>Update <code>best</code>.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Variable-Size Checklist</h2>
+      <ol>
+        <li>Initialize <code>left</code>, state, and answer.</li>
+        <li>Expand by moving <code>right</code> one step at a time.</li>
+        <li>Add the new right-side value to the state.</li>
+        <li>While the window is invalid or shrinkable, remove <code>nums[left]</code> and move <code>left</code>.</li>
+        <li>Update the answer at the point where the window has the property the problem asks for.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Invariant</h2>
+      <p>After each loop step, <code>window</code> equals the sum of exactly <code>k</code> consecutive numbers ending at <code>right</code>.</p>
+    </section>
+
+    <section>
+      <h2>Complexity</h2>
+      <p>Time is usually <code>O(n)</code> because each item enters the window once and leaves the window once. Space is <code>O(1)</code> for numeric state, or <code>O(k)</code>/<code>O(n)</code> when the state is a set or frequency map.</p>
+    </section>
+  </main>
+</body>
+</html>

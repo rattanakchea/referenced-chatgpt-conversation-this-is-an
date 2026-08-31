@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lesson 6: Fixed-Size Sliding Window Practice</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Lesson 6</div>
+      <h1>Fixed-Size Sliding Window Practice</h1>
+      <p class="small">Goal: recognize and code problems where every valid window has exactly <code>k</code> items.</p>
+    </header>
+
+    <nav class="lesson-nav" aria-label="Lesson navigation">
+      <a href="0005-fixed-size-sliding-window.html">Previous: Sliding Window</a>
+      <a href="../reference/0001-course-roadmap.html">Roadmap</a>
+      <a href="0007-variable-size-sliding-window.html">Next: Variable Window</a>
+    </nav>
+
+    <section>
+      <h2>Overview</h2>
+      <p>A fixed-size sliding window is the right tool when the problem says exactly <code>k</code> consecutive items. The window length never changes. Only the position changes.</p>
+      <p>The repeated move is simple: add the new item entering from the right, remove the old item leaving from the left, then update the answer.</p>
+    </section>
+
+    <section>
+      <h2>Core Template</h2>
+      <pre><code>def fixed_window(nums, k):
+    if k &gt; len(nums):
+        return None
+
+    state = build_state(nums[:k])
+    answer = state
+
+    for right in range(k, len(nums)):
+        add nums[right] to state
+        remove nums[right - k] from state
+        update answer from state
+
+    return answer</code></pre>
+      <p>The line <code>right - k</code> is the index leaving the window. This is the most common place to make an off-by-one error.</p>
+    </section>
+
+    <section>
+      <h2>Example 1: Maximum Sum of Size K</h2>
+      <div class="problem">
+        <span class="tag">Easy</span>
+        <h3>Problem</h3>
+        <p>Return the maximum sum of any exactly length-<code>k</code> subarray.</p>
+        <pre><code>assert max_sum_size_k([2, 1, 5, 1, 3], 3) == 9
+assert max_sum_size_k([1, 2], 3) is None</code></pre>
+        <h3>Solution</h3>
+        <pre><code>def max_sum_size_k(nums, k):
+    if k &gt; len(nums):
+        return None
+
+    window = sum(nums[:k])
+    best = window
+
+    for right in range(k, len(nums)):
+        window += nums[right]
+        window -= nums[right - k]
+        best = max(best, window)
+
+    return best</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>Example 2: Maximum Average of Size K</h2>
+      <div class="problem">
+        <span class="tag">Easy</span>
+        <h3>Problem</h3>
+        <p>Return the largest average of any exactly length-<code>k</code> subarray.</p>
+        <pre><code>assert max_average_size_k([1, 12, -5, -6, 50, 3], 4) == 12.75
+assert max_average_size_k([5], 2) is None</code></pre>
+        <h3>Key Idea</h3>
+        <p>Track the best sum, then divide by <code>k</code> once. Avoid recomputing each average from scratch.</p>
+        <pre><code>def max_average_size_k(nums, k):
+    if k &gt; len(nums):
+        return None
+
+    window = sum(nums[:k])
+    best = window
+
+    for right in range(k, len(nums)):
+        window += nums[right]
+        window -= nums[right - k]
+        best = max(best, window)
+
+    return best / k</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>Example 3: Count Windows Above a Threshold</h2>
+      <div class="problem">
+        <span class="tag">Easy-Medium</span>
+        <h3>Problem</h3>
+        <p>Return how many length-<code>k</code> subarrays have an average greater than or equal to <code>threshold</code>.</p>
+        <pre><code>assert count_windows_at_least([2, 2, 2, 2, 5, 5, 5, 8], 3, 4) == 3
+assert count_windows_at_least([1, 1, 1], 2, 2) == 0</code></pre>
+        <h3>Key Idea</h3>
+        <p>Compare sums instead of averages: average <code>&gt;= threshold</code> means sum <code>&gt;= threshold * k</code>.</p>
+        <pre><code>def count_windows_at_least(nums, k, threshold):
+    if k &gt; len(nums):
+        return 0
+
+    need = threshold * k
+    window = sum(nums[:k])
+    count = 1 if window &gt;= need else 0
+
+    for right in range(k, len(nums)):
+        window += nums[right]
+        window -= nums[right - k]
+        if window &gt;= need:
+            count += 1
+
+    return count</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>Example 4: Contains Nearby Duplicate</h2>
+      <div class="problem">
+        <span class="tag">Medium Bridge</span>
+        <h3>Problem</h3>
+        <p>Return <code>True</code> if the same value appears twice within distance <code>k</code> of each other.</p>
+        <pre><code>assert contains_nearby_duplicate([1, 2, 3, 1], 3) is True
+assert contains_nearby_duplicate([1, 2, 3, 1], 2) is False
+assert contains_nearby_duplicate([1, 0, 1, 1], 1) is True</code></pre>
+        <h3>Key Idea</h3>
+        <p>The window stores the previous at-most-<code>k</code> values. Before adding the current value, ask whether it is already inside that window.</p>
+        <pre><code>def contains_nearby_duplicate(nums, k):
+    window = set()
+
+    for right, value in enumerate(nums):
+        if value in window:
+            return True
+
+        window.add(value)
+
+        if len(window) &gt; k:
+            window.remove(nums[right - k])
+
+    return False</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>Retrieval Practice</h2>
+      <div class="panel">
+        <ol>
+          <li>What phrase in a problem usually signals fixed-size sliding window?</li>
+          <li>Why is <code>right - k</code> the leaving index?</li>
+          <li>When would the window state be a sum?</li>
+          <li>When would the window state be a set?</li>
+        </ol>
+      </div>
+    </section>
+
+    <section>
+      <h2>Common LeetCode Practice</h2>
+      <ul class="practice-list">
+        <li><a href="https://leetcode.com/problems/maximum-average-subarray-i/">Maximum Average Subarray I</a> — best fixed-size numeric window.</li>
+        <li><a href="https://leetcode.com/problems/contains-duplicate-ii/">Contains Duplicate II</a> — fixed-distance membership window.</li>
+        <li><a href="https://leetcode.com/problems/k-radius-subarray-averages/">K Radius Subarray Averages</a> — centered fixed-size windows.</li>
+        <li><a href="https://leetcode.com/problems/maximum-sum-of-distinct-subarrays-with-length-k/">Maximum Sum of Distinct Subarrays With Length K</a> — fixed window plus uniqueness state.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>References</h2>
+      <ul>
+        <li><a href="../reference/0006-sliding-window.html">Sliding Window Reference</a></li>
+        <li><a href="../reference/0004-python-membership.html">Python Membership Reference</a></li>
+        <li><a href="https://docs.python.org/3/tutorial/datastructures.html">Python Tutorial: Data Structures</a></li>
+      </ul>
+      <p class="small">Ask the agent for feedback after trying one problem without looking at the solution.</p>
+    </section>
+  </main>
+</body>
+</html>

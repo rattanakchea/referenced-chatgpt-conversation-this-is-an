@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Intervals Reference</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Reference</div>
+      <h1>Intervals</h1>
+      <p class="small">Sort ranges, then compare each range with the last resolved range.</p>
+    </header>
+
+    <section>
+      <h2>Merge Intervals Template</h2>
+      <pre><code>def merge_intervals(intervals):
+    if not intervals:
+        return []
+
+    intervals.sort(key=lambda pair: pair[0])
+    merged = [intervals[0]]
+
+    for start, end in intervals[1:]:
+        last = merged[-1]
+        if start &lt;= last[1]:
+            last[1] = max(last[1], end)
+        else:
+            merged.append([start, end])
+
+    return merged</code></pre>
+    </section>
+
+    <section>
+      <h2>Core Question</h2>
+      <p>Does the current interval start before or at the end of the previous merged interval? If yes, they overlap. If no, the current interval starts a new group.</p>
+    </section>
+
+    <section>
+      <h2>Complexity</h2>
+      <p>Time: <code>O(n log n)</code> because of sorting. Space: <code>O(n)</code> for the merged output.</p>
+    </section>
+  </main>
+</body>
+</html>

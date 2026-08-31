@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lesson 8: Stack for Valid Parentheses</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Lesson 8</div>
+      <h1>Stack for Valid Parentheses</h1>
+      <p class="small">Goal: use a stack to match the most recent opening bracket.</p>
+    </header>
+
+    <nav class="lesson-nav" aria-label="Lesson navigation">
+      <a href="0007-variable-size-sliding-window.html">Previous: Variable Window</a>
+      <a href="../reference/0001-course-roadmap.html">Roadmap</a>
+      <a href="0009-binary-search-exact-match.html">Next: Binary Search</a>
+    </nav>
+
+    <section>
+      <h2>Overview</h2>
+      <p>A stack is a last-in, first-out structure. The newest unresolved item is the first one you resolve. In Python interviews, a list usually acts as the stack: <code>append</code> pushes, and <code>pop</code> removes the most recent item.</p>
+    </section>
+
+    <section>
+      <h2>The Interview Move</h2>
+      <p>For valid parentheses, every closing bracket must match the most recent unmatched opening bracket. That is exactly stack behavior.</p>
+      <div class="callout">When you see nested structure, think stack.</div>
+    </section>
+
+    <section>
+      <h2>Worked Example</h2>
+      <p>Input: <code>"([])"</code></p>
+      <table>
+        <tr><th>char</th><th>stack before</th><th>action</th><th>stack after</th></tr>
+        <tr><td><code>(</code></td><td><code>[]</code></td><td>push opener</td><td><code>[(]</code></td></tr>
+        <tr><td><code>[</code></td><td><code>[(]</code></td><td>push opener</td><td><code>[(, []</code></td></tr>
+        <tr><td><code>]</code></td><td><code>[(, []</code></td><td>pop and match <code>[</code></td><td><code>[(]</code></td></tr>
+        <tr><td><code>)</code></td><td><code>[(]</code></td><td>pop and match <code>(</code></td><td><code>[]</code></td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Python Template</h2>
+      <pre><code>def is_valid_parentheses(s):
+    pairs = {")": "(", "]": "[", "}": "{"}
+    stack = []
+
+    for ch in s:
+        if ch in "([{":
+            stack.append(ch)
+        else:
+            if not stack or stack.pop() != pairs[ch]:
+                return False
+
+    return len(stack) == 0</code></pre>
+    </section>
+
+    <section>
+      <h2>Retrieval Practice</h2>
+      <div class="panel">
+        <ol>
+          <li>What does <code>append</code> do to a stack?</li>
+          <li>What does <code>pop</code> return?</li>
+          <li>Why do closing brackets compare against the most recent opener?</li>
+          <li>Why must the stack be empty at the end?</li>
+        </ol>
+      </div>
+    </section>
+
+    <section>
+      <h2>Coding Problem</h2>
+      <p>Write <code>remove_adjacent_duplicates(s)</code>. Repeatedly remove adjacent equal letters by using a stack.</p>
+      <pre><code>assert remove_adjacent_duplicates("abbaca") == "ca"
+assert remove_adjacent_duplicates("azxxzy") == "ay"
+assert remove_adjacent_duplicates("") == ""</code></pre>
+    </section>
+
+    <section>
+      <h2>Common LeetCode Practice</h2>
+      <ul class="practice-list">
+        <li><a href="https://leetcode.com/problems/valid-parentheses/">Valid Parentheses</a> — canonical stack matching problem.</li>
+        <li><a href="https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string/">Remove All Adjacent Duplicates In String</a> — stack cancels adjacent pairs.</li>
+        <li><a href="https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/">Minimum Remove to Make Valid Parentheses</a> — track unresolved parentheses.</li>
+        <li><a href="https://leetcode.com/problems/daily-temperatures/">Daily Temperatures</a> — monotonic stack for next greater value.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>References</h2>
+      <ul>
+        <li><a href="../reference/0007-stack.html">Stack Reference</a></li>
+        <li><a href="https://docs.python.org/3/tutorial/datastructures.html#using-lists-as-stacks">Python Tutorial: Lists as Stacks</a></li>
+      </ul>
+      <p class="small">Ask the agent for feedback after writing the coding problem from memory.</p>
+    </section>
+  </main>
+</body>
+</html>

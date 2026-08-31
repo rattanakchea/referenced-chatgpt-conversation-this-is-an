@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lesson 2: Hash Map Two Sum</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Lesson 2</div>
+      <h1>Hash Map Two Sum</h1>
+      <p class="small">Goal: solve Two Sum when the input is not sorted.</p>
+    </header>
+
+    <nav class="lesson-nav" aria-label="Lesson navigation">
+      <a href="0001-two-pointers-sorted-pair.html">Previous: Two Pointers</a>
+      <a href="../reference/0001-course-roadmap.html">Roadmap</a>
+      <a href="0003-python-membership-and-early-return.html">Next: Python Membership</a>
+    </nav>
+
+    <section>
+      <h2>The Interview Move</h2>
+      <p>For each number, compute the value that would complete the target. That value is the complement. If the complement has already appeared, return the two indices. If not, remember the current number for later.</p>
+      <div class="callout">
+        Two pointers use sorted order to discard choices. Hash maps use memory to avoid re-scanning earlier choices.
+      </div>
+    </section>
+
+    <section>
+      <h2>Worked Example</h2>
+      <p>Input: <code>nums = [3, 2, 4]</code>, <code>target = 6</code></p>
+      <table>
+        <tr><th>i</th><th>value</th><th>need</th><th>seen before check</th><th>action</th></tr>
+        <tr><td><code>0</code></td><td><code>3</code></td><td><code>3</code></td><td><code>{}</code></td><td>Need not found. Store <code>3: 0</code>.</td></tr>
+        <tr><td><code>1</code></td><td><code>2</code></td><td><code>4</code></td><td><code>{3: 0}</code></td><td>Need not found. Store <code>2: 1</code>.</td></tr>
+        <tr><td><code>2</code></td><td><code>4</code></td><td><code>2</code></td><td><code>{3: 0, 2: 1}</code></td><td>Need found. Return <code>[1, 2]</code>.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Python Template</h2>
+      <pre><code>def two_sum(nums, target):
+    seen = {}
+
+    for i, value in enumerate(nums):
+        need = target - value
+        if need in seen:
+            return [seen[need], i]
+        seen[value] = i
+
+    return [-1, -1]</code></pre>
+    </section>
+
+    <section>
+      <h2>Retrieval Practice</h2>
+      <div class="panel">
+        <p>Answer from memory:</p>
+        <ol>
+          <li>What does <code>seen</code> store: needed values or previous values?</li>
+          <li>Why should the code check <code>need in seen</code> before storing the current value?</li>
+          <li>Compared with two pointers, what extra cost does this approach pay?</li>
+        </ol>
+      </div>
+    </section>
+
+    <section>
+      <h2>Coding Problem</h2>
+      <p>Write <code>contains_duplicate(nums)</code>. Return <code>True</code> if any value appears at least twice; otherwise return <code>False</code>. This is the same memory pattern, but simpler: instead of asking for a complement, ask whether the current value has already appeared.</p>
+      <pre><code>assert contains_duplicate([1, 2, 3, 1]) is True
+assert contains_duplicate([1, 2, 3, 4]) is False
+assert contains_duplicate([]) is False
+assert contains_duplicate([-1, -2, -1]) is True</code></pre>
+    </section>
+
+    <section>
+      <h2>Common LeetCode Practice</h2>
+      <ul class="practice-list">
+        <li><a href="https://leetcode.com/problems/two-sum/">Two Sum</a> — store previous values and search for complements.</li>
+        <li><a href="https://leetcode.com/problems/contains-duplicate/">Contains Duplicate</a> — set membership for repeated values.</li>
+        <li><a href="https://leetcode.com/problems/intersection-of-two-arrays/">Intersection of Two Arrays</a> — use sets to compare membership.</li>
+        <li><a href="https://leetcode.com/problems/majority-element/">Majority Element</a> — count or reason about repeated values.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>References</h2>
+      <ul>
+        <li><a href="../reference/0003-hash-map-complements.html">Hash Map Complements Reference</a></li>
+        <li><a href="../reference/0002-two-pointers.html">Two Pointers Reference</a></li>
+        <li><a href="../reference/0001-course-roadmap.html">Course Roadmap</a></li>
+        <li><a href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries">Python Tutorial: Dictionaries</a></li>
+        <li><a href="https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/">MIT 6.006 Introduction to Algorithms</a></li>
+      </ul>
+      <p class="small">Ask the agent follow-up questions when any step feels unclear, especially the check-before-insert rule.</p>
+    </section>
+  </main>
+</body>
+</html>

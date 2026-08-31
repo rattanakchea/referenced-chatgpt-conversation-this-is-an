@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lesson 4: Frequency Map for Valid Anagram</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Lesson 4</div>
+      <h1>Frequency Map for Valid Anagram</h1>
+      <p class="small">Goal: compare two strings by character counts.</p>
+    </header>
+
+    <nav class="lesson-nav" aria-label="Lesson navigation">
+      <a href="0003-python-membership-and-early-return.html">Previous: Python Membership</a>
+      <a href="../reference/0001-course-roadmap.html">Roadmap</a>
+      <a href="0005-fixed-size-sliding-window.html">Next: Sliding Window</a>
+    </nav>
+
+    <section>
+      <h2>The Interview Move</h2>
+      <p>A set can tell you whether a value appeared. A dictionary can tell you how many times it appeared. For anagrams, order does not matter, but counts do.</p>
+    </section>
+
+    <section>
+      <h2>Worked Example</h2>
+      <p><code>"listen"</code> and <code>"silent"</code> are anagrams because each character count matches.</p>
+      <pre><code>l: 1
+i: 1
+s: 1
+t: 1
+e: 1
+n: 1</code></pre>
+    </section>
+
+    <section>
+      <h2>Python Template</h2>
+      <pre><code>def build_counts(text):
+    counts = {}
+
+    for ch in text:
+        counts[ch] = counts.get(ch, 0) + 1
+
+    return counts</code></pre>
+    </section>
+
+    <section>
+      <h2>Retrieval Practice</h2>
+      <div class="panel">
+        <ol>
+          <li>When do you need a dictionary instead of a set?</li>
+          <li>What does <code>counts.get(ch, 0)</code> do?</li>
+          <li>Why can two strings with different lengths immediately return <code>False</code>?</li>
+        </ol>
+      </div>
+    </section>
+
+    <section>
+      <h2>Coding Problem</h2>
+      <p>Write <code>is_anagram(a, b)</code>. Return <code>True</code> if both strings have exactly the same character counts.</p>
+      <pre><code>assert is_anagram("listen", "silent") is True
+assert is_anagram("rat", "car") is False
+assert is_anagram("aabb", "baba") is True
+assert is_anagram("aabb", "abb") is False</code></pre>
+    </section>
+
+    <section>
+      <h2>Common LeetCode Practice</h2>
+      <ul class="practice-list">
+        <li><a href="https://leetcode.com/problems/valid-anagram/">Valid Anagram</a> — compare two frequency maps.</li>
+        <li><a href="https://leetcode.com/problems/group-anagrams/">Group Anagrams</a> — turn counts into grouping keys.</li>
+        <li><a href="https://leetcode.com/problems/ransom-note/">Ransom Note</a> — consume character counts safely.</li>
+        <li><a href="https://leetcode.com/problems/find-all-anagrams-in-a-string/">Find All Anagrams in a String</a> — frequency maps inside a window.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>References</h2>
+      <ul>
+        <li><a href="../reference/0005-frequency-maps.html">Frequency Maps Reference</a></li>
+        <li><a href="../reference/0004-python-membership.html">Python Membership Reference</a></li>
+        <li><a href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries">Python Tutorial: Dictionaries</a></li>
+      </ul>
+      <p class="small">Ask the agent for feedback on your function before moving on.</p>
+    </section>
+  </main>
+</body>
+</html>

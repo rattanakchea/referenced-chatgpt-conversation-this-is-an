@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Binary Search Reference</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Reference</div>
+      <h1>Binary Search</h1>
+      <p class="small">Use binary search when one comparison can remove half the remaining search space.</p>
+    </header>
+
+    <section>
+      <h2>Exact Search Template</h2>
+      <pre><code>def binary_search(nums, target):
+    left = 0
+    right = len(nums) - 1
+
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] == target:
+            return mid
+        if nums[mid] &lt; target:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return -1</code></pre>
+    </section>
+
+    <section>
+      <h2>Invariant</h2>
+      <p>If the target exists, it is always inside <code>[left, right]</code>. Each comparison proves one half cannot contain the answer.</p>
+    </section>
+
+    <section>
+      <h2>Complexity</h2>
+      <p>Time: <code>O(log n)</code>. Space: <code>O(1)</code>.</p>
+    </section>
+  </main>
+</body>
+</html>

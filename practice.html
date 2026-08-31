@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Practice Workspace</title>
+  <link rel="stylesheet" href="assets/course.css">
+</head>
+<body>
+  <main class="wide">
+    <header>
+      <div class="eyebrow">Practice</div>
+      <h1>Coding Question Picker</h1>
+      <p class="small">Pick a course problem or a curated LeetCode problem, then draft your Python solution in the editor.</p>
+    </header>
+
+    <nav class="lesson-nav" aria-label="Course navigation">
+      <a href="index.html">Home</a>
+      <a href="reference/0001-course-roadmap.html">Roadmap</a>
+      <a href="reference/0010-python-interview-cheatsheet.html">Python Cheatsheet</a>
+    </nav>
+
+    <div class="practice-shell">
+      <aside class="workspace-panel">
+        <div class="picker-controls">
+          <label>
+            Source
+            <select id="source-filter">
+              <option value="all">All</option>
+              <option value="lesson">Lessons</option>
+              <option value="leetcode">LeetCode</option>
+            </select>
+          </label>
+          <label>
+            Pattern
+            <select id="pattern-filter">
+              <option value="all">All</option>
+            </select>
+          </label>
+          <label>
+            Difficulty
+            <select id="difficulty-filter">
+              <option value="all">All</option>
+              <option value="Easy">Easy</option>
+              <option value="Easy-Medium">Easy-Medium</option>
+              <option value="Medium">Medium</option>
+              <option value="Medium+">Medium+</option>
+            </select>
+          </label>
+          <label>
+            Search
+            <input id="search-filter" type="search" placeholder="two sum, window, stack">
+          </label>
+        </div>
+        <div id="question-list" class="question-list" aria-label="Coding questions"></div>
+      </aside>
+
+      <section class="workspace-panel" aria-live="polite">
+        <div class="workspace-title">
+          <div>
+            <h2 id="question-title">Choose a problem</h2>
+            <p id="question-meta" class="small">Your saved answer stays in this browser.</p>
+          </div>
+          <a id="external-link" class="action-button secondary" href="#" target="_blank" rel="noreferrer">Open</a>
+        </div>
+
+        <section>
+          <h3>Prompt</h3>
+          <p id="question-prompt"></p>
+        </section>
+
+        <section>
+          <h3>Starter</h3>
+          <pre><code id="starter-code"></code></pre>
+        </section>
+
+        <section>
+          <h3>Tests</h3>
+          <pre class="test-block"><code id="test-code"></code></pre>
+        </section>
+
+        <section>
+          <h3>Your Python Solution</h3>
+          <textarea id="editor" class="editor" spellcheck="false"></textarea>
+          <div class="editor-actions">
+            <button id="save-button" class="action-button" type="button">Save Draft</button>
+            <button id="reset-button" class="action-button secondary" type="button">Reset Starter</button>
+            <button id="copy-button" class="action-button secondary" type="button">Copy Solution</button>
+          </div>
+          <p id="status" class="small">Pick a question to begin.</p>
+        </section>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const questions = [
+      {
+        id: "lesson-two-sum-sorted",
+        source: "lesson",
+        pattern: "Two Pointers",
+        difficulty: "Easy",
+        title: "Two Sum Sorted",
+        url: "lessons/0001-two-pointers-sorted-pair.html",
+        prompt: "Return the two indices of a valid pair in a sorted list, or [-1, -1] if no pair exists.",
+        starter: "def two_sum_sorted(nums, target):\n    left = 0\n    right = len(nums) - 1\n\n    # your code here\n",
+        tests: "assert two_sum_sorted([1, 2, 4, 7, 11], 9) == [1, 3]\nassert two_sum_sorted([1, 3, 5, 8], 10) == [-1, -1]\nassert two_sum_sorted([-4, -1, 0, 3, 10], 2) == [1, 3]"
+      },
+      {
+        id: "lesson-contains-duplicate",
+        source: "lesson",
+        pattern: "Hash Set",
+        difficulty: "Easy",
+        title: "Contains Duplicate",
+        url: "lessons/0002-hash-map-two-sum.html",
+        prompt: "Return True if any value appears at least twice; otherwise return False.",
+        starter: "def contains_duplicate(nums):\n    seen = set()\n\n    # your code here\n",
+        tests: "assert contains_duplicate([1, 2, 3, 1]) is True\nassert contains_duplicate([1, 2, 3, 4]) is False\nassert contains_duplicate([]) is False\nassert contains_duplicate([-1, -2, -1]) is True"
+      },
+      {
+        id: "lesson-first-repeat",
+        source: "lesson",
+        pattern: "Hash Set",
+        difficulty: "Easy",
+        title: "First Repeated Value",
+        url: "lessons/0003-python-membership-and-early-return.html",
+        prompt: "Return the first value that appears for a second time while scanning left to right. Return None if there is no repeat.",
+        starter: "def first_repeated_value(nums):\n    seen = set()\n\n    # your code here\n",
+        tests: "assert first_repeated_value([2, 5, 1, 2, 3, 5]) == 2\nassert first_repeated_value([1, 2, 3]) is None\nassert first_repeated_value([]) is None\nassert first_repeated_value([7, 7, 8]) == 7"
+      },
+      {
+        id: "lesson-is-anagram",
+        source: "lesson",
+        pattern: "Frequency Map",
+        difficulty: "Easy",
+        title: "Valid Anagram",
+        url: "lessons/0004-frequency-map-valid-anagram.html",
+        prompt: "Return True if both strings have exactly the same character counts.",
+        starter: "def is_anagram(a, b):\n    # your code here\n",
+        tests: "assert is_anagram(\"listen\", \"silent\") is True\nassert is_anagram(\"rat\", \"car\") is False\nassert is_anagram(\"aabb\", \"baba\") is True\nassert is_anagram(\"aabb\", \"abb\") is False"
+      },
+      {
+        id: "lesson-max-average-k",
+        source: "lesson",
+        pattern: "Sliding Window",
+        difficulty: "Easy",
+        title: "Max Average Size K",
+        url: "lessons/0005-fixed-size-sliding-window.html",
+        prompt: "Return the largest average of any exactly length-k subarray. Return None if k is larger than the list.",
+        starter: "def max_average_size_k(nums, k):\n    # your code here\n",
+        tests: "assert max_average_size_k([2, 1, 5, 1, 3], 3) == 3\nassert max_average_size_k([1, 12, -5, -6, 50, 3], 4) == 12.75\nassert max_average_size_k([5], 2) is None\nassert max_average_size_k([4, 4, 4], 1) == 4"
+      },
+      {
+        id: "lesson-remove-adjacent",
+        source: "lesson",
+        pattern: "Stack",
+        difficulty: "Easy",
+        title: "Remove Adjacent Duplicates",
+        url: "lessons/0008-stack-valid-parentheses.html",
+        prompt: "Repeatedly remove adjacent equal letters by using a stack.",
+        starter: "def remove_adjacent_duplicates(s):\n    stack = []\n\n    # your code here\n",
+        tests: "assert remove_adjacent_duplicates(\"abbaca\") == \"ca\"\nassert remove_adjacent_duplicates(\"azxxzy\") == \"ay\"\nassert remove_adjacent_duplicates(\"\") == \"\""
+      },
+      {
+        id: "leetcode-two-sum",
+        source: "leetcode",
+        pattern: "Hash Map",
+        difficulty: "Easy",
+        title: "Two Sum",
+        url: "https://leetcode.com/problems/two-sum/",
+        prompt: "Given nums and target, return indices of two numbers that add up to target.",
+        starter: "def twoSum(nums, target):\n    seen = {}\n\n    # your code here\n",
+        tests: "assert sorted(twoSum([2, 7, 11, 15], 9)) == [0, 1]\nassert sorted(twoSum([3, 2, 4], 6)) == [1, 2]"
+      },
+      {
+        id: "leetcode-container",
+        source: "leetcode",
+        pattern: "Two Pointers",
+        difficulty: "Medium",
+        title: "Container With Most Water",
+        url: "https://leetcode.com/problems/container-with-most-water/",
+        prompt: "Choose two lines that hold the most water. Return the maximum area.",
+        starter: "def maxArea(height):\n    left = 0\n    right = len(height) - 1\n    best = 0\n\n    # your code here\n",
+        tests: "assert maxArea([1,8,6,2,5,4,8,3,7]) == 49\nassert maxArea([1,1]) == 1"
+      },
+      {
+        id: "leetcode-three-sum",
+        source: "leetcode",
+        pattern: "Two Pointers",
+        difficulty: "Medium",
+        title: "3Sum",
+        url: "https://leetcode.com/problems/3sum/",
+        prompt: "Return all unique triplets [a, b, c] where a + b + c == 0.",
+        starter: "def threeSum(nums):\n    nums.sort()\n    result = []\n\n    # your code here\n",
+        tests: "assert threeSum([-1,0,1,2,-1,-4]) == [[-1,-1,2],[-1,0,1]]\nassert threeSum([0,0,0,0]) == [[0,0,0]]"
+      },
+      {
+        id: "leetcode-longest-substring",
+        source: "leetcode",
+        pattern: "Sliding Window",
+        difficulty: "Medium",
+        title: "Longest Substring Without Repeating Characters",
+        url: "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
+        prompt: "Return the length of the longest substring without repeating characters.",
+        starter: "def lengthOfLongestSubstring(s):\n    left = 0\n    window = set()\n    best = 0\n\n    # your code here\n",
+        tests: "assert lengthOfLongestSubstring(\"abcabcbb\") == 3\nassert lengthOfLongestSubstring(\"bbbbb\") == 1\nassert lengthOfLongestSubstring(\"\") == 0"
+      },
+      {
+        id: "leetcode-valid-parentheses",
+        source: "leetcode",
+        pattern: "Stack",
+        difficulty: "Easy",
+        title: "Valid Parentheses",
+        url: "https://leetcode.com/problems/valid-parentheses/",
+        prompt: "Return True if brackets close in the correct order.",
+        starter: "def isValid(s):\n    pairs = {\")\": \"(\", \"]\": \"[\", \"}\": \"{\"}\n    stack = []\n\n    # your code here\n",
+        tests: "assert isValid(\"()[]{}\") is True\nassert isValid(\"([)]\") is False\nassert isValid(\"([])\") is True"
+      },
+      {
+        id: "leetcode-binary-search",
+        source: "leetcode",
+        pattern: "Binary Search",
+        difficulty: "Easy",
+        title: "Binary Search",
+        url: "https://leetcode.com/problems/binary-search/",
+        prompt: "Return the index of target in a sorted list, or -1 if not found.",
+        starter: "def search(nums, target):\n    left = 0\n    right = len(nums) - 1\n\n    # your code here\n",
+        tests: "assert search([-1,0,3,5,9,12], 9) == 4\nassert search([-1,0,3,5,9,12], 2) == -1"
+      },
+      {
+        id: "leetcode-merge-intervals",
+        source: "leetcode",
+        pattern: "Intervals",
+        difficulty: "Medium",
+        title: "Merge Intervals",
+        url: "https://leetcode.com/problems/merge-intervals/",
+        prompt: "Merge all overlapping intervals and return the result.",
+        starter: "def merge(intervals):\n    # your code here\n",
+        tests: "assert merge([[1,3],[2,6],[8,10],[15,18]]) == [[1,6],[8,10],[15,18]]\nassert merge([[1,4],[4,5]]) == [[1,5]]"
+      }
+    ];
+
+    const sourceFilter = document.getElementById("source-filter");
+    const patternFilter = document.getElementById("pattern-filter");
+    const difficultyFilter = document.getElementById("difficulty-filter");
+    const searchFilter = document.getElementById("search-filter");
+    const questionList = document.getElementById("question-list");
+    const titleEl = document.getElementById("question-title");
+    const metaEl = document.getElementById("question-meta");
+    const promptEl = document.getElementById("question-prompt");
+    const starterEl = document.getElementById("starter-code");
+    const testsEl = document.getElementById("test-code");
+    const editor = document.getElementById("editor");
+    const statusEl = document.getElementById("status");
+    const externalLink = document.getElementById("external-link");
+    const saveButton = document.getElementById("save-button");
+    const resetButton = document.getElementById("reset-button");
+    const copyButton = document.getElementById("copy-button");
+    let selected = questions[0];
+
+    function storageKey(question) {
+      return `dsa-course-draft:${question.id}`;
+    }
+
+    function fillPatternFilter() {
+      const patterns = [...new Set(questions.map((question) => question.pattern))].sort();
+      for (const pattern of patterns) {
+        const option = document.createElement("option");
+        option.value = pattern;
+        option.textContent = pattern;
+        patternFilter.append(option);
+      }
+    }
+
+    function matches(question) {
+      const sourceOk = sourceFilter.value === "all" || question.source === sourceFilter.value;
+      const patternOk = patternFilter.value === "all" || question.pattern === patternFilter.value;
+      const difficultyOk = difficultyFilter.value === "all" || question.difficulty === difficultyFilter.value;
+      const haystack = `${question.title} ${question.pattern} ${question.prompt}`.toLowerCase();
+      const searchOk = haystack.includes(searchFilter.value.trim().toLowerCase());
+      return sourceOk && patternOk && difficultyOk && searchOk;
+    }
+
+    function renderList() {
+      questionList.innerHTML = "";
+      const filtered = questions.filter(matches);
+
+      for (const question of filtered) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "question-button";
+        button.setAttribute("aria-pressed", String(question.id === selected.id));
+        button.innerHTML = `<strong>${question.title}</strong><span class="question-meta">${question.source} · ${question.pattern} · ${question.difficulty}</span>`;
+        button.addEventListener("click", () => selectQuestion(question));
+        questionList.append(button);
+      }
+
+      if (filtered.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "small";
+        empty.textContent = "No questions match these filters.";
+        questionList.append(empty);
+      }
+    }
+
+    function selectQuestion(question) {
+      selected = question;
+      titleEl.textContent = question.title;
+      metaEl.textContent = `${question.source} · ${question.pattern} · ${question.difficulty}`;
+      promptEl.textContent = question.prompt;
+      starterEl.textContent = question.starter;
+      testsEl.textContent = question.tests;
+      editor.value = localStorage.getItem(storageKey(question)) || question.starter;
+      externalLink.href = question.url;
+      externalLink.textContent = question.source === "leetcode" ? "Open LeetCode" : "Open Lesson";
+      statusEl.textContent = "Draft loaded.";
+      renderList();
+    }
+
+    function saveDraft() {
+      localStorage.setItem(storageKey(selected), editor.value);
+      statusEl.textContent = "Draft saved in this browser.";
+    }
+
+    function resetStarter() {
+      editor.value = selected.starter;
+      saveDraft();
+      statusEl.textContent = "Starter restored.";
+    }
+
+    async function copySolution() {
+      await navigator.clipboard.writeText(editor.value);
+      statusEl.textContent = "Solution copied.";
+    }
+
+    function handleTab(event) {
+      if (event.key !== "Tab") {
+        return;
+      }
+      event.preventDefault();
+      const start = editor.selectionStart;
+      const end = editor.selectionEnd;
+      editor.value = `${editor.value.slice(0, start)}    ${editor.value.slice(end)}`;
+      editor.selectionStart = start + 4;
+      editor.selectionEnd = start + 4;
+    }
+
+    fillPatternFilter();
+    selectQuestion(selected);
+    sourceFilter.addEventListener("change", renderList);
+    patternFilter.addEventListener("change", renderList);
+    difficultyFilter.addEventListener("change", renderList);
+    searchFilter.addEventListener("input", renderList);
+    saveButton.addEventListener("click", saveDraft);
+    resetButton.addEventListener("click", resetStarter);
+    copyButton.addEventListener("click", copySolution);
+    editor.addEventListener("keydown", handleTab);
+    editor.addEventListener("input", () => {
+      localStorage.setItem(storageKey(selected), editor.value);
+      statusEl.textContent = "Draft autosaved.";
+    });
+  </script>
+</body>
+</html>

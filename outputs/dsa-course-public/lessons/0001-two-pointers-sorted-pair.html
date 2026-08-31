@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lesson 1: Two Pointers for a Sorted Pair</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Lesson 1</div>
+      <h1>Two Pointers for a Sorted Pair</h1>
+      <p class="small">Goal: decide whether a sorted list contains two numbers that add to a target.</p>
+    </header>
+
+    <nav class="lesson-nav" aria-label="Lesson navigation">
+      <span>Previous</span>
+      <a href="../reference/0001-course-roadmap.html">Roadmap</a>
+      <a href="0002-hash-map-two-sum.html">Next: Hash Map Two Sum</a>
+    </nav>
+
+    <section>
+      <h2>The Interview Move</h2>
+      <p>When a list is sorted, the smallest useful value is on the left and the largest useful value is on the right. Add them. If the sum is too small, move the left pointer right. If the sum is too large, move the right pointer left.</p>
+      <div class="callout">
+        The important idea is not the two variables. It is the reason movement is safe: sorted order proves that one side can no longer help.
+      </div>
+    </section>
+
+    <section>
+      <h2>Three Two-Pointer Shapes</h2>
+      <table>
+        <tr><th>Shape</th><th>Pointer movement</th><th>Examples</th></tr>
+        <tr><td>Opposite ends</td><td><code>left</code> starts at front, <code>right</code> starts at back.</td><td>Two Sum II, Container With Most Water, Valid Palindrome.</td></tr>
+        <tr><td>Fixed plus pair search</td><td>Fix one index, then run opposite-end pointers on the remaining range.</td><td>3Sum.</td></tr>
+        <tr><td>Slow and fast</td><td><code>fast</code> scans every item; <code>slow</code> marks the write or keep position.</td><td>Move Zeroes, Remove Duplicates.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Worked Example</h2>
+      <p>Input: <code>nums = [1, 2, 4, 7, 11]</code>, <code>target = 9</code></p>
+      <table>
+        <tr><th>left</th><th>right</th><th>sum</th><th>move</th></tr>
+        <tr><td><code>1</code></td><td><code>11</code></td><td><code>12</code></td><td>Too large, move right inward.</td></tr>
+        <tr><td><code>1</code></td><td><code>7</code></td><td><code>8</code></td><td>Too small, move left inward.</td></tr>
+        <tr><td><code>2</code></td><td><code>7</code></td><td><code>9</code></td><td>Found the pair.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Visualization: Sorted Pair Sum</h2>
+      <p>The sorted list lets one comparison decide which side cannot help anymore.</p>
+      <div class="array-viz" aria-label="Sorted pair sum visualization">
+        <div class="cell active-left">1</div>
+        <div class="cell">2</div>
+        <div class="cell">4</div>
+        <div class="cell active-right">7</div>
+        <div class="cell">11</div>
+      </div>
+      <p class="formula"><code>1 + 7 = 8</code>, too small for target <code>9</code>, so move <code>left</code> right.</p>
+    </section>
+
+    <section>
+      <h2>Python Template</h2>
+      <pre><code>def has_pair_with_sum(nums, target):
+    left = 0
+    right = len(nums) - 1
+
+    while left &lt; right:
+        total = nums[left] + nums[right]
+        if total == target:
+            return True
+        if total &lt; target:
+            left += 1
+        else:
+            right -= 1
+
+    return False</code></pre>
+    </section>
+
+    <section>
+      <h2>Retrieval Practice</h2>
+      <div class="panel">
+        <p>Answer from memory before checking the reference:</p>
+        <ol>
+          <li>If <code>nums[left] + nums[right]</code> is smaller than the target, which pointer moves?</li>
+          <li>Why is that move safe?</li>
+          <li>What are the time and space complexities?</li>
+        </ol>
+      </div>
+    </section>
+
+    <section>
+      <h2>Coding Problem</h2>
+      <p>Write <code>two_sum_sorted(nums, target)</code> that returns the two indices of a valid pair in a sorted list, or <code>[-1, -1]</code> if no pair exists. Use zero-based indices.</p>
+      <pre><code>assert two_sum_sorted([1, 2, 4, 7, 11], 9) == [1, 3]
+assert two_sum_sorted([1, 3, 5, 8], 10) == [-1, -1]
+assert two_sum_sorted([-4, -1, 0, 3, 10], 2) == [1, 3]</code></pre>
+    </section>
+
+    <section>
+      <h2>Harder Example: Container With Most Water</h2>
+      <p>Problem: choose two lines that hold the most water. Area is limited by the shorter line, not the taller one.</p>
+      <div class="bar-viz" aria-label="Container with most water visualization">
+        <div class="bar pointer" style="height: 20%;">1</div>
+        <div class="bar" style="height: 80%;">8</div>
+        <div class="bar" style="height: 60%;">6</div>
+        <div class="bar" style="height: 20%;">2</div>
+        <div class="bar" style="height: 50%;">5</div>
+        <div class="bar" style="height: 40%;">4</div>
+        <div class="bar" style="height: 80%;">8</div>
+        <div class="bar" style="height: 30%;">3</div>
+        <div class="bar pointer" style="height: 70%;">7</div>
+      </div>
+      <p class="formula"><code>area = min(height[left], height[right]) * (right - left)</code></p>
+      <p>Move the pointer at the shorter line. Moving the taller line cannot improve the height limit, and it always makes width smaller.</p>
+      <pre><code>def max_area(height):
+    left = 0
+    right = len(height) - 1
+    best = 0
+
+    while left &lt; right:
+        width = right - left
+        area = min(height[left], height[right]) * width
+        best = max(best, area)
+
+        if height[left] &lt; height[right]:
+            left += 1
+        else:
+            right -= 1
+
+    return best</code></pre>
+    </section>
+
+    <section>
+      <h2>Harder Example: 3Sum</h2>
+      <p>Problem: find unique triplets whose sum is zero. Sort first. Then fix one number and use two pointers to find the remaining pair.</p>
+      <div class="array-viz" aria-label="3Sum visualization">
+        <div class="cell fixed">-4</div>
+        <div class="cell active-left">-1</div>
+        <div class="cell">-1</div>
+        <div class="cell">0</div>
+        <div class="cell">1</div>
+        <div class="cell active-right">2</div>
+      </div>
+      <p class="formula">Fixed value <code>-4</code>. Now search for two values that sum to <code>4</code>.</p>
+      <pre><code>def three_sum(nums):
+    nums.sort()
+    result = []
+
+    for i in range(len(nums) - 2):
+        if i &gt; 0 and nums[i] == nums[i - 1]:
+            continue
+
+        left = i + 1
+        right = len(nums) - 1
+
+        while left &lt; right:
+            total = nums[i] + nums[left] + nums[right]
+
+            if total == 0:
+                result.append([nums[i], nums[left], nums[right]])
+                left += 1
+                right -= 1
+
+                while left &lt; right and nums[left] == nums[left - 1]:
+                    left += 1
+                while left &lt; right and nums[right] == nums[right + 1]:
+                    right -= 1
+            elif total &lt; 0:
+                left += 1
+            else:
+                right -= 1
+
+    return result</code></pre>
+    </section>
+
+    <section>
+      <h2>Harder Example: Move Zeroes</h2>
+      <p>Problem: move all zeroes to the end while keeping non-zero order. This uses slow and fast pointers.</p>
+      <div class="array-viz" aria-label="Move zeroes visualization">
+        <div class="cell write">0</div>
+        <div class="cell">1</div>
+        <div class="cell">0</div>
+        <div class="cell active-right">3</div>
+        <div class="cell">12</div>
+      </div>
+      <p class="formula"><code>fast</code> scans. <code>write</code> marks where the next non-zero value belongs.</p>
+      <pre><code>def move_zeroes(nums):
+    write = 0
+
+    for fast in range(len(nums)):
+        if nums[fast] != 0:
+            nums[write], nums[fast] = nums[fast], nums[write]
+            write += 1
+
+    return nums</code></pre>
+    </section>
+
+    <section>
+      <h2>Retrieval Practice: Harder Patterns</h2>
+      <div class="panel">
+        <ol>
+          <li>In Container With Most Water, why do we move the shorter side?</li>
+          <li>In 3Sum, why do we sort first?</li>
+          <li>In 3Sum, why do we skip duplicate fixed values?</li>
+          <li>In Move Zeroes, what is the difference between <code>fast</code> and <code>write</code>?</li>
+        </ol>
+      </div>
+    </section>
+
+    <section>
+      <h2>Common LeetCode Practice</h2>
+      <ul class="practice-list">
+        <li><a href="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/">Two Sum II - Input Array Is Sorted</a> — classic opposite-end two pointers.</li>
+        <li><a href="https://leetcode.com/problems/container-with-most-water/">Container With Most Water</a> — move the shorter side to search for better area.</li>
+        <li><a href="https://leetcode.com/problems/3sum/">3Sum</a> — fix one value, then run two-pointer pair search.</li>
+        <li><a href="https://leetcode.com/problems/move-zeroes/">Move Zeroes</a> — same-direction two pointers for in-place cleanup.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>References</h2>
+      <ul>
+        <li><a href="../reference/0002-two-pointers.html">Two Pointers Reference</a></li>
+        <li><a href="../reference/0001-course-roadmap.html">Course Roadmap</a></li>
+        <li><a href="https://docs.python.org/3/tutorial/datastructures.html">Python Tutorial: Data Structures</a></li>
+        <li><a href="https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/">MIT 6.006 Introduction to Algorithms</a></li>
+      </ul>
+      <p class="small">Ask the agent follow-up questions when any step feels unclear, especially the pointer movement proof.</p>
+    </section>
+  </main>
+</body>
+</html>

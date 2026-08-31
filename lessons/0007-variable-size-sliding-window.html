@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lesson 7: Variable-Size Sliding Window</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Lesson 7</div>
+      <h1>Variable-Size Sliding Window</h1>
+      <p class="small">Goal: grow and shrink a window until it satisfies a condition.</p>
+    </header>
+
+    <nav class="lesson-nav" aria-label="Lesson navigation">
+      <a href="0006-fixed-size-sliding-window-practice.html">Previous: Fixed Window Practice</a>
+      <a href="../reference/0001-course-roadmap.html">Roadmap</a>
+      <a href="0008-stack-valid-parentheses.html">Next: Stack</a>
+    </nav>
+
+    <section>
+      <h2>Overview</h2>
+      <p>A variable-size sliding window is for problems where the valid range can be short or long. The right pointer usually expands the window. The left pointer shrinks it when the window is invalid, or when you are trying to make a valid window smaller.</p>
+      <p>The main mental shift: fixed windows move in lockstep, but variable windows breathe. They expand, then shrink, while preserving a useful condition.</p>
+    </section>
+
+    <section>
+      <h2>Core Ideas</h2>
+      <div class="grid">
+        <div class="panel">
+          <h3>Expand</h3>
+          <p>Move <code>right</code> to include a new item and update state.</p>
+        </div>
+        <div class="panel">
+          <h3>Shrink</h3>
+          <p>Move <code>left</code> while the window is invalid or can be improved.</p>
+        </div>
+        <div class="panel">
+          <h3>Condition</h3>
+          <p>The rule that decides whether the window is good, too large, too costly, or missing something.</p>
+        </div>
+        <div class="panel">
+          <h3>Answer Timing</h3>
+          <p>Update the answer either before shrinking, after shrinking, or during shrinking depending on the problem.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Core Template</h2>
+      <pre><code>def variable_window(nums):
+    left = 0
+    state = initial_state
+    answer = initial_answer
+
+    for right, value in enumerate(nums):
+        add value to state
+
+        while window breaks the rule:
+            remove nums[left] from state
+            left += 1
+
+        update answer from the valid window
+
+    return answer</code></pre>
+    </section>
+
+    <section>
+      <h2>When Do We Update the Window?</h2>
+      <p>Think of each <code>for</code> loop as choosing a new right edge. After that, the window state must describe the window ending at that right edge. The only question is whether you add the right-side item immediately, or shrink first so adding it will be safe.</p>
+      <pre><code>for right, ch in enumerate(s):
+    # The right edge moved to ch.
+
+    # If ch would break the rule, move left first.
+    while ch in window:
+        window.remove(s[left])
+        left += 1
+
+    # Now it is safe for ch to enter.
+    window.add(ch)</code></pre>
+      <p>Sometimes you see the check before the add, like <code>while ch in window</code>. That is still the same idea, but written to avoid temporarily putting a duplicate in the set. The loop is asking: "Before I add <code>ch</code>, do I need to remove old characters until adding <code>ch</code> is safe?"</p>
+      <div class="callout">
+        Rule of thumb: update the right-side value once per <code>for</code> loop. Use the <code>while</code> loop only to remove left-side values until the window is valid again.
+      </div>
+    </section>
+
+    <section>
+      <h2>The Mental Gap</h2>
+      <p>The confusing part is that <code>while</code> is not a second scan. It is a repair loop for the same right edge. The outer loop says, "Try this new right value." The inner loop says, "Move left until this right value is allowed."</p>
+      <table>
+        <tr><th>Code location</th><th>Question it answers</th></tr>
+        <tr><td>Before the <code>while</code></td><td>What changed because <code>right</code> moved?</td></tr>
+        <tr><td>Inside the <code>while</code></td><td>What must leave because <code>left</code> moved?</td></tr>
+        <tr><td>After the <code>while</code></td><td>What answer can I record now that the window is valid?</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Two Equivalent Styles</h2>
+      <p>For unique-character windows, both styles are valid. The second style is often easier to understand at first.</p>
+      <div class="grid">
+        <div class="panel">
+          <h3>Check Before Add</h3>
+          <pre><code>while ch in window:
+    window.remove(s[left])
+    left += 1
+
+window.add(ch)</code></pre>
+        </div>
+        <div class="panel">
+          <h3>Add Then Repair</h3>
+          <pre><code>window.add(ch)
+
+while duplicate exists:
+    remove s[left]
+    left += 1</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Example 1: Longest Substring Without Repeating Characters</h2>
+      <div class="problem">
+        <span class="tag">Medium Classic</span>
+        <h3>Problem</h3>
+        <p>Return the length of the longest substring with no repeated characters.</p>
+        <pre><code>assert length_of_longest_unique("abcabcbb") == 3
+assert length_of_longest_unique("bbbbb") == 1
+assert length_of_longest_unique("") == 0</code></pre>
+        <h3>Key Idea</h3>
+        <p>The window is valid when every character inside it is unique. If the new character already exists in the window, shrink from the left until it is removed.</p>
+        <pre><code>def length_of_longest_unique(s):
+    left = 0
+    window = set()
+    best = 0
+
+    for right, ch in enumerate(s):
+        while ch in window:
+            window.remove(s[left])
+            left += 1
+
+        window.add(ch)
+        best = max(best, right - left + 1)
+
+    return best</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>Example 2: Minimum Size Subarray Sum</h2>
+      <div class="problem">
+        <span class="tag">Medium Classic</span>
+        <h3>Problem</h3>
+        <p>Return the length of the shortest subarray whose sum is at least <code>target</code>. If none exists, return <code>0</code>.</p>
+        <pre><code>assert min_subarray_len(7, [2, 3, 1, 2, 4, 3]) == 2
+assert min_subarray_len(100, [1, 2, 3]) == 0</code></pre>
+        <h3>Key Idea</h3>
+        <p>Expand until the sum is large enough. Then shrink while it remains large enough, because smaller valid windows are better.</p>
+        <pre><code>def min_subarray_len(target, nums):
+    left = 0
+    total = 0
+    best = float("inf")
+
+    for right, value in enumerate(nums):
+        total += value
+
+        while total &gt;= target:
+            best = min(best, right - left + 1)
+            total -= nums[left]
+            left += 1
+
+    if best == float("inf"):
+        return 0
+    return best</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>Example 3: Max Consecutive Ones After Flipping K Zeros</h2>
+      <div class="problem">
+        <span class="tag">Medium</span>
+        <h3>Problem</h3>
+        <p>Given a list of <code>0</code>s and <code>1</code>s, return the longest run of <code>1</code>s possible after flipping at most <code>k</code> zeros.</p>
+        <pre><code>assert longest_ones([1, 1, 0, 0, 1, 1, 1, 0], 1) == 4
+assert longest_ones([0, 0, 1, 1, 1], 2) == 5</code></pre>
+        <h3>Key Idea</h3>
+        <p>The window is valid when it contains at most <code>k</code> zeros. Track zero count as the state.</p>
+        <pre><code>def longest_ones(nums, k):
+    left = 0
+    zeros = 0
+    best = 0
+
+    for right, value in enumerate(nums):
+        if value == 0:
+            zeros += 1
+
+        while zeros &gt; k:
+            if nums[left] == 0:
+                zeros -= 1
+            left += 1
+
+        best = max(best, right - left + 1)
+
+    return best</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>Example 4: Longest Substring After Replacing K Characters</h2>
+      <div class="problem">
+        <span class="tag">Medium+</span>
+        <h3>Problem</h3>
+        <p>Return the longest substring that can be turned into all one repeated character by replacing at most <code>k</code> characters.</p>
+        <pre><code>assert character_replacement("ABAB", 2) == 4
+assert character_replacement("AABABBA", 1) == 4</code></pre>
+        <h3>Key Idea</h3>
+        <p>A window is fixable when everything except its most frequent character can be replaced: <code>window_length - max_count &lt;= k</code>.</p>
+        <pre><code>def character_replacement(s, k):
+    left = 0
+    counts = {}
+    max_count = 0
+    best = 0
+
+    for right, ch in enumerate(s):
+        counts[ch] = counts.get(ch, 0) + 1
+        max_count = max(max_count, counts[ch])
+
+        while (right - left + 1) - max_count &gt; k:
+            counts[s[left]] -= 1
+            left += 1
+
+        best = max(best, right - left + 1)
+
+    return best</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>Retrieval Practice</h2>
+      <div class="panel">
+        <ol>
+          <li>What usually causes the right pointer to move?</li>
+          <li>What usually causes the left pointer to move?</li>
+          <li>For longest valid window problems, when do you update <code>best</code>?</li>
+          <li>For shortest valid window problems, why do you update while shrinking?</li>
+        </ol>
+      </div>
+    </section>
+
+    <section>
+      <h2>Common LeetCode Practice</h2>
+      <ul class="practice-list">
+        <li><a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/">Longest Substring Without Repeating Characters</a> — shrink until unique.</li>
+        <li><a href="https://leetcode.com/problems/minimum-size-subarray-sum/">Minimum Size Subarray Sum</a> — shrink valid windows to get shorter.</li>
+        <li><a href="https://leetcode.com/problems/max-consecutive-ones-iii/">Max Consecutive Ones III</a> — allow at most <code>k</code> zeros.</li>
+        <li><a href="https://leetcode.com/problems/longest-repeating-character-replacement/">Longest Repeating Character Replacement</a> — frequency map plus replacement budget.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>References</h2>
+      <ul>
+        <li><a href="../reference/0006-sliding-window.html">Sliding Window Reference</a></li>
+        <li><a href="../reference/0005-frequency-maps.html">Frequency Maps Reference</a></li>
+        <li><a href="https://docs.python.org/3/tutorial/datastructures.html">Python Tutorial: Data Structures</a></li>
+      </ul>
+      <p class="small">Ask the agent for feedback after trying one variable-window problem without looking at the solution.</p>
+    </section>
+  </main>
+</body>
+</html>

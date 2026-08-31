@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hash Map Complements Reference</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Reference</div>
+      <h1>Hash Map Complements</h1>
+      <p class="small">Use a dictionary when each item can tell you exactly what previous item it needs.</p>
+    </header>
+
+    <section>
+      <h2>Unsorted Two Sum</h2>
+      <pre><code>def two_sum(nums, target):
+    seen = {}
+
+    for i, value in enumerate(nums):
+        need = target - value
+        if need in seen:
+            return [seen[need], i]
+        seen[value] = i
+
+    return [-1, -1]</code></pre>
+    </section>
+
+    <section>
+      <h2>Invariant</h2>
+      <p>Before each iteration, <code>seen</code> maps values from earlier positions to one index where that value appeared. The current value only needs to check whether its complement already appeared.</p>
+    </section>
+
+    <section>
+      <h2>Why Check Before Insert?</h2>
+      <p>Checking before insertion prevents using the same index twice. For example, with <code>nums = [4]</code> and <code>target = 8</code>, inserting first would let the single <code>4</code> pair with itself.</p>
+    </section>
+
+    <section>
+      <h2>Complexity</h2>
+      <p>Time: <code>O(n)</code> average, because dictionary lookup is average constant time. Space: <code>O(n)</code>, because the dictionary may store many previous values.</p>
+    </section>
+  </main>
+</body>
+</html>

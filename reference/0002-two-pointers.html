@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Two Pointers Reference</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Reference</div>
+      <h1>Two Pointers</h1>
+      <p class="small">Use two indices when movement rules let one step discard many impossible candidates.</p>
+    </header>
+
+    <section>
+      <h2>Pattern Shapes</h2>
+      <table>
+        <tr><th>Shape</th><th>Use when</th><th>Pointer rule</th></tr>
+        <tr><td>Opposite ends</td><td>Sorted order or width tradeoff lets you discard one side.</td><td>Move the side that can no longer produce a better answer.</td></tr>
+        <tr><td>Fixed plus pair search</td><td>You need three values, but one can be fixed first.</td><td>Sort, fix <code>i</code>, then move <code>left</code>/<code>right</code>.</td></tr>
+        <tr><td>Slow and fast</td><td>You scan all items but write only kept items.</td><td><code>fast</code> reads; <code>write</code> records the next output slot.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Sorted Pair Sum</h2>
+      <pre><code>def has_pair_with_sum(nums, target):
+    left = 0
+    right = len(nums) - 1
+
+    while left &lt; right:
+        total = nums[left] + nums[right]
+        if total == target:
+            return True
+        if total &lt; target:
+            left += 1
+        else:
+            right -= 1
+
+    return False</code></pre>
+    </section>
+
+    <section>
+      <h2>Container With Most Water</h2>
+      <pre><code>def max_area(height):
+    left = 0
+    right = len(height) - 1
+    best = 0
+
+    while left &lt; right:
+        best = max(best, min(height[left], height[right]) * (right - left))
+        if height[left] &lt; height[right]:
+            left += 1
+        else:
+            right -= 1
+
+    return best</code></pre>
+      <p>Move the shorter side because the shorter height limits the area.</p>
+    </section>
+
+    <section>
+      <h2>3Sum</h2>
+      <pre><code>def three_sum(nums):
+    nums.sort()
+    result = []
+
+    for i in range(len(nums) - 2):
+        if i &gt; 0 and nums[i] == nums[i - 1]:
+            continue
+
+        left = i + 1
+        right = len(nums) - 1
+
+        while left &lt; right:
+            total = nums[i] + nums[left] + nums[right]
+            if total == 0:
+                result.append([nums[i], nums[left], nums[right]])
+                left += 1
+                right -= 1
+                while left &lt; right and nums[left] == nums[left - 1]:
+                    left += 1
+                while left &lt; right and nums[right] == nums[right + 1]:
+                    right -= 1
+            elif total &lt; 0:
+                left += 1
+            else:
+                right -= 1
+
+    return result</code></pre>
+      <p>Sorting makes duplicate skipping and pair-sum movement possible.</p>
+    </section>
+
+    <section>
+      <h2>Move Zeroes</h2>
+      <pre><code>def move_zeroes(nums):
+    write = 0
+
+    for fast in range(len(nums)):
+        if nums[fast] != 0:
+            nums[write], nums[fast] = nums[fast], nums[write]
+            write += 1
+
+    return nums</code></pre>
+      <p><code>fast</code> reads every value. <code>write</code> tracks where the next non-zero value belongs.</p>
+    </section>
+
+    <section>
+      <h2>Invariant</h2>
+      <p>At every step, all discarded pairs are impossible. If the sum is too small, pairing the left value with any smaller right value would also be too small, so <code>left</code> can move right. If the sum is too large, pairing the right value with any larger left value would also be too large, so <code>right</code> can move left.</p>
+    </section>
+
+    <section>
+      <h2>Complexity</h2>
+      <p>Time: <code>O(n)</code>, because each pointer moves inward at most <code>n</code> times total. Space: <code>O(1)</code>, because no extra data structure grows with input size.</p>
+    </section>
+
+    <section>
+      <h2>When It Fits</h2>
+      <ul>
+        <li>The input is already sorted, or sorting is acceptable.</li>
+        <li>You can decide which pointer to move based on a comparison.</li>
+        <li>You are searching pairs, ranges, palindromes, or partitions.</li>
+        <li>You need in-place cleanup where one pointer scans and another writes.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

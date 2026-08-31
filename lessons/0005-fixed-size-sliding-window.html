@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lesson 5: Fixed-Size Sliding Window</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Lesson 5</div>
+      <h1>Fixed-Size Sliding Window</h1>
+      <p class="small">Goal: find the best sum of exactly <code>k</code> consecutive numbers.</p>
+    </header>
+
+    <nav class="lesson-nav" aria-label="Lesson navigation">
+      <a href="0004-frequency-map-valid-anagram.html">Previous: Frequency Maps</a>
+      <a href="../reference/0001-course-roadmap.html">Roadmap</a>
+      <a href="0006-fixed-size-sliding-window-practice.html">Next: Fixed Window Practice</a>
+    </nav>
+
+    <section>
+      <h2>Overview</h2>
+      <p>A sliding window is a way to process a continuous part of a list or string. The window has a left edge and a right edge. As the algorithm runs, the window moves across the input while you keep useful information about what is inside it.</p>
+      <p>In this lesson, the window size is fixed: exactly <code>k</code> numbers. That makes the first version of sliding window easier to learn because every move does the same two actions: add one new value on the right and remove one old value on the left.</p>
+    </section>
+
+    <section>
+      <h2>The Interview Move</h2>
+      <p>Instead of recomputing each length-<code>k</code> subarray from scratch, keep a running window sum. Move one step right by adding the new right value and removing the old left value.</p>
+      <div class="callout">
+        Sliding window is two pointers plus maintained state.
+      </div>
+    </section>
+
+    <section>
+      <h2>Core Ideas</h2>
+      <div class="grid">
+        <div class="panel">
+          <h3>Window</h3>
+          <p>The current consecutive group of items being considered, such as <code>[2, 1, 5]</code>.</p>
+        </div>
+        <div class="panel">
+          <h3>State</h3>
+          <p>The information you maintain about the window, such as its current sum.</p>
+        </div>
+        <div class="panel">
+          <h3>Transition</h3>
+          <p>The update when the window moves: add the entering value and remove the leaving value.</p>
+        </div>
+        <div class="panel">
+          <h3>Best Answer</h3>
+          <p>The best result seen so far, updated after each valid window.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Worked Example</h2>
+      <p>Input: <code>nums = [2, 1, 5, 1, 3]</code>, <code>k = 3</code></p>
+      <p>The brute-force approach would sum <code>[2, 1, 5]</code>, then separately sum <code>[1, 5, 1]</code>, then separately sum <code>[5, 1, 3]</code>. That repeats work. Sliding window reuses the previous sum.</p>
+      <table>
+        <tr><th>step</th><th>window</th><th>update</th><th>sum</th><th>best</th></tr>
+        <tr><td>Start</td><td><code>[2, 1, 5]</code></td><td>Initial sum</td><td><code>8</code></td><td><code>8</code></td></tr>
+        <tr><td>Move 1</td><td><code>[1, 5, 1]</code></td><td>Add <code>1</code>, remove <code>2</code></td><td><code>7</code></td><td><code>8</code></td></tr>
+        <tr><td>Move 2</td><td><code>[5, 1, 3]</code></td><td>Add <code>3</code>, remove <code>1</code></td><td><code>9</code></td><td><code>9</code></td></tr>
+      </table>
+      <p>The answer is <code>9</code>, because the best length-3 subarray is <code>[5, 1, 3]</code>.</p>
+    </section>
+
+    <section>
+      <h2>Why This Is Faster</h2>
+      <p>If you recompute every window from scratch, each window costs <code>k</code> additions. With many windows, that becomes <code>O(nk)</code>. Sliding window keeps the old sum, so each move costs only two arithmetic operations: one add and one subtract. That makes the total time <code>O(n)</code>.</p>
+    </section>
+
+    <section>
+      <h2>Algorithm Steps</h2>
+      <ol>
+        <li>Handle impossible input, such as <code>k &gt; len(nums)</code>.</li>
+        <li>Build the first window using the first <code>k</code> values.</li>
+        <li>Store that first window as the current best answer.</li>
+        <li>Move the right edge from index <code>k</code> to the end.</li>
+        <li>For each move, add the entering value and subtract the leaving value.</li>
+        <li>Update the best answer after every complete window.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Python Template</h2>
+      <pre><code>def max_sum_size_k(nums, k):
+    if k &gt; len(nums):
+        return None
+
+    window = sum(nums[:k])
+    best = window
+
+    for right in range(k, len(nums)):
+        window += nums[right]
+        window -= nums[right - k]
+        best = max(best, window)
+
+    return best</code></pre>
+    </section>
+
+    <section>
+      <h2>Retrieval Practice</h2>
+      <div class="panel">
+        <ol>
+          <li>When the window moves right, which value is added?</li>
+          <li>When the window moves right, which value is removed?</li>
+          <li>Why is the total time <code>O(n)</code> instead of <code>O(nk)</code>?</li>
+          <li>What does <code>window</code> mean in this algorithm?</li>
+          <li>What does <code>best</code> remember?</li>
+        </ol>
+      </div>
+    </section>
+
+    <section>
+      <h2>Coding Problem</h2>
+      <p>Write <code>max_average_size_k(nums, k)</code>. Return the largest average of any exactly length-<code>k</code> subarray. Return <code>None</code> if <code>k</code> is larger than the list.</p>
+      <pre><code>assert max_average_size_k([2, 1, 5, 1, 3], 3) == 3
+assert max_average_size_k([1, 12, -5, -6, 50, 3], 4) == 12.75
+assert max_average_size_k([5], 2) is None
+assert max_average_size_k([4, 4, 4], 1) == 4</code></pre>
+    </section>
+
+    <section>
+      <h2>Common LeetCode Practice</h2>
+      <ul class="practice-list">
+        <li><a href="https://leetcode.com/problems/maximum-average-subarray-i/">Maximum Average Subarray I</a> — fixed window sum divided by <code>k</code>.</li>
+        <li><a href="https://leetcode.com/problems/number-of-sub-arrays-of-size-k-and-average-greater-than-or-equal-to-threshold/">Sub-arrays of Size K and Average at Least Threshold</a> — count valid fixed windows.</li>
+        <li><a href="https://leetcode.com/problems/maximum-number-of-vowels-in-a-substring-of-given-length/">Maximum Number of Vowels in a Substring of Given Length</a> — fixed window over a string.</li>
+        <li><a href="https://leetcode.com/problems/defuse-the-bomb/">Defuse the Bomb</a> — circular fixed-window sums.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>References</h2>
+      <ul>
+        <li><a href="../reference/0006-sliding-window.html">Sliding Window Reference</a></li>
+        <li><a href="../reference/0001-course-roadmap.html">Course Roadmap</a></li>
+        <li><a href="https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/">MIT 6.006 Introduction to Algorithms</a></li>
+      </ul>
+      <p class="small">Ask the agent for feedback on your function before moving on.</p>
+    </section>
+  </main>
+</body>
+</html>

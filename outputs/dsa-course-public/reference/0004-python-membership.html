@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python Membership Reference</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Reference</div>
+      <h1>Python Membership</h1>
+      <p class="small">The interview syntax for asking whether a value is already present.</p>
+    </header>
+
+    <section>
+      <h2>Core Syntax</h2>
+      <pre><code>if value in seen:
+    return True
+
+if value not in seen:
+    seen.add(value)</code></pre>
+    </section>
+
+    <section>
+      <h2>Set Pattern</h2>
+      <pre><code>seen = set()
+
+for value in nums:
+    if value in seen:
+        return True
+    seen.add(value)
+
+return False</code></pre>
+    </section>
+
+    <section>
+      <h2>Dictionary Pattern</h2>
+      <pre><code>index_by_value = {}
+
+for i, value in enumerate(nums):
+    if value in index_by_value:
+        return index_by_value[value]
+    index_by_value[value] = i</code></pre>
+    </section>
+
+    <section>
+      <h2>Common Mistakes</h2>
+      <table>
+        <tr><th>Do not write</th><th>Write</th></tr>
+        <tr><td><code>seen.has(value)</code></td><td><code>value in seen</code></td></tr>
+        <tr><td><code>if value in seen return True:</code></td><td><code>if value in seen:<br>    return True</code></td></tr>
+        <tr><td><code>return False</code> inside the loop</td><td><code>return False</code> after the loop</td></tr>
+      </table>
+    </section>
+  </main>
+</body>
+</html>

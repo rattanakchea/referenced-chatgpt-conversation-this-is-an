@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stack Reference</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Reference</div>
+      <h1>Stack</h1>
+      <p class="small">Use a stack when the most recent unresolved item must be handled first.</p>
+    </header>
+
+    <section>
+      <h2>Python Operations</h2>
+      <pre><code>stack = []
+stack.append(value)  # push
+top = stack.pop()    # pop
+last = stack[-1]     # peek, only if stack is non-empty</code></pre>
+    </section>
+
+    <section>
+      <h2>Valid Parentheses Template</h2>
+      <pre><code>def is_valid_parentheses(s):
+    pairs = {")": "(", "]": "[", "}": "{"}
+    stack = []
+
+    for ch in s:
+        if ch in pairs.values():
+            stack.append(ch)
+        elif ch in pairs:
+            if not stack or stack.pop() != pairs[ch]:
+                return False
+
+    return len(stack) == 0</code></pre>
+    </section>
+
+    <section>
+      <h2>Common Signals</h2>
+      <ul>
+        <li>Nested structures: parentheses, brackets, tags.</li>
+        <li>Undo-like behavior: the latest thing is resolved first.</li>
+        <li>Monotonic stack problems: keep candidates in increasing or decreasing order.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

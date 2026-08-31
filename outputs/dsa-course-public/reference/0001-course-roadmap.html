@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DSA Interview Roadmap</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Reference</div>
+      <h1>DSA Interview Roadmap</h1>
+      <p class="small">A compact route from easy to medium interview problems in Python.</p>
+    </header>
+
+    <section>
+      <h2>Lesson Links</h2>
+      <table>
+        <tr><th>Lesson</th><th>Focus</th></tr>
+        <tr><td><a href="../lessons/0001-two-pointers-sorted-pair.html">Lesson 1</a></td><td>Two pointers for sorted pair sum</td></tr>
+        <tr><td><a href="../lessons/0002-hash-map-two-sum.html">Lesson 2</a></td><td>Hash map complements for unsorted Two Sum</td></tr>
+        <tr><td><a href="../lessons/0003-python-membership-and-early-return.html">Lesson 3</a></td><td>Python membership and early return</td></tr>
+        <tr><td><a href="../lessons/0004-frequency-map-valid-anagram.html">Lesson 4</a></td><td>Frequency maps for anagrams</td></tr>
+        <tr><td><a href="../lessons/0005-fixed-size-sliding-window.html">Lesson 5</a></td><td>Fixed-size sliding window overview</td></tr>
+        <tr><td><a href="../lessons/0006-fixed-size-sliding-window-practice.html">Lesson 6</a></td><td>Fixed-size sliding window practice</td></tr>
+        <tr><td><a href="../lessons/0007-variable-size-sliding-window.html">Lesson 7</a></td><td>Variable-size sliding window</td></tr>
+        <tr><td><a href="../lessons/0008-stack-valid-parentheses.html">Lesson 8</a></td><td>Stack for valid parentheses</td></tr>
+        <tr><td><a href="../lessons/0009-binary-search-exact-match.html">Lesson 9</a></td><td>Binary search for exact match</td></tr>
+        <tr><td><a href="../lessons/0010-merge-intervals.html">Lesson 10</a></td><td>Merge intervals</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Core References</h2>
+      <table>
+        <tr><th>Reference</th><th>Use</th></tr>
+        <tr><td><a href="../practice.html">Practice Workspace</a></td><td>Pick a lesson or LeetCode problem and draft a Python solution beside the prompt.</td></tr>
+        <tr><td><a href="0010-python-interview-cheatsheet.html">Python Interview Cheatsheet</a></td><td>Essential syntax, containers, common imports, and coding-pattern templates.</td></tr>
+        <tr><td><a href="0006-sliding-window.html">Sliding Window</a></td><td>Fixed-size and variable-size sliding-window templates.</td></tr>
+        <tr><td><a href="0005-frequency-maps.html">Frequency Maps</a></td><td>Counting values with dictionaries.</td></tr>
+        <tr><td><a href="0008-binary-search.html">Binary Search</a></td><td>Exact search and boundary reasoning.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Phase 1: Linear Data Patterns</h2>
+      <table>
+        <tr><th>Pattern</th><th>Core question</th><th>Typical structures</th></tr>
+        <tr><td>Arrays and hashing</td><td>Have I seen the value I need?</td><td><code>dict</code>, <code>set</code>, frequency maps</td></tr>
+        <tr><td>Two pointers</td><td>Can sorted order or opposite movement remove choices?</td><td>lists, strings</td></tr>
+        <tr><td>Sliding window</td><td>Can I maintain a valid range while expanding and shrinking?</td><td>dict counts, two indices</td></tr>
+        <tr><td>Stack</td><td>Do I need the most recent unresolved item?</td><td><code>list</code> as stack</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Phase 2: Ordered Search</h2>
+      <table>
+        <tr><th>Pattern</th><th>Core question</th><th>Typical structures</th></tr>
+        <tr><td>Binary search</td><td>Can one comparison remove half the search space?</td><td>sorted lists, answer space</td></tr>
+        <tr><td>Intervals</td><td>How do ranges overlap, merge, or exclude each other?</td><td>sorted pairs</td></tr>
+        <tr><td>Heap</td><td>Do I repeatedly need the next smallest or largest item?</td><td><code>heapq</code></td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Phase 3: Recursive Structures</h2>
+      <table>
+        <tr><th>Pattern</th><th>Core question</th><th>Typical structures</th></tr>
+        <tr><td>Trees</td><td>Can I solve left and right subproblems independently?</td><td>DFS, BFS, recursion</td></tr>
+        <tr><td>Graphs</td><td>What states are connected, and how do I avoid revisiting?</td><td>adjacency lists, queue, stack</td></tr>
+        <tr><td>Backtracking</td><td>Can I build candidates incrementally and undo choices?</td><td>recursion, path list</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Phase 4: Dynamic Programming</h2>
+      <p>Use DP only after the earlier patterns are stable. The key move is recognizing repeated subproblems and defining a state that is small enough to compute.</p>
+    </section>
+  </main>
+</body>
+</html>

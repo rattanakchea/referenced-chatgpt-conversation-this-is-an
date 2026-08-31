@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Frequency Maps Reference</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Reference</div>
+      <h1>Frequency Maps</h1>
+      <p class="small">Use a dictionary when the count of each value matters.</p>
+    </header>
+
+    <section>
+      <h2>Manual Counting</h2>
+      <pre><code>counts = {}
+
+for value in values:
+    counts[value] = counts.get(value, 0) + 1</code></pre>
+    </section>
+
+    <section>
+      <h2>Anagram Template</h2>
+      <pre><code>def same_counts(a, b):
+    if len(a) != len(b):
+        return False
+
+    counts = {}
+    for ch in a:
+        counts[ch] = counts.get(ch, 0) + 1
+
+    for ch in b:
+        if ch not in counts:
+            return False
+        counts[ch] -= 1
+        if counts[ch] == 0:
+            del counts[ch]
+
+    return len(counts) == 0</code></pre>
+    </section>
+
+    <section>
+      <h2>Interview Use</h2>
+      <ul>
+        <li>Detect whether two strings contain the same characters.</li>
+        <li>Track how many of each value are inside a window.</li>
+        <li>Find the first value whose count is one.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
