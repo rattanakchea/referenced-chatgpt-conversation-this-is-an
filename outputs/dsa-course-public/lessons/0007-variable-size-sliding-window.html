@@ -7,23 +7,58 @@
   <link rel="stylesheet" href="../assets/course.css">
 </head>
 <body>
-  <main>
+  <main class="lesson-page">
     <header>
       <div class="eyebrow">Lesson 7</div>
       <h1>Variable-Size Sliding Window</h1>
       <p class="small">Goal: grow and shrink a window until it satisfies a condition.</p>
     </header>
 
-    <nav class="lesson-nav" aria-label="Lesson navigation">
-      <a href="0006-fixed-size-sliding-window-practice.html">Previous: Fixed Window Practice</a>
-      <a href="../reference/0001-course-roadmap.html">Roadmap</a>
-      <a href="0008-stack-valid-parentheses.html">Next: Stack</a>
+    <nav class="lesson-sidebar" aria-label="Course lessons">
+      <p class="lesson-sidebar-title">Course lessons</p>
+      <ul>
+        <li><a href="0001-two-pointers-sorted-pair.html">1. Two Pointers</a></li>
+        <li><a href="0002-hash-map-two-sum.html">2. Hash Map Two Sum</a></li>
+        <li><a href="0003-python-membership-and-early-return.html">3. Python Membership</a></li>
+        <li><a href="0004-frequency-map-valid-anagram.html">4. Frequency Maps</a></li>
+        <li><a href="0005-fixed-size-sliding-window.html">5. Fixed-Size Window</a></li>
+        <li><a href="0006-fixed-size-sliding-window-practice.html">6. Window Practice</a></li>
+        <li><a href="0007-variable-size-sliding-window.html" aria-current="page">7. Variable-Size Window</a></li>
+        <li><a href="0008-stack-valid-parentheses.html">8. Stacks</a></li>
+        <li><a href="0009-binary-search-exact-match.html">9. Binary Search</a></li>
+        <li><a href="0010-merge-intervals.html">10. Merge Intervals</a></li>
+        <li class="sidebar-home"><a href="../index.html">Course home</a></li>
+        <li><a href="../practice.html">Practice workspace</a></li>
+      </ul>
     </nav>
 
     <section>
       <h2>Overview</h2>
       <p>A variable-size sliding window is for problems where the valid range can be short or long. The right pointer usually expands the window. The left pointer shrinks it when the window is invalid, or when you are trying to make a valid window smaller.</p>
       <p>The main mental shift: fixed windows move in lockstep, but variable windows breathe. They expand, then shrink, while preserving a useful condition.</p>
+      <div class="callout">
+        Pattern signal: the problem talks about “longest”, “shortest”, “minimum length”, “smallest valid”, “subarray that satisfies a condition”, or “while the window is invalid, shrink it”. This is a variable window problem.
+      </div>
+    </section>
+
+    <section>
+      <h2>Why this pattern is tricky</h2>
+      <div class="panel">
+        <p>The hardest part is not the loop itself; it is deciding when the answer should be updated. For longest-window problems, you usually update after the window is valid. For shortest-window problems, you often update while the window is valid and then shrink it immediately.</p>
+        <p>In other words, the answer depends on what question you are trying to optimize. The loop structure stays the same; only the timing of the answer update changes.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Common gotchas</h2>
+      <div class="panel">
+        <ul>
+          <li><strong>Updating the answer too early:</strong> if the window is invalid, it is not a valid answer yet.</li>
+          <li><strong>Forgetting to remove the left value before moving left:</strong> otherwise the window state becomes inconsistent with the actual window contents.</li>
+          <li><strong>Using the wrong condition in the while loop:</strong> the inner loop should run while the window breaks the rule, not just while it is “maybe not optimal”.</li>
+          <li><strong>Mixing “window valid” and “window optimal”:</strong> a valid window is not automatically the best answer; you still need to compare or update carefully.</li>
+        </ul>
+      </div>
     </section>
 
     <section>
@@ -117,6 +152,20 @@ while duplicate exists:
     remove s[left]
     left += 1</code></pre>
         </div>
+      </div>
+      <p>Notice the difference: the first style asks, “Do I need to shrink before adding this new character?” The second style asks, “I added it, now how do I repair the window?” Both are valid, but the first style usually makes the invariant cleaner.</p>
+    </section>
+
+    <section>
+      <h2>Wrong approach to avoid</h2>
+      <div class="panel">
+        <p>A very common mistake is to move <code>left</code> and <code>right</code> independently without looking at the actual window condition.</p>
+        <pre><code># Wrong idea: move both pointers blindly
+for right, ch in enumerate(s):
+    window.add(ch)
+    left += 1
+    best = max(best, right - left + 1)</code></pre>
+        <p>This can produce a valid-looking answer for a few examples, but it destroys the invariant. A variable window only works when the window state always matches the real items in the current range.</p>
       </div>
     </section>
 

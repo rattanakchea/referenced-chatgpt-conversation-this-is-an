@@ -11,11 +11,11 @@
     <header>
       <div class="eyebrow">Practice</div>
       <h1>Coding Question Picker</h1>
-      <p class="small">Pick a course problem or a curated LeetCode problem, then draft your Python solution in the editor.</p>
+      <p class="small">Pick a course problem or one of the 75 questions in the LeetCode 75 study plan, then draft your Python solution in the editor.</p>
     </header>
 
-    <nav class="lesson-nav" aria-label="Course navigation">
-      <a href="index.html">Home</a>
+    <nav class="page-nav" aria-label="Course navigation">
+      <a href="index.html">Course home</a>
       <a href="reference/0001-course-roadmap.html">Roadmap</a>
       <a href="reference/0010-python-interview-cheatsheet.html">Python Cheatsheet</a>
     </nav>
@@ -239,6 +239,96 @@
         tests: "assert merge([[1,3],[2,6],[8,10],[15,18]]) == [[1,6],[8,10],[15,18]]\nassert merge([[1,4],[4,5]]) == [[1,5]]"
       }
     ];
+
+    const leetcode75Questions = [
+      ["1768", "Array / String", "Merge Strings Alternately", "merge-strings-alternately", "Easy"],
+      ["1071", "Array / String", "Greatest Common Divisor of Strings", "greatest-common-divisor-of-strings", "Easy"],
+      ["1431", "Array / String", "Kids With the Greatest Number of Candies", "kids-with-the-greatest-number-of-candies", "Easy"],
+      ["605", "Array / String", "Can Place Flowers", "can-place-flowers", "Easy"],
+      ["345", "Array / String", "Reverse Vowels of a String", "reverse-vowels-of-a-string", "Easy"],
+      ["151", "Array / String", "Reverse Words in a String", "reverse-words-in-a-string", "Medium"],
+      ["238", "Array / String", "Product of Array Except Self", "product-of-array-except-self", "Medium"],
+      ["334", "Array / String", "Increasing Triplet Subsequence", "increasing-triplet-subsequence", "Medium"],
+      ["443", "Array / String", "String Compression", "string-compression", "Medium"],
+      ["283", "Two Pointers", "Move Zeroes", "move-zeroes", "Easy"],
+      ["392", "Two Pointers", "Is Subsequence", "is-subsequence", "Easy"],
+      ["11", "Two Pointers", "Container With Most Water", "container-with-most-water", "Medium"],
+      ["1679", "Two Pointers", "Max Number of K-Sum Pairs", "max-number-of-k-sum-pairs", "Medium"],
+      ["643", "Sliding Window", "Maximum Average Subarray I", "maximum-average-subarray-i", "Easy"],
+      ["1456", "Sliding Window", "Maximum Number of Vowels in a Substring of Given Length", "maximum-number-of-vowels-in-a-substring-of-given-length", "Medium"],
+      ["1004", "Sliding Window", "Max Consecutive Ones III", "max-consecutive-ones-iii", "Medium"],
+      ["1493", "Sliding Window", "Longest Subarray of 1's After Deleting One Element", "longest-subarray-of-1s-after-deleting-one-element", "Medium"],
+      ["1732", "Prefix Sum", "Find the Highest Altitude", "find-the-highest-altitude", "Easy"],
+      ["724", "Prefix Sum", "Find Pivot Index", "find-pivot-index", "Easy"],
+      ["2215", "Hash Map / Set", "Find the Difference of Two Arrays", "find-the-difference-of-two-arrays", "Easy"],
+      ["1207", "Hash Map / Set", "Unique Number of Occurrences", "unique-number-of-occurrences", "Easy"],
+      ["1657", "Hash Map / Set", "Determine if Two Strings Are Close", "determine-if-two-strings-are-close", "Medium"],
+      ["2352", "Hash Map / Set", "Equal Row and Column Pairs", "equal-row-and-column-pairs", "Medium"],
+      ["2390", "Stack", "Removing Stars From a String", "removing-stars-from-a-string", "Medium"],
+      ["735", "Stack", "Asteroid Collision", "asteroid-collision", "Medium"],
+      ["394", "Stack", "Decode String", "decode-string", "Medium"],
+      ["933", "Queue", "Number of Recent Calls", "number-of-recent-calls", "Easy"],
+      ["649", "Queue", "Dota2 Senate", "dota2-senate", "Medium"],
+      ["2095", "Linked List", "Delete the Middle Node of a Linked List", "delete-the-middle-node-of-a-linked-list", "Medium"],
+      ["328", "Linked List", "Odd Even Linked List", "odd-even-linked-list", "Medium"],
+      ["206", "Linked List", "Reverse Linked List", "reverse-linked-list", "Easy"],
+      ["2130", "Linked List", "Maximum Twin Sum of a Linked List", "maximum-twin-sum-of-a-linked-list", "Medium"],
+      ["104", "Binary Tree - DFS", "Maximum Depth of Binary Tree", "maximum-depth-of-binary-tree", "Easy"],
+      ["872", "Binary Tree - DFS", "Leaf-Similar Trees", "leaf-similar-trees", "Easy"],
+      ["1448", "Binary Tree - DFS", "Count Good Nodes in Binary Tree", "count-good-nodes-in-binary-tree", "Medium"],
+      ["437", "Binary Tree - DFS", "Path Sum III", "path-sum-iii", "Medium"],
+      ["1372", "Binary Tree - DFS", "Longest ZigZag Path in a Binary Tree", "longest-zigzag-path-in-a-binary-tree", "Medium"],
+      ["236", "Binary Tree - DFS", "Lowest Common Ancestor of a Binary Tree", "lowest-common-ancestor-of-a-binary-tree", "Medium"],
+      ["199", "Binary Tree - BFS", "Binary Tree Right Side View", "binary-tree-right-side-view", "Medium"],
+      ["1161", "Binary Tree - BFS", "Maximum Level Sum of a Binary Tree", "maximum-level-sum-of-a-binary-tree", "Medium"],
+      ["700", "Binary Search Tree", "Search in a Binary Search Tree", "search-in-a-binary-search-tree", "Easy"],
+      ["450", "Binary Search Tree", "Delete Node in a BST", "delete-node-in-a-bst", "Medium"],
+      ["841", "Graphs - DFS", "Keys and Rooms", "keys-and-rooms", "Medium"],
+      ["547", "Graphs - DFS", "Number of Provinces", "number-of-provinces", "Medium"],
+      ["1466", "Graphs - DFS", "Reorder Routes to Make All Paths Lead to the City Zero", "reorder-routes-to-make-all-paths-lead-to-the-city-zero", "Medium"],
+      ["399", "Graphs - DFS", "Evaluate Division", "evaluate-division", "Medium"],
+      ["1926", "Graphs - BFS", "Nearest Exit from Entrance in Maze", "nearest-exit-from-entrance-in-maze", "Medium"],
+      ["994", "Graphs - BFS", "Rotting Oranges", "rotting-oranges", "Medium"],
+      ["215", "Heap / Priority Queue", "Kth Largest Element in an Array", "kth-largest-element-in-an-array", "Medium"],
+      ["2336", "Heap / Priority Queue", "Smallest Number in Infinite Set", "smallest-number-in-infinite-set", "Medium"],
+      ["2542", "Heap / Priority Queue", "Maximum Subsequence Score", "maximum-subsequence-score", "Medium"],
+      ["2462", "Heap / Priority Queue", "Total Cost to Hire K Workers", "total-cost-to-hire-k-workers", "Medium"],
+      ["374", "Binary Search", "Guess Number Higher or Lower", "guess-number-higher-or-lower", "Easy"],
+      ["2300", "Binary Search", "Successful Pairs of Spells and Potions", "successful-pairs-of-spells-and-potions", "Medium"],
+      ["162", "Binary Search", "Find Peak Element", "find-peak-element", "Medium"],
+      ["875", "Binary Search", "Koko Eating Bananas", "koko-eating-bananas", "Medium"],
+      ["17", "Backtracking", "Letter Combinations of a Phone Number", "letter-combinations-of-a-phone-number", "Medium"],
+      ["216", "Backtracking", "Combination Sum III", "combination-sum-iii", "Medium"],
+      ["1137", "DP - 1D", "N-th Tribonacci Number", "n-th-tribonacci-number", "Easy"],
+      ["746", "DP - 1D", "Min Cost Climbing Stairs", "min-cost-climbing-stairs", "Easy"],
+      ["198", "DP - 1D", "House Robber", "house-robber", "Medium"],
+      ["790", "DP - 1D", "Domino and Tromino Tiling", "domino-and-tromino-tiling", "Medium"],
+      ["62", "DP - Multidimensional", "Unique Paths", "unique-paths", "Medium"],
+      ["1143", "DP - Multidimensional", "Longest Common Subsequence", "longest-common-subsequence", "Medium"],
+      ["714", "DP - Multidimensional", "Best Time to Buy and Sell Stock with Transaction Fee", "best-time-to-buy-and-sell-stock-with-transaction-fee", "Medium"],
+      ["72", "DP - Multidimensional", "Edit Distance", "edit-distance", "Medium"],
+      ["338", "Bit Manipulation", "Counting Bits", "counting-bits", "Easy"],
+      ["136", "Bit Manipulation", "Single Number", "single-number", "Easy"],
+      ["1318", "Bit Manipulation", "Minimum Flips to Make a OR b Equal to c", "minimum-flips-to-make-a-or-b-equal-to-c", "Medium"],
+      ["208", "Trie", "Implement Trie (Prefix Tree)", "implement-trie-prefix-tree", "Medium"],
+      ["1268", "Trie", "Search Suggestions System", "search-suggestions-system", "Medium"],
+      ["435", "Intervals", "Non-overlapping Intervals", "non-overlapping-intervals", "Medium"],
+      ["452", "Intervals", "Minimum Number of Arrows to Burst Balloons", "minimum-number-of-arrows-to-burst-balloons", "Medium"],
+      ["739", "Monotonic Stack", "Daily Temperatures", "daily-temperatures", "Medium"],
+      ["901", "Monotonic Stack", "Online Stock Span", "online-stock-span", "Medium"]
+    ].map(([number, pattern, title, slug, difficulty]) => ({
+      id: `leetcode-75-${number}`,
+      source: "leetcode",
+      pattern,
+      difficulty,
+      title: `${number}. ${title}`,
+      url: `https://leetcode.com/problems/${slug}/`,
+      prompt: `Solve "${title}" on LeetCode.`,
+      starter: `# ${title}\n# Write your Python solution here\n`,
+      tests: "See the examples and constraints on LeetCode."
+    }));
+
+    questions.push(...leetcode75Questions);
 
     const sourceFilter = document.getElementById("source-filter");
     const patternFilter = document.getElementById("pattern-filter");
