@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>System Design 4: Data and Storage Choices</title>
+    <link rel="stylesheet" href="../../assets/course.css" />
+  </head>
+  <body>
+    <main class="lesson-page">
+      <header>
+        <div class="eyebrow">System Design 4</div>
+        <h1>Choose Storage From Access Patterns</h1>
+        <p class="small">
+          Goal: explain a data choice from the reads, writes, relationships, and
+          consistency the product needs.
+        </p>
+      </header>
+      <nav class="lesson-sidebar" aria-label="System Design lessons">
+        <p class="lesson-sidebar-title">System Design</p>
+        <ul>
+          <li>
+            <a href="0001-system-design-interview-foundations.html"
+              >1. Foundations</a
+            >
+          </li>
+          <li>
+            <a href="0002-delivery-framework.html">2. Delivery framework</a>
+          </li>
+          <li>
+            <a href="0003-architecture-building-blocks.html"
+              >3. Building blocks</a
+            >
+          </li>
+          <li>
+            <a href="0004-data-and-storage-choices.html" aria-current="page"
+              >4. Data and storage</a
+            >
+          </li>
+          <li>
+            <a href="0005-reliability-and-performance.html">5. Reliability</a>
+          </li>
+          <li>
+            <a href="0006-guided-design-url-shortener.html">6. URL shortener</a>
+          </li>
+          <li class="sidebar-home"><a href="../index.html">Module home</a></li>
+          <li><a href="../practice.html">Guided practice</a></li>
+          <li><a href="../../index.html">Course home</a></li>
+        </ul>
+      </nav>
+      <section>
+        <h2>Start With the Access Pattern</h2>
+        <p>
+          Ask what keys the system looks up, whether records relate to each
+          other, how often data changes, and whether a read can tolerate a
+          slightly old answer. The product's access pattern should lead; the
+          database brand should follow.
+        </p>
+        <table>
+          <tr>
+            <th>Need</th>
+            <th>Natural starting point</th>
+            <th>Question to expose the tradeoff</th>
+          </tr>
+          <tr>
+            <td>Relationships and transactions</td>
+            <td>Relational database</td>
+            <td>Which operations must succeed together?</td>
+          </tr>
+          <tr>
+            <td>Simple key-based access at large scale</td>
+            <td>Key-value store</td>
+            <td>What query flexibility are we giving up?</td>
+          </tr>
+          <tr>
+            <td>Flexible document-shaped records</td>
+            <td>Document store</td>
+            <td>How will records evolve and be indexed?</td>
+          </tr>
+          <tr>
+            <td>Fast repeated reads</td>
+            <td>Cache in front of storage</td>
+            <td>What is acceptable staleness?</td>
+          </tr>
+        </table>
+      </section>
+      <section>
+        <h2>Data Flow</h2>
+        <div
+          class="architecture-diagram"
+          role="img"
+          aria-label="A write goes through a service to durable storage and an asynchronous event; a read checks cache before storage"
+        >
+          <div class="architecture-node">
+            <strong>Write</strong><span>validate input</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>Service</strong><span>own the invariant</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>Primary store</strong><span>durable truth</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>Event</strong><span>notify async work</span>
+          </div>
+        </div>
+        <div
+          class="architecture-diagram"
+          role="img"
+          aria-label="A read checks a cache before falling back to the primary store"
+        >
+          <div class="architecture-node">
+            <strong>Read</strong><span>requested key</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>Cache</strong><span>fast path</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>Store</strong><span>fallback</span>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h2>Indexes, Replicas, Partitions</h2>
+        <p>
+          An index spends storage and write work to accelerate a known lookup. A
+          replica can improve read capacity or availability but introduces lag.
+          A partition spreads data and load but makes cross-partition queries
+          and transactions harder. Name the benefit and the cost together.
+        </p>
+        <div class="callout">
+          “We need a NoSQL database” is not a design argument. “We need
+          predictable lookups by short code at high volume, and can avoid joins”
+          is.
+        </div>
+      </section>
+      <section>
+        <h2>Retrieval Practice</h2>
+        <div class="panel">
+          <ol>
+            <li>
+              What access-pattern questions should come before a database
+              choice?
+            </li>
+            <li>What does an index cost?</li>
+            <li>Why can replication change what a reader sees?</li>
+          </ol>
+        </div>
+      </section>
+      <section>
+        <h2>Try It</h2>
+        <p>
+          For a URL shortener, decide what the primary lookup key is, what
+          record must be durable, and whether analytics events need to block the
+          redirect response.
+        </p>
+        <p class="small">
+          Primary source:
+          <a href="https://www.postgresql.org/docs/current/indexes.html"
+            >PostgreSQL indexes documentation</a
+          >.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

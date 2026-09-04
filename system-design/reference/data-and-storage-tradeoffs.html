@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Data and Storage Tradeoffs</title>
+    <link rel="stylesheet" href="../../assets/course.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="eyebrow">System Design Reference</div>
+        <h1>Data and Storage Tradeoffs</h1>
+        <p class="small">
+          Choose storage from access patterns, correctness, and scale.
+        </p>
+      </header>
+      <nav class="page-nav" aria-label="System Design navigation">
+        <a href="../index.html">Module home</a
+        ><a href="../roadmap.html">Roadmap</a
+        ><a href="../practice.html">Guided practice</a>
+      </nav>
+      <section>
+        <h2>Decision Prompts</h2>
+        <ul>
+          <li>What are the hottest keys and queries?</li>
+          <li>Which writes must be atomic together?</li>
+          <li>What relationships or joins matter?</li>
+          <li>Can a reader tolerate stale data?</li>
+          <li>How large is each record, and how fast does data grow?</li>
+          <li>What must happen if a write is repeated?</li>
+        </ul>
+      </section>
+      <section>
+        <h2>Common Moves</h2>
+        <table>
+          <tr>
+            <th>Move</th>
+            <th>Benefit</th>
+            <th>Cost</th>
+          </tr>
+          <tr>
+            <td>Index</td>
+            <td>Faster known lookup.</td>
+            <td>Write and storage overhead.</td>
+          </tr>
+          <tr>
+            <td>Replica</td>
+            <td>Read capacity and availability.</td>
+            <td>Replication lag and coordination.</td>
+          </tr>
+          <tr>
+            <td>Partition</td>
+            <td>Spread data and load.</td>
+            <td>Cross-partition work is harder.</td>
+          </tr>
+          <tr>
+            <td>Cache</td>
+            <td>Lower repeated-read latency.</td>
+            <td>Invalidation and memory limits.</td>
+          </tr>
+          <tr>
+            <td>Async event</td>
+            <td>Decouple follow-up work.</td>
+            <td>Delayed completion and delivery concerns.</td>
+          </tr>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>

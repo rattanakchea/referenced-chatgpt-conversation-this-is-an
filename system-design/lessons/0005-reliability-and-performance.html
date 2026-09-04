@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>System Design 5: Reliability and Performance</title>
+    <link rel="stylesheet" href="../../assets/course.css" />
+  </head>
+  <body>
+    <main class="lesson-page">
+      <header>
+        <div class="eyebrow">System Design 5</div>
+        <h1>Design for Slowness and Failure</h1>
+        <p class="small">
+          Goal: make the system's behavior under pressure explicit.
+        </p>
+      </header>
+      <nav class="lesson-sidebar" aria-label="System Design lessons">
+        <p class="lesson-sidebar-title">System Design</p>
+        <ul>
+          <li>
+            <a href="0001-system-design-interview-foundations.html"
+              >1. Foundations</a
+            >
+          </li>
+          <li>
+            <a href="0002-delivery-framework.html">2. Delivery framework</a>
+          </li>
+          <li>
+            <a href="0003-architecture-building-blocks.html"
+              >3. Building blocks</a
+            >
+          </li>
+          <li>
+            <a href="0004-data-and-storage-choices.html">4. Data and storage</a>
+          </li>
+          <li>
+            <a href="0005-reliability-and-performance.html" aria-current="page"
+              >5. Reliability</a
+            >
+          </li>
+          <li>
+            <a href="0006-guided-design-url-shortener.html">6. URL shortener</a>
+          </li>
+          <li class="sidebar-home"><a href="../index.html">Module home</a></li>
+          <li><a href="../practice.html">Guided practice</a></li>
+          <li><a href="../../index.html">Course home</a></li>
+        </ul>
+      </nav>
+      <section>
+        <h2>The Failure Chain</h2>
+        <div
+          class="architecture-diagram"
+          role="img"
+          aria-label="A client request uses a timeout, may retry an idempotent operation, and eventually receives a degraded response or error"
+        >
+          <div class="architecture-node">
+            <strong>Request</strong><span>bounded timeout</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>Dependency</strong><span>may be slow</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>Retry?</strong><span>only if safe</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>Fallback</strong><span>degrade or fail clear</span>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h2>Patterns That Work Together</h2>
+        <table>
+          <tr>
+            <th>Pattern</th>
+            <th>Purpose</th>
+            <th>Important caution</th>
+          </tr>
+          <tr>
+            <td>Timeout</td>
+            <td>Prevent one dependency from holding resources forever.</td>
+            <td>A timeout is not a fix for overload.</td>
+          </tr>
+          <tr>
+            <td>Retry</td>
+            <td>Recover from transient failure.</td>
+            <td>Backoff and jitter; retries can amplify load.</td>
+          </tr>
+          <tr>
+            <td>Idempotency key</td>
+            <td>Make repeated writes safe.</td>
+            <td>Store the result or deduplication record.</td>
+          </tr>
+          <tr>
+            <td>Rate limit</td>
+            <td>Protect capacity and enforce fairness.</td>
+            <td>Choose what happens to rejected requests.</td>
+          </tr>
+          <tr>
+            <td>Backpressure</td>
+            <td>Slow producers when consumers cannot keep up.</td>
+            <td>Make queue growth and user impact visible.</td>
+          </tr>
+          <tr>
+            <td>Observability</td>
+            <td>See latency, errors, saturation, and traces.</td>
+            <td>Signals need actionable ownership.</td>
+          </tr>
+        </table>
+      </section>
+      <section>
+        <h2>Performance Is a Budget</h2>
+        <p>
+          For a request with several sequential dependencies, their latency
+          contributes to the response time. Parallel work can reduce wall-clock
+          time but increases coordination. Caching can lower repeated reads but
+          makes freshness a product decision. Async work can improve user
+          latency but changes when completion becomes visible.
+        </p>
+        <div class="callout">
+          Always ask: what is the user waiting for, what can happen later, and
+          what must be durable before we respond?
+        </div>
+      </section>
+      <section>
+        <h2>Retrieval Practice</h2>
+        <div class="panel">
+          <ol>
+            <li>Why can blind retries make an outage worse?</li>
+            <li>Which operations need idempotency protection?</li>
+            <li>Name two useful saturation signals.</li>
+          </ol>
+        </div>
+      </section>
+      <section>
+        <h2>Try It</h2>
+        <p>
+          For a photo upload, decide what the user sees if thumbnail generation
+          is slow, and which operation can be retried safely.
+        </p>
+        <p class="small">
+          Primary sources:
+          <a
+            href="https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/welcome.html"
+            >AWS reliability principles</a
+          >
+          and
+          <a href="https://opentelemetry.io/docs/"
+            >OpenTelemetry documentation</a
+          >.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

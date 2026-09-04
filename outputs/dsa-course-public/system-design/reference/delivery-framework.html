@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Delivery Framework Reference</title>
+    <link rel="stylesheet" href="../../assets/course.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="eyebrow">System Design Reference</div>
+        <h1>Delivery Framework</h1>
+        <p class="small">
+          A checklist for moving from an ambiguous prompt to a defensible
+          design.
+        </p>
+      </header>
+      <nav class="page-nav" aria-label="System Design navigation">
+        <a href="../index.html">Module home</a
+        ><a href="../roadmap.html">Roadmap</a
+        ><a href="../practice.html">Guided practice</a
+        ><a href="../../index.html">Course home</a>
+      </nav>
+      <section>
+        <h2>Six Moves</h2>
+        <table>
+          <tr>
+            <th>1. Clarify</th>
+            <td>
+              Functional requirements, non-goals, users, and quality priorities.
+            </td>
+          </tr>
+          <tr>
+            <th>2. Estimate</th>
+            <td>
+              Requests, storage, bandwidth, and dominant read/write shape.
+            </td>
+          </tr>
+          <tr>
+            <th>3. Model</th>
+            <td>
+              API endpoints, entities, identifiers, and ownership of invariants.
+            </td>
+          </tr>
+          <tr>
+            <th>4. Design</th>
+            <td>One simple end-to-end request path and its durable state.</td>
+          </tr>
+          <tr>
+            <th>5. Deep dive</th>
+            <td>One bottleneck, failure mode, or high-value tradeoff.</td>
+          </tr>
+          <tr>
+            <th>6. Summarize</th>
+            <td>
+              What the design optimizes, what it gives up, and what comes next.
+            </td>
+          </tr>
+        </table>
+      </section>
+      <section>
+        <h2>Interview Sentence Stems</h2>
+        <ul>
+          <li>“I’ll assume ___ so I can focus on ___.”</li>
+          <li>“The dominant access pattern is ___, so I’ll start with ___.”</li>
+          <li>“This component is here to relieve ___; the cost is ___.”</li>
+          <li>“If that assumption changes, I would revisit ___.”</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>System Design 3: Architecture Building Blocks</title>
+    <link rel="stylesheet" href="../../assets/course.css" />
+  </head>
+  <body>
+    <main class="lesson-page">
+      <header>
+        <div class="eyebrow">System Design 3</div>
+        <h1>Architecture Building Blocks</h1>
+        <p class="small">
+          Goal: place common components because the request path needs them.
+        </p>
+      </header>
+      <nav class="lesson-sidebar" aria-label="System Design lessons">
+        <p class="lesson-sidebar-title">System Design</p>
+        <ul>
+          <li>
+            <a href="0001-system-design-interview-foundations.html"
+              >1. Foundations</a
+            >
+          </li>
+          <li>
+            <a href="0002-delivery-framework.html">2. Delivery framework</a>
+          </li>
+          <li>
+            <a href="0003-architecture-building-blocks.html" aria-current="page"
+              >3. Building blocks</a
+            >
+          </li>
+          <li>
+            <a href="0004-data-and-storage-choices.html">4. Data and storage</a>
+          </li>
+          <li>
+            <a href="0005-reliability-and-performance.html">5. Reliability</a>
+          </li>
+          <li>
+            <a href="0006-guided-design-url-shortener.html">6. URL shortener</a>
+          </li>
+          <li class="sidebar-home"><a href="../index.html">Module home</a></li>
+          <li><a href="../practice.html">Guided practice</a></li>
+          <li><a href="../../index.html">Course home</a></li>
+        </ul>
+      </nav>
+      <section>
+        <h2>A Baseline Request Path</h2>
+        <div
+          class="architecture-diagram"
+          role="img"
+          aria-label="Client sends a request through DNS and a load balancer to stateless services, which use cache, database, queue, worker, and object storage"
+        >
+          <div class="architecture-node">
+            <strong>Client</strong><span>browser or app</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>DNS / CDN</strong><span>route and edge cache</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>Load balancer</strong><span>spread traffic</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>Stateless service</strong><span>business logic</span>
+          </div>
+        </div>
+        <div class="architecture-group">
+          <div class="architecture-group-title">
+            Downstream choices depend on the work
+          </div>
+          <div class="architecture-node">
+            <strong>Cache</strong><span>fast repeat reads</span>
+          </div>
+          <div class="architecture-node">
+            <strong>Database</strong><span>durable records</span>
+          </div>
+          <div class="architecture-node">
+            <strong>Queue + worker</strong><span>async work</span>
+          </div>
+          <div class="architecture-node">
+            <strong>Object storage</strong><span>large blobs</span>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h2>Component Questions</h2>
+        <table>
+          <tr>
+            <th>Component</th>
+            <th>Use it when...</th>
+            <th>Tradeoff</th>
+          </tr>
+          <tr>
+            <td>CDN</td>
+            <td>Content can be served near users.</td>
+            <td>Cache invalidation and freshness.</td>
+          </tr>
+          <tr>
+            <td>Load balancer</td>
+            <td>Multiple service instances should receive traffic.</td>
+            <td>More moving parts and health behavior.</td>
+          </tr>
+          <tr>
+            <td>Cache</td>
+            <td>Repeated reads justify a faster copy.</td>
+            <td>Stale data and eviction policy.</td>
+          </tr>
+          <tr>
+            <td>Queue</td>
+            <td>Work can happen later or needs smoothing.</td>
+            <td>Eventually consistent completion and retries.</td>
+          </tr>
+          <tr>
+            <td>Object storage</td>
+            <td>Files are large and addressed by key.</td>
+            <td>Separate metadata and access control.</td>
+          </tr>
+        </table>
+      </section>
+      <section>
+        <h2>One Rule</h2>
+        <p>
+          Start with the smallest architecture that can satisfy the stated
+          requirements. Add a component only when you can name the pressure it
+          relieves: latency, throughput, durability, isolation, or operational
+          control.
+        </p>
+      </section>
+      <section>
+        <h2>Retrieval Practice</h2>
+        <div class="panel">
+          <ol>
+            <li>Why should application services be stateless when possible?</li>
+            <li>What kind of work belongs behind a queue?</li>
+            <li>
+              What problem does a cache solve, and what new problem does it
+              create?
+            </li>
+          </ol>
+        </div>
+      </section>
+      <section>
+        <h2>Try It</h2>
+        <p>
+          Draw the request path for uploading a photo. Decide which part handles
+          metadata and which part handles the image bytes. Use the
+          <a href="../practice.html">guided workspace</a> or a paper sketch.
+        </p>
+        <p class="small">
+          Primary sources:
+          <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview"
+            >MDN HTTP overview</a
+          >
+          and
+          <a href="https://www.cloudflare.com/learning/cdn/what-is-a-cdn/"
+            >Cloudflare's CDN explanation</a
+          >.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

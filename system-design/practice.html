@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>System Design Guided Practice</title>
+    <link rel="stylesheet" href="../assets/course.css" />
+  </head>
+  <body>
+    <main class="wide">
+      <header>
+        <div class="eyebrow">System Design Practice</div>
+        <h1>Guided Design Workspace</h1>
+        <p class="small">
+          Choose a prompt, make your assumptions explicit, and draft a design in
+          stages. Drafts stay in this browser.
+        </p>
+      </header>
+      <nav class="page-nav" aria-label="System Design navigation">
+        <a href="index.html">Module home</a><a href="roadmap.html">Roadmap</a
+        ><a href="../index.html">Course home</a>
+      </nav>
+      <div class="design-shell">
+        <aside class="workspace-panel">
+          <label class="picker-controls"
+            ><span>Prompt</span
+            ><select id="problem-select">
+              <option value="url-shortener">URL shortener</option>
+              <option value="photo-sharing">Photo-sharing service</option>
+              <option value="notification-service">Notification service</option>
+            </select></label
+          >
+          <h3>Progress</h3>
+          <ul class="checklist">
+            <li>
+              <label
+                ><input type="checkbox" data-check="requirements" /> Clarify
+                requirements</label
+              >
+            </li>
+            <li>
+              <label
+                ><input type="checkbox" data-check="scale" /> Estimate
+                scale</label
+              >
+            </li>
+            <li>
+              <label
+                ><input type="checkbox" data-check="api" /> Sketch API and
+                data</label
+              >
+            </li>
+            <li>
+              <label
+                ><input type="checkbox" data-check="architecture" /> Draw the
+                architecture</label
+              >
+            </li>
+            <li>
+              <label
+                ><input type="checkbox" data-check="deep-dive" /> Choose a deep
+                dive</label
+              >
+            </li>
+            <li>
+              <label
+                ><input type="checkbox" data-check="tradeoffs" /> State
+                tradeoffs</label
+              >
+            </li>
+          </ul>
+          <button
+            id="reset-button"
+            class="action-button secondary"
+            type="button"
+          >
+            Reset draft
+          </button>
+        </aside>
+        <section class="workspace-panel" aria-live="polite">
+          <div class="workspace-title">
+            <div>
+              <h2 id="prompt-title">Design a URL shortener</h2>
+              <p id="prompt-text" class="small">
+                Create short links and redirect visitors to the original URL.
+              </p>
+            </div>
+            <button
+              id="copy-button"
+              class="action-button secondary"
+              type="button"
+            >
+              Copy notes
+            </button>
+          </div>
+          <div class="design-fields">
+            <label
+              >Functional requirements<textarea
+                data-field="requirements"
+                placeholder="What must users be able to do?"
+              ></textarea>
+            </label>
+            <label
+              >Non-functional requirements<textarea
+                data-field="non-functional"
+                placeholder="Latency, availability, freshness, privacy, or consistency goals..."
+              ></textarea>
+            </label>
+            <label
+              >Assumptions and scale<textarea
+                data-field="scale"
+                placeholder="Users, requests per second, read/write ratio, data growth..."
+              ></textarea>
+            </label>
+            <label
+              >API and data model<textarea
+                data-field="api"
+                placeholder="Endpoints, identifiers, entities, and important invariants..."
+              ></textarea>
+            </label>
+            <label
+              >Architecture diagram or request path<textarea
+                data-field="architecture"
+                placeholder="Describe the request from client to durable state. Use arrows and component names."
+              ></textarea>
+            </label>
+            <label
+              >Bottleneck and deep dive<textarea
+                data-field="deep-dive"
+                placeholder="What breaks first? Which targeted improvement would you explore?"
+              ></textarea>
+            </label>
+            <label
+              >Tradeoffs and open questions<textarea
+                data-field="tradeoffs"
+                placeholder="What does this design optimize, and what does it give up?"
+              ></textarea>
+            </label>
+          </div>
+          <div class="editor-actions">
+            <button id="save-button" class="action-button" type="button">
+              Save draft</button
+            ><span id="status" class="small">Draft autosaves as you type.</span>
+          </div>
+        </section>
+      </div>
+    </main>
+    <script>
+      const prompts = {
+        "url-shortener": {
+          title: "Design a URL shortener",
+          text: "Create short links and redirect visitors to the original URL.",
+        },
+        "photo-sharing": {
+          title: "Design a photo-sharing service",
+          text: "Upload photos, view a feed, and retrieve media reliably.",
+        },
+        "notification-service": {
+          title: "Design a notification service",
+          text: "Deliver user notifications through one or more channels.",
+        },
+      };
+      const select = document.getElementById("problem-select");
+      const fields = [...document.querySelectorAll("[data-field]")];
+      const checks = [...document.querySelectorAll("[data-check]")];
+      const status = document.getElementById("status");
+      const title = document.getElementById("prompt-title");
+      const promptText = document.getElementById("prompt-text");
+
+      function key() {
+        return `system-design-draft:${select.value}`;
+      }
+      function readDraft() {
+        return JSON.parse(localStorage.getItem(key()) || "{}");
+      }
+      function saveDraft(message = "Draft saved in this browser.") {
+        const draft = { fields: {}, checks: {} };
+        for (const field of fields)
+          draft.fields[field.dataset.field] = field.value;
+        for (const check of checks)
+          draft.checks[check.dataset.check] = check.checked;
+        localStorage.setItem(key(), JSON.stringify(draft));
+        status.textContent = message;
+      }
+      function loadDraft() {
+        const draft = readDraft();
+        const prompt = prompts[select.value];
+        title.textContent = prompt.title;
+        promptText.textContent = prompt.text;
+        for (const field of fields)
+          field.value = draft.fields?.[field.dataset.field] || "";
+        for (const check of checks)
+          check.checked = Boolean(draft.checks?.[check.dataset.check]);
+        status.textContent = "Draft loaded.";
+      }
+      select.addEventListener("change", loadDraft);
+      for (const input of [...fields, ...checks])
+        input.addEventListener("input", () => saveDraft("Draft autosaved."));
+      document
+        .getElementById("save-button")
+        .addEventListener("click", () => saveDraft());
+      document.getElementById("reset-button").addEventListener("click", () => {
+        localStorage.removeItem(key());
+        loadDraft();
+        status.textContent = "Draft reset.";
+      });
+      document
+        .getElementById("copy-button")
+        .addEventListener("click", async () => {
+          const lines = [`${title.textContent}\n${promptText.textContent}`];
+          for (const field of fields)
+            lines.push(
+              `${field.previousElementSibling.textContent}\n${field.value}`,
+            );
+          await navigator.clipboard.writeText(lines.join("\n\n"));
+          status.textContent = "Notes copied.";
+        });
+      loadDraft();
+    </script>
+  </body>
+</html>

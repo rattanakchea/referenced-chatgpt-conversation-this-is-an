@@ -15,6 +15,21 @@
 - [LeetCode Explore](https://leetcode.com/explore/)
   Practice-oriented topic tracks. Use for: extra repetitions after a lesson has introduced a pattern.
 
+## System Design
+
+- [Hello Interview: System Design in a Hurry](https://www.hellointerview.com/learn/system-design/in-a-hurry/introduction)
+  Interview-oriented overview of problem navigation, solution design, technical excellence, and communication. Use as curriculum inspiration and for additional practice; this workspace's explanations and diagrams are original.
+- [MDN: HTTP Overview](https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview)
+  High-trust reference for requests, responses, methods, status codes, and stateless application communication.
+- [Cloudflare Learning Center: What Is a CDN?](https://www.cloudflare.com/learning/cdn/what-is-a-cdn/)
+  Clear explanation of caching content near users and the performance/availability tradeoffs involved.
+- [PostgreSQL Documentation: Indexes](https://www.postgresql.org/docs/current/indexes.html)
+  Primary documentation for how indexes accelerate reads and introduce write/storage costs.
+- [AWS Well-Architected Framework: Reliability Pillar](https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/welcome.html)
+  Practical reliability principles covering recovery, failure management, and operational readiness.
+- [OpenTelemetry Documentation](https://opentelemetry.io/docs/)
+  Vendor-neutral reference for collecting traces, metrics, and logs to make system behavior observable.
+
 ## Wisdom (Communities)
 
 - [LeetCode Discuss](https://leetcode.com/discuss/)

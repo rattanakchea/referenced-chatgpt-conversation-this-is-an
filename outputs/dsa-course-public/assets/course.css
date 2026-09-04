@@ -314,6 +314,108 @@ pre code {
   padding: 12px 14px;
 }
 
+.architecture-diagram {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 18px 0;
+}
+
+.architecture-node {
+  background: var(--panel);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  color: var(--ink);
+  min-width: 126px;
+  padding: 12px;
+  text-align: center;
+}
+
+.architecture-node strong,
+.architecture-node span {
+  display: block;
+}
+
+.architecture-node span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  margin-top: 3px;
+}
+
+.architecture-arrow {
+  color: var(--accent);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.architecture-group {
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+}
+
+.architecture-group-title {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  grid-column: 1 / -1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.design-shell {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(220px, 0.7fr) minmax(420px, 1.3fr);
+}
+
+.design-fields {
+  display: grid;
+  gap: 14px;
+}
+
+.design-fields label {
+  color: var(--muted);
+  display: grid;
+  font-size: 0.86rem;
+  font-weight: 700;
+  gap: 5px;
+}
+
+.design-fields textarea,
+.design-fields select {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  font: inherit;
+  padding: 10px;
+  resize: vertical;
+  width: 100%;
+}
+
+.design-fields textarea {
+  min-height: 110px;
+}
+
+.checklist {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  margin: 14px 0;
+  padding: 0;
+}
+
+.checklist label {
+  align-items: center;
+  color: var(--ink);
+  display: flex;
+  font-weight: 400;
+  gap: 8px;
+}
+
 .practice-shell {
   display: grid;
   gap: 18px;
@@ -428,7 +530,12 @@ pre code {
   border: 1px solid #102a43;
   border-radius: 8px;
   color: #f5fbff;
-  font: 0.95rem/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font:
+    0.95rem/1.5 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Consolas,
+    monospace;
   min-height: 360px;
   padding: 14px;
   resize: vertical;
@@ -443,6 +550,10 @@ pre code {
 
 @media (max-width: 820px) {
   .practice-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .design-shell {
     grid-template-columns: 1fr;
   }
 
@@ -512,5 +623,9 @@ td {
 
   .lesson-sidebar {
     display: none;
+  }
+
+  .architecture-arrow {
+    color: #000;
   }
 }

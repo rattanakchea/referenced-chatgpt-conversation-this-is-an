@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>System Design 6: Guided URL Shortener</title>
+    <link rel="stylesheet" href="../../assets/course.css" />
+  </head>
+  <body>
+    <main class="lesson-page">
+      <header>
+        <div class="eyebrow">System Design 6</div>
+        <h1>Guided Design: URL Shortener</h1>
+        <p class="small">
+          Goal: complete one design from requirements through tradeoffs.
+        </p>
+      </header>
+      <nav class="lesson-sidebar" aria-label="System Design lessons">
+        <p class="lesson-sidebar-title">System Design</p>
+        <ul>
+          <li>
+            <a href="0001-system-design-interview-foundations.html"
+              >1. Foundations</a
+            >
+          </li>
+          <li>
+            <a href="0002-delivery-framework.html">2. Delivery framework</a>
+          </li>
+          <li>
+            <a href="0003-architecture-building-blocks.html"
+              >3. Building blocks</a
+            >
+          </li>
+          <li>
+            <a href="0004-data-and-storage-choices.html">4. Data and storage</a>
+          </li>
+          <li>
+            <a href="0005-reliability-and-performance.html">5. Reliability</a>
+          </li>
+          <li>
+            <a href="0006-guided-design-url-shortener.html" aria-current="page"
+              >6. URL shortener</a
+            >
+          </li>
+          <li class="sidebar-home"><a href="../index.html">Module home</a></li>
+          <li><a href="../practice.html">Guided practice</a></li>
+          <li><a href="../../index.html">Course home</a></li>
+        </ul>
+      </nav>
+      <section>
+        <h2>Prompt</h2>
+        <p>
+          Design a service that creates a short link for a long URL and
+          redirects visitors from the short link to the original URL. Keep the
+          first version focused on creation and redirection. Analytics, custom
+          aliases, and user accounts are optional extensions.
+        </p>
+      </section>
+      <section>
+        <h2>Clarify and Estimate</h2>
+        <ul>
+          <li>Are short links public or private?</li>
+          <li>Do links expire?</li>
+          <li>What redirect latency matters?</li>
+          <li>
+            Assume reads greatly outnumber creations and each mapping is small.
+          </li>
+        </ul>
+        <div class="callout">
+          Make the read-heavy shape explicit. It will influence caching,
+          replicas, and the redirect path.
+        </div>
+      </section>
+      <section>
+        <h2>Baseline Architecture</h2>
+        <div
+          class="architecture-diagram"
+          role="img"
+          aria-label="A URL shortener request flows from client through load balancer to stateless API, then cache and database; creation also emits an analytics event"
+        >
+          <div class="architecture-node">
+            <strong>Client</strong><span>create or redirect</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>Load balancer</strong><span>spread requests</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>URL service</strong><span>validate and route</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>Cache</strong><span>hot redirects</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>Database</strong><span>durable mapping</span>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h2>One Deep Dive</h2>
+        <p>
+          Short-code generation must avoid collisions. A service can generate a
+          unique identifier, encode it into a compact alphabet, and rely on a
+          uniqueness constraint at the database boundary. If a collision occurs,
+          retry creation. The redirect path should read the cache first, fall
+          back to the database, populate the cache, and return a redirect.
+        </p>
+        <table>
+          <tr>
+            <th>Decision</th>
+            <th>Benefit</th>
+            <th>Cost</th>
+          </tr>
+          <tr>
+            <td>Cache redirects</td>
+            <td>Lower latency and database reads.</td>
+            <td>Expiration and stale mappings.</td>
+          </tr>
+          <tr>
+            <td>Async analytics</td>
+            <td>Redirect is not blocked by event recording.</td>
+            <td>Events can arrive late or be lost without durable queueing.</td>
+          </tr>
+          <tr>
+            <td>Database uniqueness constraint</td>
+            <td>Correctness at the final boundary.</td>
+            <td>Creation may retry under collisions.</td>
+          </tr>
+        </table>
+      </section>
+      <section>
+        <h2>Practice It Yourself</h2>
+        <p>
+          Fill the full design in the
+          <a href="../practice.html">guided practice workspace</a>. Then explain
+          your architecture aloud in two minutes. The goal is not to match this
+          page; it is to make each choice traceable to a requirement or
+          pressure.
+        </p>
+        <p class="small">
+          Ask the agent to play interviewer and probe your assumptions.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

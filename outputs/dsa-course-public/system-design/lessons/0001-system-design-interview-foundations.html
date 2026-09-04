@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>System Design 1: Interview Foundations</title>
+    <link rel="stylesheet" href="../../assets/course.css" />
+  </head>
+  <body>
+    <main class="lesson-page">
+      <header>
+        <div class="eyebrow">System Design 1</div>
+        <h1>What Is a System Design Interview?</h1>
+        <p class="small">
+          Goal: understand the skill being tested before drawing boxes.
+        </p>
+      </header>
+      <nav class="lesson-sidebar" aria-label="System Design lessons">
+        <p class="lesson-sidebar-title">System Design</p>
+        <ul>
+          <li>
+            <a
+              href="0001-system-design-interview-foundations.html"
+              aria-current="page"
+              >1. Foundations</a
+            >
+          </li>
+          <li>
+            <a href="0002-delivery-framework.html">2. Delivery framework</a>
+          </li>
+          <li>
+            <a href="0003-architecture-building-blocks.html"
+              >3. Building blocks</a
+            >
+          </li>
+          <li>
+            <a href="0004-data-and-storage-choices.html">4. Data and storage</a>
+          </li>
+          <li>
+            <a href="0005-reliability-and-performance.html">5. Reliability</a>
+          </li>
+          <li>
+            <a href="0006-guided-design-url-shortener.html">6. URL shortener</a>
+          </li>
+          <li class="sidebar-home"><a href="../index.html">Module home</a></li>
+          <li><a href="../practice.html">Guided practice</a></li>
+          <li><a href="../../index.html">Course home</a></li>
+        </ul>
+      </nav>
+      <section>
+        <h2>The Shift</h2>
+        <p>
+          A coding problem usually specifies inputs, outputs, and constraints. A
+          system design prompt is intentionally incomplete. You must discover
+          what matters, choose a useful boundary, and make decisions that hold
+          up when the user count, data volume, or failure rate changes.
+        </p>
+        <div class="callout">
+          The interviewer is evaluating problem navigation, solution design,
+          technical judgment, and communication together.
+        </div>
+      </section>
+      <section>
+        <h2>What Good Progress Looks Like</h2>
+        <table>
+          <tr>
+            <th>Move</th>
+            <th>Weak version</th>
+            <th>Strong version</th>
+          </tr>
+          <tr>
+            <td>Clarify</td>
+            <td>Assume every feature.</td>
+            <td>Ask which user actions and quality goals matter today.</td>
+          </tr>
+          <tr>
+            <td>Design</td>
+            <td>Name technologies.</td>
+            <td>Connect each component to a requirement or bottleneck.</td>
+          </tr>
+          <tr>
+            <td>Scale</td>
+            <td>Say “make it distributed.”</td>
+            <td>
+              Estimate load, identify pressure, and choose a targeted change.
+            </td>
+          </tr>
+          <tr>
+            <td>Communicate</td>
+            <td>Defend the first idea.</td>
+            <td>
+              State assumptions and revise when the interviewer adds a
+              constraint.
+            </td>
+          </tr>
+        </table>
+      </section>
+      <section>
+        <h2>A Design Is a Conversation</h2>
+        <div
+          class="architecture-diagram"
+          role="img"
+          aria-label="The interviewer and candidate exchange requirements, assumptions, decisions, and tradeoffs"
+        >
+          <div class="architecture-node">
+            <strong>Prompt</strong><span>ambiguous goal</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>Questions</strong><span>scope and priorities</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>Decisions</strong><span>architecture and data</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>Tradeoffs</strong><span>why this shape?</span>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h2>Retrieval Practice</h2>
+        <div class="panel">
+          <ol>
+            <li>Why is drawing immediately risky?</li>
+            <li>Name four skills a design interview can assess.</li>
+            <li>What makes a technology choice defensible?</li>
+          </ol>
+        </div>
+      </section>
+      <section>
+        <h2>Try It</h2>
+        <p>
+          Take the prompt “Design a photo-sharing service.” Before naming any
+          component, write three clarifying questions and two explicit non-goals
+          in the <a href="../practice.html">guided practice workspace</a>.
+        </p>
+        <p class="small">
+          Primary source:
+          <a
+            href="https://www.hellointerview.com/learn/system-design/in-a-hurry/introduction"
+            >Hello Interview introduction</a
+          >. Ask the agent for feedback on your questions.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

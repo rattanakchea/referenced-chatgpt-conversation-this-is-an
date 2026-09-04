@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Architecture Building Blocks Reference</title>
+    <link rel="stylesheet" href="../../assets/course.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="eyebrow">System Design Reference</div>
+        <h1>Architecture Building Blocks</h1>
+        <p class="small">Use a component when it solves a stated pressure.</p>
+      </header>
+      <nav class="page-nav" aria-label="System Design navigation">
+        <a href="../index.html">Module home</a
+        ><a href="../roadmap.html">Roadmap</a
+        ><a href="../practice.html">Guided practice</a>
+      </nav>
+      <section>
+        <table>
+          <tr>
+            <th>Block</th>
+            <th>Primary job</th>
+            <th>Watch for</th>
+          </tr>
+          <tr>
+            <td>DNS</td>
+            <td>Map names to destinations.</td>
+            <td>Routing, caching, failover.</td>
+          </tr>
+          <tr>
+            <td>CDN</td>
+            <td>Serve cacheable content near users.</td>
+            <td>Freshness and invalidation.</td>
+          </tr>
+          <tr>
+            <td>Load balancer</td>
+            <td>Distribute requests across healthy instances.</td>
+            <td>Health checks and session state.</td>
+          </tr>
+          <tr>
+            <td>Stateless service</td>
+            <td>Validate requests and run business logic.</td>
+            <td>Keep durable state elsewhere.</td>
+          </tr>
+          <tr>
+            <td>Cache</td>
+            <td>Reduce repeated read latency/load.</td>
+            <td>Eviction and staleness.</td>
+          </tr>
+          <tr>
+            <td>Database</td>
+            <td>Store durable structured state.</td>
+            <td>Access patterns and contention.</td>
+          </tr>
+          <tr>
+            <td>Queue</td>
+            <td>Buffer and decouple asynchronous work.</td>
+            <td>Retries, ordering, poison messages.</td>
+          </tr>
+          <tr>
+            <td>Worker</td>
+            <td>Consume background work.</td>
+            <td>Concurrency and idempotency.</td>
+          </tr>
+          <tr>
+            <td>Object storage</td>
+            <td>Store large blobs by key.</td>
+            <td>Metadata, permissions, lifecycle.</td>
+          </tr>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>

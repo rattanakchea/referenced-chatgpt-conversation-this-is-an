@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reliability Patterns</title>
+    <link rel="stylesheet" href="../../assets/course.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="eyebrow">System Design Reference</div>
+        <h1>Reliability Patterns</h1>
+        <p class="small">
+          Make slow, overloaded, and failed dependencies visible in the design.
+        </p>
+      </header>
+      <nav class="page-nav" aria-label="System Design navigation">
+        <a href="../index.html">Module home</a
+        ><a href="../roadmap.html">Roadmap</a
+        ><a href="../practice.html">Guided practice</a>
+      </nav>
+      <section>
+        <table>
+          <tr>
+            <th>Pattern</th>
+            <th>Question</th>
+            <th>Guardrail</th>
+          </tr>
+          <tr>
+            <td>Timeout</td>
+            <td>How long can this dependency hold a request?</td>
+            <td>Bound resource usage.</td>
+          </tr>
+          <tr>
+            <td>Retry</td>
+            <td>Is the failure transient and the operation safe?</td>
+            <td>Backoff, jitter, retry limit.</td>
+          </tr>
+          <tr>
+            <td>Idempotency</td>
+            <td>What if the client sends the same write twice?</td>
+            <td>Key and stored result.</td>
+          </tr>
+          <tr>
+            <td>Rate limiting</td>
+            <td>Who gets protected when demand exceeds capacity?</td>
+            <td>Clear rejection behavior.</td>
+          </tr>
+          <tr>
+            <td>Backpressure</td>
+            <td>What happens when consumers fall behind?</td>
+            <td>Bound queues and shed work intentionally.</td>
+          </tr>
+          <tr>
+            <td>Observability</td>
+            <td>How will we know what is failing?</td>
+            <td>Metrics, logs, traces, ownership.</td>
+          </tr>
+        </table>
+      </section>
+      <section>
+        <h2>Reliability Review</h2>
+        <p>
+          Walk the request path and ask what happens when every dependency is
+          slow, unavailable, duplicated, or returning malformed data. Then state
+          whether the user sees a retry, fallback, partial result, or explicit
+          error.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

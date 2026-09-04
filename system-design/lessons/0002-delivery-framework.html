@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>System Design 2: Delivery Framework</title>
+    <link rel="stylesheet" href="../../assets/course.css" />
+  </head>
+  <body>
+    <main class="lesson-page">
+      <header>
+        <div class="eyebrow">System Design 2</div>
+        <h1>A Delivery Framework</h1>
+        <p class="small">
+          Goal: keep an ambiguous interview moving from requirements to
+          tradeoffs.
+        </p>
+      </header>
+      <nav class="lesson-sidebar" aria-label="System Design lessons">
+        <p class="lesson-sidebar-title">System Design</p>
+        <ul>
+          <li>
+            <a href="0001-system-design-interview-foundations.html"
+              >1. Foundations</a
+            >
+          </li>
+          <li>
+            <a href="0002-delivery-framework.html" aria-current="page"
+              >2. Delivery framework</a
+            >
+          </li>
+          <li>
+            <a href="0003-architecture-building-blocks.html"
+              >3. Building blocks</a
+            >
+          </li>
+          <li>
+            <a href="0004-data-and-storage-choices.html">4. Data and storage</a>
+          </li>
+          <li>
+            <a href="0005-reliability-and-performance.html">5. Reliability</a>
+          </li>
+          <li>
+            <a href="0006-guided-design-url-shortener.html">6. URL shortener</a>
+          </li>
+          <li class="sidebar-home"><a href="../index.html">Module home</a></li>
+          <li><a href="../practice.html">Guided practice</a></li>
+          <li><a href="../../index.html">Course home</a></li>
+        </ul>
+      </nav>
+      <section>
+        <h2>The Six Moves</h2>
+        <div
+          class="architecture-diagram"
+          role="img"
+          aria-label="Six-step delivery framework: clarify, estimate, model, design, deep dive, summarize"
+        >
+          <div class="architecture-node">
+            <strong>1. Clarify</strong><span>users and actions</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>2. Estimate</strong><span>traffic and storage</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>3. Model</strong><span>API and data</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>4. Design</strong><span>baseline path</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>5. Deep dive</strong><span>one pressure point</span>
+          </div>
+          <div class="architecture-arrow" aria-hidden="true">-&gt;</div>
+          <div class="architecture-node">
+            <strong>6. Summarize</strong><span>tradeoffs and next</span>
+          </div>
+        </div>
+      </section>
+      <section>
+        <h2>How to Use It</h2>
+        <table>
+          <tr>
+            <th>Stage</th>
+            <th>Output</th>
+            <th>Useful question</th>
+          </tr>
+          <tr>
+            <td>Clarify</td>
+            <td>Functional requirements and non-goals</td>
+            <td>What must users do, and what can wait?</td>
+          </tr>
+          <tr>
+            <td>Estimate</td>
+            <td>Order-of-magnitude scale</td>
+            <td>What is the dominant read, write, or storage pressure?</td>
+          </tr>
+          <tr>
+            <td>Model</td>
+            <td>Endpoints and entities</td>
+            <td>What must be addressed, stored, or retrieved?</td>
+          </tr>
+          <tr>
+            <td>Design</td>
+            <td>One end-to-end request path</td>
+            <td>Where does a request enter and where does data settle?</td>
+          </tr>
+          <tr>
+            <td>Deep dive</td>
+            <td>One justified improvement</td>
+            <td>What breaks first under the stated scale?</td>
+          </tr>
+          <tr>
+            <td>Summarize</td>
+            <td>Tradeoffs and open questions</td>
+            <td>What did we optimize, and what did we give up?</td>
+          </tr>
+        </table>
+      </section>
+      <section>
+        <h2>Worked Example: Paste Service</h2>
+        <p>
+          For a paste service, clarify that creating and reading pastes matter,
+          estimate that reads may dominate writes, model
+          <code>POST /pastes</code> and <code>GET /pastes/{id}</code>, draw a
+          service backed by durable storage, then deep dive into caching popular
+          reads and expiry. The framework prevents premature debate about
+          whether the database should be SQL or NoSQL.
+        </p>
+        <div class="callout">
+          The framework is a sequence for spending attention. It is not a script
+          that prevents follow-up questions.
+        </div>
+      </section>
+      <section>
+        <h2>Retrieval Practice</h2>
+        <div class="panel">
+          <ol>
+            <li>What should be written down before the architecture?</li>
+            <li>Why estimate before choosing infrastructure?</li>
+            <li>What makes a good deep dive?</li>
+          </ol>
+        </div>
+      </section>
+      <section>
+        <h2>Try It</h2>
+        <p>
+          Use the <a href="../practice.html">guided practice workspace</a> to
+          apply all six moves to “Design a URL shortener.” Keep each section to
+          a few precise bullets first.
+        </p>
+        <p class="small">
+          Primary inspiration:
+          <a
+            href="https://www.hellointerview.com/learn/system-design/in-a-hurry/introduction"
+            >Hello Interview's interview assessment overview</a
+          >. Ask the agent to challenge one of your assumptions.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
