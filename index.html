@@ -1,70 +1,181 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DSA Interview Course</title>
-  <link rel="stylesheet" href="assets/course.css">
-</head>
-<body>
-  <main>
-    <header>
-      <div class="eyebrow">Rattanak's Course</div>
-      <h1>Data Structures & Algorithms Interview Prep</h1>
-      <p class="small">A gradual Python course for big-tech software engineering interviews, from easy through medium patterns.</p>
-    </header>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DSA Interview Course</title>
+    <link rel="stylesheet" href="assets/course.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="eyebrow">Rattanak's Course</div>
+        <h1>Data Structures & Algorithms Interview Prep</h1>
+        <p class="small">
+          A gradual Python course for big-tech software engineering interviews,
+          from easy through medium patterns.
+        </p>
+      </header>
 
-    <section>
-      <h2>Start Here</h2>
-      <div class="grid">
-        <div class="panel">
-          <h3>Practice Workspace</h3>
-          <p>Pick a course or LeetCode problem and draft a Python solution beside the prompt.</p>
-          <p><a href="practice.html">Open the coding practice workspace</a></p>
+      <section>
+        <h2>Start Here</h2>
+        <div class="grid">
+          <div class="panel">
+            <h3>Practice Workspace</h3>
+            <p>
+              Pick a course or LeetCode problem and draft a Python solution
+              beside the prompt.
+            </p>
+            <p>
+              <a href="practice.html">Open the coding practice workspace</a>
+            </p>
+          </div>
+          <div class="panel">
+            <h3>Roadmap</h3>
+            <p>
+              Use this to see the full learning path and jump between lessons.
+            </p>
+            <p>
+              <a href="reference/0001-course-roadmap.html"
+                >Open the course roadmap</a
+              >
+            </p>
+          </div>
+          <div class="panel">
+            <h3>Python Cheatsheet</h3>
+            <p>Essential syntax, containers, imports, and coding templates.</p>
+            <p>
+              <a href="reference/0010-python-interview-cheatsheet.html"
+                >Open the Python cheatsheet</a
+              >
+            </p>
+          </div>
         </div>
-        <div class="panel">
-          <h3>Roadmap</h3>
-          <p>Use this to see the full learning path and jump between lessons.</p>
-          <p><a href="reference/0001-course-roadmap.html">Open the course roadmap</a></p>
-        </div>
-        <div class="panel">
-          <h3>Python Cheatsheet</h3>
-          <p>Essential syntax, containers, imports, and coding templates.</p>
-          <p><a href="reference/0010-python-interview-cheatsheet.html">Open the Python cheatsheet</a></p>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <section>
-      <h2>Lessons</h2>
-      <table>
-        <tr><th>Lesson</th><th>Focus</th></tr>
-        <tr><td><a href="lessons/0001-two-pointers-sorted-pair.html">Lesson 1</a></td><td>Two pointers for sorted pair sum</td></tr>
-        <tr><td><a href="lessons/0002-hash-map-two-sum.html">Lesson 2</a></td><td>Hash map complements for unsorted Two Sum</td></tr>
-        <tr><td><a href="lessons/0003-python-membership-and-early-return.html">Lesson 3</a></td><td>Python membership and early return</td></tr>
-        <tr><td><a href="lessons/0004-frequency-map-valid-anagram.html">Lesson 4</a></td><td>Frequency maps for anagrams</td></tr>
-        <tr><td><a href="lessons/0005-fixed-size-sliding-window.html">Lesson 5</a></td><td>Fixed-size sliding window overview</td></tr>
-        <tr><td><a href="lessons/0006-fixed-size-sliding-window-practice.html">Lesson 6</a></td><td>Fixed-size sliding window practice</td></tr>
-        <tr><td><a href="lessons/0007-variable-size-sliding-window.html">Lesson 7</a></td><td>Variable-size sliding window</td></tr>
-        <tr><td><a href="lessons/0008-stack-valid-parentheses.html">Lesson 8</a></td><td>Stack for valid parentheses</td></tr>
-        <tr><td><a href="lessons/0009-binary-search-exact-match.html">Lesson 9</a></td><td>Binary search for exact match</td></tr>
-        <tr><td><a href="lessons/0010-merge-intervals.html">Lesson 10</a></td><td>Merge intervals</td></tr>
-      </table>
-    </section>
+      <section>
+        <h2>Lessons</h2>
+        <table>
+          <tr>
+            <th>Lesson</th>
+            <th>Focus</th>
+          </tr>
+          <tr>
+            <td>
+              <a href="lessons/0001-two-pointers-sorted-pair.html">Lesson 1</a>
+            </td>
+            <td>Two pointers for sorted pair sum</td>
+          </tr>
+          <tr>
+            <td><a href="lessons/0002-hash-map-two-sum.html">Lesson 2</a></td>
+            <td>Hash map complements for unsorted Two Sum</td>
+          </tr>
+          <tr>
+            <td>
+              <a href="lessons/0003-python-membership-and-early-return.html"
+                >Lesson 3</a
+              >
+            </td>
+            <td>Python membership and early return</td>
+          </tr>
+          <tr>
+            <td>
+              <a href="lessons/0004-frequency-map-valid-anagram.html"
+                >Lesson 4</a
+              >
+            </td>
+            <td>Frequency maps for anagrams</td>
+          </tr>
+          <tr>
+            <td>
+              <a href="lessons/0005-fixed-size-sliding-window.html">Lesson 5</a>
+            </td>
+            <td>Fixed-size sliding window overview</td>
+          </tr>
+          <tr>
+            <td>
+              <a href="lessons/0006-fixed-size-sliding-window-practice.html"
+                >Lesson 6</a
+              >
+            </td>
+            <td>Fixed-size sliding window practice</td>
+          </tr>
+          <tr>
+            <td>
+              <a href="lessons/0007-variable-size-sliding-window.html"
+                >Lesson 7</a
+              >
+            </td>
+            <td>Variable-size sliding window</td>
+          </tr>
+          <tr>
+            <td>
+              <a href="lessons/0008-stack-valid-parentheses.html">Lesson 8</a>
+            </td>
+            <td>Stack for valid parentheses</td>
+          </tr>
+          <tr>
+            <td>
+              <a href="lessons/0009-binary-search-exact-match.html">Lesson 9</a>
+            </td>
+            <td>Binary search for exact match</td>
+          </tr>
+          <tr>
+            <td><a href="lessons/0010-merge-intervals.html">Lesson 10</a></td>
+            <td>Merge intervals</td>
+          </tr>
+          <tr>
+            <td><a href="lessons/0011-heap-kth-largest.html">Lesson 11</a></td>
+            <td>Heap for kth largest</td>
+          </tr>
+        </table>
+      </section>
 
-    <section>
-      <h2>References</h2>
-      <ul class="practice-list">
-        <li><a href="reference/0002-two-pointers.html">Two Pointers</a> — sorted pair and pointer-movement reasoning.</li>
-        <li><a href="reference/0003-hash-map-complements.html">Hash Map Complements</a> — unsorted Two Sum pattern.</li>
-        <li><a href="reference/0004-python-membership.html">Python Membership</a> — <code>in</code>, sets, dictionaries, and early returns.</li>
-        <li><a href="reference/0005-frequency-maps.html">Frequency Maps</a> — counting values with dictionaries.</li>
-        <li><a href="reference/0006-sliding-window.html">Sliding Window</a> — fixed-size and variable-size templates.</li>
-        <li><a href="reference/0007-stack.html">Stack</a> — list-as-stack syntax and matching problems.</li>
-        <li><a href="reference/0008-binary-search.html">Binary Search</a> — exact search and boundary reasoning.</li>
-        <li><a href="reference/0009-intervals.html">Intervals</a> — sorting ranges and merging overlaps.</li>
-      </ul>
-    </section>
-  </main>
-</body>
+      <section>
+        <h2>References</h2>
+        <ul class="practice-list">
+          <li>
+            <a href="reference/0002-two-pointers.html">Two Pointers</a> — sorted
+            pair and pointer-movement reasoning.
+          </li>
+          <li>
+            <a href="reference/0003-hash-map-complements.html"
+              >Hash Map Complements</a
+            >
+            — unsorted Two Sum pattern.
+          </li>
+          <li>
+            <a href="reference/0004-python-membership.html"
+              >Python Membership</a
+            >
+            — <code>in</code>, sets, dictionaries, and early returns.
+          </li>
+          <li>
+            <a href="reference/0005-frequency-maps.html">Frequency Maps</a> —
+            counting values with dictionaries.
+          </li>
+          <li>
+            <a href="reference/0006-sliding-window.html">Sliding Window</a> —
+            fixed-size and variable-size templates.
+          </li>
+          <li>
+            <a href="reference/0007-stack.html">Stack</a> — list-as-stack syntax
+            and matching problems.
+          </li>
+          <li>
+            <a href="reference/0008-binary-search.html">Binary Search</a> —
+            exact search and boundary reasoning.
+          </li>
+          <li>
+            <a href="reference/0009-intervals.html">Intervals</a> — sorting
+            ranges and merging overlaps.
+          </li>
+          <li>
+            <a href="reference/0011-heaps.html">Heaps</a> — keeping the best k
+            items with a priority queue.
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
 </html>

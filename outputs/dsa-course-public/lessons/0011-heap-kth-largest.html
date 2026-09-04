@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lesson 11: Heap for Kth Largest</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+  <main class="lesson-page">
+    <header>
+      <div class="eyebrow">Lesson 11</div>
+      <h1>Heap: Keep the Best K</h1>
+      <p class="small">Goal: find the kth largest value without sorting everything.</p>
+    </header>
+
+    <nav class="lesson-sidebar" aria-label="Course lessons">
+      <p class="lesson-sidebar-title">Course lessons</p>
+      <ul>
+        <li><a href="0001-two-pointers-sorted-pair.html">1. Two Pointers</a></li>
+        <li><a href="0002-hash-map-two-sum.html">2. Hash Map Two Sum</a></li>
+        <li><a href="0003-python-membership-and-early-return.html">3. Python Membership</a></li>
+        <li><a href="0004-frequency-map-valid-anagram.html">4. Frequency Maps</a></li>
+        <li><a href="0005-fixed-size-sliding-window.html">5. Fixed-Size Window</a></li>
+        <li><a href="0006-fixed-size-sliding-window-practice.html">6. Window Practice</a></li>
+        <li><a href="0007-variable-size-sliding-window.html">7. Variable-Size Window</a></li>
+        <li><a href="0008-stack-valid-parentheses.html">8. Stacks</a></li>
+        <li><a href="0009-binary-search-exact-match.html">9. Binary Search</a></li>
+        <li><a href="0010-merge-intervals.html">10. Merge Intervals</a></li>
+        <li><a href="0011-heap-kth-largest.html" aria-current="page">11. Heaps</a></li>
+        <li class="sidebar-home"><a href="../index.html">Course home</a></li>
+        <li><a href="../practice.html">Practice workspace</a></li>
+      </ul>
+    </nav>
+
+    <section>
+      <h2>What a Heap Gives You</h2>
+      <p>A heap keeps its smallest item at the front of a min-heap. Python's <code>heapq</code> module provides this operation in <code>O(log n)</code> time for each push or pop.</p>
+      <p>That makes a heap useful when you repeatedly need the next smallest or largest item, but do not need the whole collection sorted.</p>
+    </section>
+
+    <section>
+      <h2>The Interview Move</h2>
+      <p>For the kth largest value, keep a min-heap of at most <code>k</code> values. Every new value enters the heap. If the heap grows beyond <code>k</code>, remove its smallest value.</p>
+      <div class="callout">The heap's smallest item is the weakest member of the current top-k group. Removing it keeps the k strongest values, and the front is then the kth largest.</div>
+    </section>
+
+    <section>
+      <h2>Worked Example</h2>
+      <p>Find the 3rd largest value in <code>[3, 2, 1, 5, 6, 4]</code>.</p>
+      <table>
+        <tr><th>value enters</th><th>heap after repair</th><th>why</th></tr>
+        <tr><td>3, 2, 1</td><td><code>[1, 2, 3]</code></td><td>Keep three values.</td></tr>
+        <tr><td>5</td><td><code>[2, 3, 5]</code></td><td>Pop 1, the weakest top-3 candidate.</td></tr>
+        <tr><td>6</td><td><code>[3, 5, 6]</code></td><td>Pop 2.</td></tr>
+        <tr><td>4</td><td><code>[4, 5, 6]</code></td><td>Pop 3; front is 4.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Invariant</h2>
+      <p>After processing each value, the heap contains exactly the largest <code>min(k, values_seen)</code> values encountered so far. Once at least <code>k</code> values have been seen, the smallest heap value is the kth largest seen value.</p>
+    </section>
+
+    <section>
+      <h2>Python Template</h2>
+      <pre><code>import heapq
+
+def kth_largest(nums, k):
+    top_k = []
+
+    for value in nums:
+        heapq.heappush(top_k, value)
+        if len(top_k) &gt; k:
+            heapq.heappop(top_k)
+
+    return top_k[0]</code></pre>
+      <p>Time is <code>O(n log k)</code> and extra space is <code>O(k)</code>. Sorting would take <code>O(n log n)</code>.</p>
+    </section>
+
+    <section>
+      <h2>Retrieval Practice</h2>
+      <div class="panel">
+        <ol>
+          <li>Why is the heap a min-heap when we want the kth largest?</li>
+          <li>When do we pop from the heap?</li>
+          <li>What does <code>top_k[0]</code> represent after repair?</li>
+          <li>Why is the complexity <code>O(n log k)</code>?</li>
+        </ol>
+      </div>
+    </section>
+
+    <section>
+      <h2>Coding Problem</h2>
+      <p>Write <code>kth_largest(nums, k)</code>. Assume <code>1 &lt;= k &lt;= len(nums)</code>.</p>
+      <pre><code>assert kth_largest([3, 2, 1, 5, 6, 4], 2) == 5
+assert kth_largest([3, 2, 3, 1, 2, 4, 5, 5, 6], 4) == 4
+assert kth_largest([-1, -2, -3], 1) == -1</code></pre>
+    </section>
+
+    <section>
+      <h2>Common LeetCode Practice</h2>
+      <ul class="practice-list">
+        <li><a href="https://leetcode.com/problems/kth-largest-element-in-an-array/">Kth Largest Element in an Array</a> — maintain a top-k min-heap.</li>
+        <li><a href="https://leetcode.com/problems/top-k-frequent-elements/">Top K Frequent Elements</a> — combine counting with a heap.</li>
+        <li><a href="https://leetcode.com/problems/k-closest-points-to-origin/">K Closest Points to Origin</a> — keep the best k by distance.</li>
+        <li><a href="https://leetcode.com/problems/last-stone-weight/">Last Stone Weight</a> — repeatedly remove the largest items.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>References</h2>
+      <ul>
+        <li><a href="../reference/0011-heaps.html">Heaps Reference</a></li>
+        <li><a href="../reference/0009-intervals.html">Intervals Reference</a></li>
+        <li><a href="https://docs.python.org/3/library/heapq.html">Python <code>heapq</code> documentation</a></li>
+      </ul>
+      <p class="small">Ask the agent for feedback after writing the coding problem from memory.</p>
+    </section>
+  </main>
+</body>
+</html>

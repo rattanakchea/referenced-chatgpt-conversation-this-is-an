@@ -52,6 +52,7 @@
             <input id="search-filter" type="search" placeholder="two sum, window, stack">
           </label>
         </div>
+        <button id="random-button" class="action-button" type="button">Choose Random Question</button>
         <div id="question-list" class="question-list" aria-label="Coding questions"></div>
       </aside>
 
@@ -160,6 +161,17 @@
         prompt: "Repeatedly remove adjacent equal letters by using a stack.",
         starter: "def remove_adjacent_duplicates(s):\n    stack = []\n\n    # your code here\n",
         tests: "assert remove_adjacent_duplicates(\"abbaca\") == \"ca\"\nassert remove_adjacent_duplicates(\"azxxzy\") == \"ay\"\nassert remove_adjacent_duplicates(\"\") == \"\""
+      },
+      {
+        id: "lesson-kth-largest",
+        source: "lesson",
+        pattern: "Heap",
+        difficulty: "Medium",
+        title: "Kth Largest",
+        url: "lessons/0011-heap-kth-largest.html",
+        prompt: "Return the kth largest value without sorting the entire list.",
+        starter: "import heapq\n\ndef kth_largest(nums, k):\n    top_k = []\n\n    # your code here\n",
+        tests: "assert kth_largest([3, 2, 1, 5, 6, 4], 2) == 5\nassert kth_largest([3, 2, 3, 1, 2, 4, 5, 5, 6], 4) == 4\nassert kth_largest([-1, -2, -3], 1) == -1"
       },
       {
         id: "leetcode-two-sum",
@@ -346,6 +358,7 @@
     const saveButton = document.getElementById("save-button");
     const resetButton = document.getElementById("reset-button");
     const copyButton = document.getElementById("copy-button");
+    const randomButton = document.getElementById("random-button");
     let selected = questions[0];
 
     function storageKey(question) {
@@ -391,6 +404,18 @@
         empty.textContent = "No questions match these filters.";
         questionList.append(empty);
       }
+    }
+
+    function chooseRandomQuestion() {
+      const pool = questions.filter(matches);
+      if (pool.length === 0) {
+        statusEl.textContent = "No questions match these filters.";
+        return;
+      }
+
+      const choices = pool.length > 1 ? pool.filter((question) => question.id !== selected.id) : pool;
+      const question = choices[Math.floor(Math.random() * choices.length)];
+      selectQuestion(question);
     }
 
     function selectQuestion(question) {
@@ -444,6 +469,7 @@
     saveButton.addEventListener("click", saveDraft);
     resetButton.addEventListener("click", resetStarter);
     copyButton.addEventListener("click", copySolution);
+    randomButton.addEventListener("click", chooseRandomQuestion);
     editor.addEventListener("keydown", handleTab);
     editor.addEventListener("input", () => {
       localStorage.setItem(storageKey(selected), editor.value);

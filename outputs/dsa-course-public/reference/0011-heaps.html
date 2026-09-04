@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Heaps Reference</title>
+  <link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">Reference</div>
+      <h1>Heaps</h1>
+      <p class="small">Keep the next smallest or largest item available in logarithmic time.</p>
+    </header>
+
+    <nav class="page-nav" aria-label="Course navigation">
+      <a href="../index.html">Course home</a>
+      <a href="../lessons/0011-heap-kth-largest.html">Lesson 11</a>
+    </nav>
+
+    <section>
+      <h2>Top-K Template</h2>
+      <pre><code>import heapq
+
+def kth_largest(nums, k):
+    top_k = []
+    for value in nums:
+        heapq.heappush(top_k, value)
+        if len(top_k) &gt; k:
+            heapq.heappop(top_k)
+    return top_k[0]</code></pre>
+    </section>
+
+    <section>
+      <h2>Core Question</h2>
+      <p>Do I repeatedly need the next smallest or largest item? If yes, a heap may avoid sorting the entire input.</p>
+      <table>
+        <tr><th>Goal</th><th>Common heap</th><th>Keep</th></tr>
+        <tr><td>kth largest</td><td>Min-heap</td><td>At most k largest values.</td></tr>
+        <tr><td>kth smallest</td><td>Max-heap via negation</td><td>At most k smallest values.</td></tr>
+        <tr><td>Always process earliest item</td><td>Min-heap</td><td>Pending items ordered by priority.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Complexity</h2>
+      <p>Each push or pop costs <code>O(log k)</code> when the heap is bounded by k. Processing n values costs <code>O(n log k)</code>; the heap uses <code>O(k)</code> extra space.</p>
+    </section>
+  </main>
+</body>
+</html>

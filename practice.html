@@ -1,454 +1,950 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Practice Workspace</title>
-  <link rel="stylesheet" href="assets/course.css">
-</head>
-<body>
-  <main class="wide">
-    <header>
-      <div class="eyebrow">Practice</div>
-      <h1>Coding Question Picker</h1>
-      <p class="small">Pick a course problem or one of the 75 questions in the LeetCode 75 study plan, then draft your Python solution in the editor.</p>
-    </header>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Practice Workspace</title>
+    <link rel="stylesheet" href="assets/course.css" />
+  </head>
+  <body>
+    <main class="wide">
+      <header>
+        <div class="eyebrow">Practice</div>
+        <h1>Coding Question Picker</h1>
+        <p class="small">
+          Pick a course problem or one of the 75 questions in the LeetCode 75
+          study plan, then draft your Python solution in the editor.
+        </p>
+      </header>
 
-    <nav class="page-nav" aria-label="Course navigation">
-      <a href="index.html">Course home</a>
-      <a href="reference/0001-course-roadmap.html">Roadmap</a>
-      <a href="reference/0010-python-interview-cheatsheet.html">Python Cheatsheet</a>
-    </nav>
+      <nav class="page-nav" aria-label="Course navigation">
+        <a href="index.html">Course home</a>
+        <a href="reference/0001-course-roadmap.html">Roadmap</a>
+        <a href="reference/0010-python-interview-cheatsheet.html"
+          >Python Cheatsheet</a
+        >
+      </nav>
 
-    <div class="practice-shell">
-      <aside class="workspace-panel">
-        <div class="picker-controls">
-          <label>
-            Source
-            <select id="source-filter">
-              <option value="all">All</option>
-              <option value="lesson">Lessons</option>
-              <option value="leetcode">LeetCode</option>
-            </select>
-          </label>
-          <label>
-            Pattern
-            <select id="pattern-filter">
-              <option value="all">All</option>
-            </select>
-          </label>
-          <label>
-            Difficulty
-            <select id="difficulty-filter">
-              <option value="all">All</option>
-              <option value="Easy">Easy</option>
-              <option value="Easy-Medium">Easy-Medium</option>
-              <option value="Medium">Medium</option>
-              <option value="Medium+">Medium+</option>
-            </select>
-          </label>
-          <label>
-            Search
-            <input id="search-filter" type="search" placeholder="two sum, window, stack">
-          </label>
-        </div>
-        <div id="question-list" class="question-list" aria-label="Coding questions"></div>
-      </aside>
-
-      <section class="workspace-panel" aria-live="polite">
-        <div class="workspace-title">
-          <div>
-            <h2 id="question-title">Choose a problem</h2>
-            <p id="question-meta" class="small">Your saved answer stays in this browser.</p>
+      <div class="practice-shell">
+        <aside class="workspace-panel">
+          <div class="picker-controls">
+            <label>
+              Source
+              <select id="source-filter">
+                <option value="all">All</option>
+                <option value="lesson">Lessons</option>
+                <option value="leetcode">LeetCode</option>
+              </select>
+            </label>
+            <label>
+              Pattern
+              <select id="pattern-filter">
+                <option value="all">All</option>
+              </select>
+            </label>
+            <label>
+              Difficulty
+              <select id="difficulty-filter">
+                <option value="all">All</option>
+                <option value="Easy">Easy</option>
+                <option value="Easy-Medium">Easy-Medium</option>
+                <option value="Medium">Medium</option>
+                <option value="Medium+">Medium+</option>
+              </select>
+            </label>
+            <label>
+              Search
+              <input
+                id="search-filter"
+                type="search"
+                placeholder="two sum, window, stack"
+              />
+            </label>
           </div>
-          <a id="external-link" class="action-button secondary" href="#" target="_blank" rel="noreferrer">Open</a>
-        </div>
+          <button id="random-button" class="action-button" type="button">
+            Choose Random Question
+          </button>
+          <div
+            id="question-list"
+            class="question-list"
+            aria-label="Coding questions"
+          ></div>
+        </aside>
 
-        <section>
-          <h3>Prompt</h3>
-          <p id="question-prompt"></p>
-        </section>
-
-        <section>
-          <h3>Starter</h3>
-          <pre><code id="starter-code"></code></pre>
-        </section>
-
-        <section>
-          <h3>Tests</h3>
-          <pre class="test-block"><code id="test-code"></code></pre>
-        </section>
-
-        <section>
-          <h3>Your Python Solution</h3>
-          <textarea id="editor" class="editor" spellcheck="false"></textarea>
-          <div class="editor-actions">
-            <button id="save-button" class="action-button" type="button">Save Draft</button>
-            <button id="reset-button" class="action-button secondary" type="button">Reset Starter</button>
-            <button id="copy-button" class="action-button secondary" type="button">Copy Solution</button>
+        <section class="workspace-panel" aria-live="polite">
+          <div class="workspace-title">
+            <div>
+              <h2 id="question-title">Choose a problem</h2>
+              <p id="question-meta" class="small">
+                Your saved answer stays in this browser.
+              </p>
+            </div>
+            <a
+              id="external-link"
+              class="action-button secondary"
+              href="#"
+              target="_blank"
+              rel="noreferrer"
+              >Open</a
+            >
           </div>
-          <p id="status" class="small">Pick a question to begin.</p>
+
+          <section>
+            <h3>Prompt</h3>
+            <p id="question-prompt"></p>
+          </section>
+
+          <section>
+            <h3>Starter</h3>
+            <pre><code id="starter-code"></code></pre>
+          </section>
+
+          <section>
+            <h3>Tests</h3>
+            <pre class="test-block"><code id="test-code"></code></pre>
+          </section>
+
+          <section>
+            <h3>Your Python Solution</h3>
+            <textarea id="editor" class="editor" spellcheck="false"></textarea>
+            <div class="editor-actions">
+              <button id="save-button" class="action-button" type="button">
+                Save Draft
+              </button>
+              <button
+                id="reset-button"
+                class="action-button secondary"
+                type="button"
+              >
+                Reset Starter
+              </button>
+              <button
+                id="copy-button"
+                class="action-button secondary"
+                type="button"
+              >
+                Copy Solution
+              </button>
+            </div>
+            <p id="status" class="small">Pick a question to begin.</p>
+          </section>
         </section>
-      </section>
-    </div>
-  </main>
+      </div>
+    </main>
 
-  <script>
-    const questions = [
-      {
-        id: "lesson-two-sum-sorted",
-        source: "lesson",
-        pattern: "Two Pointers",
-        difficulty: "Easy",
-        title: "Two Sum Sorted",
-        url: "lessons/0001-two-pointers-sorted-pair.html",
-        prompt: "Return the two indices of a valid pair in a sorted list, or [-1, -1] if no pair exists.",
-        starter: "def two_sum_sorted(nums, target):\n    left = 0\n    right = len(nums) - 1\n\n    # your code here\n",
-        tests: "assert two_sum_sorted([1, 2, 4, 7, 11], 9) == [1, 3]\nassert two_sum_sorted([1, 3, 5, 8], 10) == [-1, -1]\nassert two_sum_sorted([-4, -1, 0, 3, 10], 2) == [1, 3]"
-      },
-      {
-        id: "lesson-contains-duplicate",
-        source: "lesson",
-        pattern: "Hash Set",
-        difficulty: "Easy",
-        title: "Contains Duplicate",
-        url: "lessons/0002-hash-map-two-sum.html",
-        prompt: "Return True if any value appears at least twice; otherwise return False.",
-        starter: "def contains_duplicate(nums):\n    seen = set()\n\n    # your code here\n",
-        tests: "assert contains_duplicate([1, 2, 3, 1]) is True\nassert contains_duplicate([1, 2, 3, 4]) is False\nassert contains_duplicate([]) is False\nassert contains_duplicate([-1, -2, -1]) is True"
-      },
-      {
-        id: "lesson-first-repeat",
-        source: "lesson",
-        pattern: "Hash Set",
-        difficulty: "Easy",
-        title: "First Repeated Value",
-        url: "lessons/0003-python-membership-and-early-return.html",
-        prompt: "Return the first value that appears for a second time while scanning left to right. Return None if there is no repeat.",
-        starter: "def first_repeated_value(nums):\n    seen = set()\n\n    # your code here\n",
-        tests: "assert first_repeated_value([2, 5, 1, 2, 3, 5]) == 2\nassert first_repeated_value([1, 2, 3]) is None\nassert first_repeated_value([]) is None\nassert first_repeated_value([7, 7, 8]) == 7"
-      },
-      {
-        id: "lesson-is-anagram",
-        source: "lesson",
-        pattern: "Frequency Map",
-        difficulty: "Easy",
-        title: "Valid Anagram",
-        url: "lessons/0004-frequency-map-valid-anagram.html",
-        prompt: "Return True if both strings have exactly the same character counts.",
-        starter: "def is_anagram(a, b):\n    # your code here\n",
-        tests: "assert is_anagram(\"listen\", \"silent\") is True\nassert is_anagram(\"rat\", \"car\") is False\nassert is_anagram(\"aabb\", \"baba\") is True\nassert is_anagram(\"aabb\", \"abb\") is False"
-      },
-      {
-        id: "lesson-max-average-k",
-        source: "lesson",
-        pattern: "Sliding Window",
-        difficulty: "Easy",
-        title: "Max Average Size K",
-        url: "lessons/0005-fixed-size-sliding-window.html",
-        prompt: "Return the largest average of any exactly length-k subarray. Return None if k is larger than the list.",
-        starter: "def max_average_size_k(nums, k):\n    # your code here\n",
-        tests: "assert max_average_size_k([2, 1, 5, 1, 3], 3) == 3\nassert max_average_size_k([1, 12, -5, -6, 50, 3], 4) == 12.75\nassert max_average_size_k([5], 2) is None\nassert max_average_size_k([4, 4, 4], 1) == 4"
-      },
-      {
-        id: "lesson-remove-adjacent",
-        source: "lesson",
-        pattern: "Stack",
-        difficulty: "Easy",
-        title: "Remove Adjacent Duplicates",
-        url: "lessons/0008-stack-valid-parentheses.html",
-        prompt: "Repeatedly remove adjacent equal letters by using a stack.",
-        starter: "def remove_adjacent_duplicates(s):\n    stack = []\n\n    # your code here\n",
-        tests: "assert remove_adjacent_duplicates(\"abbaca\") == \"ca\"\nassert remove_adjacent_duplicates(\"azxxzy\") == \"ay\"\nassert remove_adjacent_duplicates(\"\") == \"\""
-      },
-      {
-        id: "leetcode-two-sum",
+    <script>
+      const questions = [
+        {
+          id: "lesson-two-sum-sorted",
+          source: "lesson",
+          pattern: "Two Pointers",
+          difficulty: "Easy",
+          title: "Two Sum Sorted",
+          url: "lessons/0001-two-pointers-sorted-pair.html",
+          prompt:
+            "Return the two indices of a valid pair in a sorted list, or [-1, -1] if no pair exists.",
+          starter:
+            "def two_sum_sorted(nums, target):\n    left = 0\n    right = len(nums) - 1\n\n    # your code here\n",
+          tests:
+            "assert two_sum_sorted([1, 2, 4, 7, 11], 9) == [1, 3]\nassert two_sum_sorted([1, 3, 5, 8], 10) == [-1, -1]\nassert two_sum_sorted([-4, -1, 0, 3, 10], 2) == [1, 3]",
+        },
+        {
+          id: "lesson-contains-duplicate",
+          source: "lesson",
+          pattern: "Hash Set",
+          difficulty: "Easy",
+          title: "Contains Duplicate",
+          url: "lessons/0002-hash-map-two-sum.html",
+          prompt:
+            "Return True if any value appears at least twice; otherwise return False.",
+          starter:
+            "def contains_duplicate(nums):\n    seen = set()\n\n    # your code here\n",
+          tests:
+            "assert contains_duplicate([1, 2, 3, 1]) is True\nassert contains_duplicate([1, 2, 3, 4]) is False\nassert contains_duplicate([]) is False\nassert contains_duplicate([-1, -2, -1]) is True",
+        },
+        {
+          id: "lesson-first-repeat",
+          source: "lesson",
+          pattern: "Hash Set",
+          difficulty: "Easy",
+          title: "First Repeated Value",
+          url: "lessons/0003-python-membership-and-early-return.html",
+          prompt:
+            "Return the first value that appears for a second time while scanning left to right. Return None if there is no repeat.",
+          starter:
+            "def first_repeated_value(nums):\n    seen = set()\n\n    # your code here\n",
+          tests:
+            "assert first_repeated_value([2, 5, 1, 2, 3, 5]) == 2\nassert first_repeated_value([1, 2, 3]) is None\nassert first_repeated_value([]) is None\nassert first_repeated_value([7, 7, 8]) == 7",
+        },
+        {
+          id: "lesson-is-anagram",
+          source: "lesson",
+          pattern: "Frequency Map",
+          difficulty: "Easy",
+          title: "Valid Anagram",
+          url: "lessons/0004-frequency-map-valid-anagram.html",
+          prompt:
+            "Return True if both strings have exactly the same character counts.",
+          starter: "def is_anagram(a, b):\n    # your code here\n",
+          tests:
+            'assert is_anagram("listen", "silent") is True\nassert is_anagram("rat", "car") is False\nassert is_anagram("aabb", "baba") is True\nassert is_anagram("aabb", "abb") is False',
+        },
+        {
+          id: "lesson-max-average-k",
+          source: "lesson",
+          pattern: "Sliding Window",
+          difficulty: "Easy",
+          title: "Max Average Size K",
+          url: "lessons/0005-fixed-size-sliding-window.html",
+          prompt:
+            "Return the largest average of any exactly length-k subarray. Return None if k is larger than the list.",
+          starter: "def max_average_size_k(nums, k):\n    # your code here\n",
+          tests:
+            "assert max_average_size_k([2, 1, 5, 1, 3], 3) == 3\nassert max_average_size_k([1, 12, -5, -6, 50, 3], 4) == 12.75\nassert max_average_size_k([5], 2) is None\nassert max_average_size_k([4, 4, 4], 1) == 4",
+        },
+        {
+          id: "lesson-remove-adjacent",
+          source: "lesson",
+          pattern: "Stack",
+          difficulty: "Easy",
+          title: "Remove Adjacent Duplicates",
+          url: "lessons/0008-stack-valid-parentheses.html",
+          prompt: "Repeatedly remove adjacent equal letters by using a stack.",
+          starter:
+            "def remove_adjacent_duplicates(s):\n    stack = []\n\n    # your code here\n",
+          tests:
+            'assert remove_adjacent_duplicates("abbaca") == "ca"\nassert remove_adjacent_duplicates("azxxzy") == "ay"\nassert remove_adjacent_duplicates("") == ""',
+        },
+        {
+          id: "lesson-kth-largest",
+          source: "lesson",
+          pattern: "Heap",
+          difficulty: "Medium",
+          title: "Kth Largest",
+          url: "lessons/0011-heap-kth-largest.html",
+          prompt:
+            "Return the kth largest value without sorting the entire list.",
+          starter:
+            "import heapq\n\ndef kth_largest(nums, k):\n    top_k = []\n\n    # your code here\n",
+          tests:
+            "assert kth_largest([3, 2, 1, 5, 6, 4], 2) == 5\nassert kth_largest([3, 2, 3, 1, 2, 4, 5, 5, 6], 4) == 4\nassert kth_largest([-1, -2, -3], 1) == -1",
+        },
+        {
+          id: "leetcode-two-sum",
+          source: "leetcode",
+          pattern: "Hash Map",
+          difficulty: "Easy",
+          title: "Two Sum",
+          url: "https://leetcode.com/problems/two-sum/",
+          prompt:
+            "Given nums and target, return indices of two numbers that add up to target.",
+          starter:
+            "def twoSum(nums, target):\n    seen = {}\n\n    # your code here\n",
+          tests:
+            "assert sorted(twoSum([2, 7, 11, 15], 9)) == [0, 1]\nassert sorted(twoSum([3, 2, 4], 6)) == [1, 2]",
+        },
+        {
+          id: "leetcode-container",
+          source: "leetcode",
+          pattern: "Two Pointers",
+          difficulty: "Medium",
+          title: "Container With Most Water",
+          url: "https://leetcode.com/problems/container-with-most-water/",
+          prompt:
+            "Choose two lines that hold the most water. Return the maximum area.",
+          starter:
+            "def maxArea(height):\n    left = 0\n    right = len(height) - 1\n    best = 0\n\n    # your code here\n",
+          tests:
+            "assert maxArea([1,8,6,2,5,4,8,3,7]) == 49\nassert maxArea([1,1]) == 1",
+        },
+        {
+          id: "leetcode-three-sum",
+          source: "leetcode",
+          pattern: "Two Pointers",
+          difficulty: "Medium",
+          title: "3Sum",
+          url: "https://leetcode.com/problems/3sum/",
+          prompt: "Return all unique triplets [a, b, c] where a + b + c == 0.",
+          starter:
+            "def threeSum(nums):\n    nums.sort()\n    result = []\n\n    # your code here\n",
+          tests:
+            "assert threeSum([-1,0,1,2,-1,-4]) == [[-1,-1,2],[-1,0,1]]\nassert threeSum([0,0,0,0]) == [[0,0,0]]",
+        },
+        {
+          id: "leetcode-longest-substring",
+          source: "leetcode",
+          pattern: "Sliding Window",
+          difficulty: "Medium",
+          title: "Longest Substring Without Repeating Characters",
+          url: "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
+          prompt:
+            "Return the length of the longest substring without repeating characters.",
+          starter:
+            "def lengthOfLongestSubstring(s):\n    left = 0\n    window = set()\n    best = 0\n\n    # your code here\n",
+          tests:
+            'assert lengthOfLongestSubstring("abcabcbb") == 3\nassert lengthOfLongestSubstring("bbbbb") == 1\nassert lengthOfLongestSubstring("") == 0',
+        },
+        {
+          id: "leetcode-valid-parentheses",
+          source: "leetcode",
+          pattern: "Stack",
+          difficulty: "Easy",
+          title: "Valid Parentheses",
+          url: "https://leetcode.com/problems/valid-parentheses/",
+          prompt: "Return True if brackets close in the correct order.",
+          starter:
+            'def isValid(s):\n    pairs = {")": "(", "]": "[", "}": "{"}\n    stack = []\n\n    # your code here\n',
+          tests:
+            'assert isValid("()[]{}") is True\nassert isValid("([)]") is False\nassert isValid("([])") is True',
+        },
+        {
+          id: "leetcode-binary-search",
+          source: "leetcode",
+          pattern: "Binary Search",
+          difficulty: "Easy",
+          title: "Binary Search",
+          url: "https://leetcode.com/problems/binary-search/",
+          prompt:
+            "Return the index of target in a sorted list, or -1 if not found.",
+          starter:
+            "def search(nums, target):\n    left = 0\n    right = len(nums) - 1\n\n    # your code here\n",
+          tests:
+            "assert search([-1,0,3,5,9,12], 9) == 4\nassert search([-1,0,3,5,9,12], 2) == -1",
+        },
+        {
+          id: "leetcode-merge-intervals",
+          source: "leetcode",
+          pattern: "Intervals",
+          difficulty: "Medium",
+          title: "Merge Intervals",
+          url: "https://leetcode.com/problems/merge-intervals/",
+          prompt: "Merge all overlapping intervals and return the result.",
+          starter: "def merge(intervals):\n    # your code here\n",
+          tests:
+            "assert merge([[1,3],[2,6],[8,10],[15,18]]) == [[1,6],[8,10],[15,18]]\nassert merge([[1,4],[4,5]]) == [[1,5]]",
+        },
+      ];
+
+      const leetcode75Questions = [
+        [
+          "1768",
+          "Array / String",
+          "Merge Strings Alternately",
+          "merge-strings-alternately",
+          "Easy",
+        ],
+        [
+          "1071",
+          "Array / String",
+          "Greatest Common Divisor of Strings",
+          "greatest-common-divisor-of-strings",
+          "Easy",
+        ],
+        [
+          "1431",
+          "Array / String",
+          "Kids With the Greatest Number of Candies",
+          "kids-with-the-greatest-number-of-candies",
+          "Easy",
+        ],
+        [
+          "605",
+          "Array / String",
+          "Can Place Flowers",
+          "can-place-flowers",
+          "Easy",
+        ],
+        [
+          "345",
+          "Array / String",
+          "Reverse Vowels of a String",
+          "reverse-vowels-of-a-string",
+          "Easy",
+        ],
+        [
+          "151",
+          "Array / String",
+          "Reverse Words in a String",
+          "reverse-words-in-a-string",
+          "Medium",
+        ],
+        [
+          "238",
+          "Array / String",
+          "Product of Array Except Self",
+          "product-of-array-except-self",
+          "Medium",
+        ],
+        [
+          "334",
+          "Array / String",
+          "Increasing Triplet Subsequence",
+          "increasing-triplet-subsequence",
+          "Medium",
+        ],
+        [
+          "443",
+          "Array / String",
+          "String Compression",
+          "string-compression",
+          "Medium",
+        ],
+        ["283", "Two Pointers", "Move Zeroes", "move-zeroes", "Easy"],
+        ["392", "Two Pointers", "Is Subsequence", "is-subsequence", "Easy"],
+        [
+          "11",
+          "Two Pointers",
+          "Container With Most Water",
+          "container-with-most-water",
+          "Medium",
+        ],
+        [
+          "1679",
+          "Two Pointers",
+          "Max Number of K-Sum Pairs",
+          "max-number-of-k-sum-pairs",
+          "Medium",
+        ],
+        [
+          "643",
+          "Sliding Window",
+          "Maximum Average Subarray I",
+          "maximum-average-subarray-i",
+          "Easy",
+        ],
+        [
+          "1456",
+          "Sliding Window",
+          "Maximum Number of Vowels in a Substring of Given Length",
+          "maximum-number-of-vowels-in-a-substring-of-given-length",
+          "Medium",
+        ],
+        [
+          "1004",
+          "Sliding Window",
+          "Max Consecutive Ones III",
+          "max-consecutive-ones-iii",
+          "Medium",
+        ],
+        [
+          "1493",
+          "Sliding Window",
+          "Longest Subarray of 1's After Deleting One Element",
+          "longest-subarray-of-1s-after-deleting-one-element",
+          "Medium",
+        ],
+        [
+          "1732",
+          "Prefix Sum",
+          "Find the Highest Altitude",
+          "find-the-highest-altitude",
+          "Easy",
+        ],
+        ["724", "Prefix Sum", "Find Pivot Index", "find-pivot-index", "Easy"],
+        [
+          "2215",
+          "Hash Map / Set",
+          "Find the Difference of Two Arrays",
+          "find-the-difference-of-two-arrays",
+          "Easy",
+        ],
+        [
+          "1207",
+          "Hash Map / Set",
+          "Unique Number of Occurrences",
+          "unique-number-of-occurrences",
+          "Easy",
+        ],
+        [
+          "1657",
+          "Hash Map / Set",
+          "Determine if Two Strings Are Close",
+          "determine-if-two-strings-are-close",
+          "Medium",
+        ],
+        [
+          "2352",
+          "Hash Map / Set",
+          "Equal Row and Column Pairs",
+          "equal-row-and-column-pairs",
+          "Medium",
+        ],
+        [
+          "2390",
+          "Stack",
+          "Removing Stars From a String",
+          "removing-stars-from-a-string",
+          "Medium",
+        ],
+        ["735", "Stack", "Asteroid Collision", "asteroid-collision", "Medium"],
+        ["394", "Stack", "Decode String", "decode-string", "Medium"],
+        [
+          "933",
+          "Queue",
+          "Number of Recent Calls",
+          "number-of-recent-calls",
+          "Easy",
+        ],
+        ["649", "Queue", "Dota2 Senate", "dota2-senate", "Medium"],
+        [
+          "2095",
+          "Linked List",
+          "Delete the Middle Node of a Linked List",
+          "delete-the-middle-node-of-a-linked-list",
+          "Medium",
+        ],
+        [
+          "328",
+          "Linked List",
+          "Odd Even Linked List",
+          "odd-even-linked-list",
+          "Medium",
+        ],
+        [
+          "206",
+          "Linked List",
+          "Reverse Linked List",
+          "reverse-linked-list",
+          "Easy",
+        ],
+        [
+          "2130",
+          "Linked List",
+          "Maximum Twin Sum of a Linked List",
+          "maximum-twin-sum-of-a-linked-list",
+          "Medium",
+        ],
+        [
+          "104",
+          "Binary Tree - DFS",
+          "Maximum Depth of Binary Tree",
+          "maximum-depth-of-binary-tree",
+          "Easy",
+        ],
+        [
+          "872",
+          "Binary Tree - DFS",
+          "Leaf-Similar Trees",
+          "leaf-similar-trees",
+          "Easy",
+        ],
+        [
+          "1448",
+          "Binary Tree - DFS",
+          "Count Good Nodes in Binary Tree",
+          "count-good-nodes-in-binary-tree",
+          "Medium",
+        ],
+        ["437", "Binary Tree - DFS", "Path Sum III", "path-sum-iii", "Medium"],
+        [
+          "1372",
+          "Binary Tree - DFS",
+          "Longest ZigZag Path in a Binary Tree",
+          "longest-zigzag-path-in-a-binary-tree",
+          "Medium",
+        ],
+        [
+          "236",
+          "Binary Tree - DFS",
+          "Lowest Common Ancestor of a Binary Tree",
+          "lowest-common-ancestor-of-a-binary-tree",
+          "Medium",
+        ],
+        [
+          "199",
+          "Binary Tree - BFS",
+          "Binary Tree Right Side View",
+          "binary-tree-right-side-view",
+          "Medium",
+        ],
+        [
+          "1161",
+          "Binary Tree - BFS",
+          "Maximum Level Sum of a Binary Tree",
+          "maximum-level-sum-of-a-binary-tree",
+          "Medium",
+        ],
+        [
+          "700",
+          "Binary Search Tree",
+          "Search in a Binary Search Tree",
+          "search-in-a-binary-search-tree",
+          "Easy",
+        ],
+        [
+          "450",
+          "Binary Search Tree",
+          "Delete Node in a BST",
+          "delete-node-in-a-bst",
+          "Medium",
+        ],
+        ["841", "Graphs - DFS", "Keys and Rooms", "keys-and-rooms", "Medium"],
+        [
+          "547",
+          "Graphs - DFS",
+          "Number of Provinces",
+          "number-of-provinces",
+          "Medium",
+        ],
+        [
+          "1466",
+          "Graphs - DFS",
+          "Reorder Routes to Make All Paths Lead to the City Zero",
+          "reorder-routes-to-make-all-paths-lead-to-the-city-zero",
+          "Medium",
+        ],
+        [
+          "399",
+          "Graphs - DFS",
+          "Evaluate Division",
+          "evaluate-division",
+          "Medium",
+        ],
+        [
+          "1926",
+          "Graphs - BFS",
+          "Nearest Exit from Entrance in Maze",
+          "nearest-exit-from-entrance-in-maze",
+          "Medium",
+        ],
+        ["994", "Graphs - BFS", "Rotting Oranges", "rotting-oranges", "Medium"],
+        [
+          "215",
+          "Heap / Priority Queue",
+          "Kth Largest Element in an Array",
+          "kth-largest-element-in-an-array",
+          "Medium",
+        ],
+        [
+          "2336",
+          "Heap / Priority Queue",
+          "Smallest Number in Infinite Set",
+          "smallest-number-in-infinite-set",
+          "Medium",
+        ],
+        [
+          "2542",
+          "Heap / Priority Queue",
+          "Maximum Subsequence Score",
+          "maximum-subsequence-score",
+          "Medium",
+        ],
+        [
+          "2462",
+          "Heap / Priority Queue",
+          "Total Cost to Hire K Workers",
+          "total-cost-to-hire-k-workers",
+          "Medium",
+        ],
+        [
+          "374",
+          "Binary Search",
+          "Guess Number Higher or Lower",
+          "guess-number-higher-or-lower",
+          "Easy",
+        ],
+        [
+          "2300",
+          "Binary Search",
+          "Successful Pairs of Spells and Potions",
+          "successful-pairs-of-spells-and-potions",
+          "Medium",
+        ],
+        [
+          "162",
+          "Binary Search",
+          "Find Peak Element",
+          "find-peak-element",
+          "Medium",
+        ],
+        [
+          "875",
+          "Binary Search",
+          "Koko Eating Bananas",
+          "koko-eating-bananas",
+          "Medium",
+        ],
+        [
+          "17",
+          "Backtracking",
+          "Letter Combinations of a Phone Number",
+          "letter-combinations-of-a-phone-number",
+          "Medium",
+        ],
+        [
+          "216",
+          "Backtracking",
+          "Combination Sum III",
+          "combination-sum-iii",
+          "Medium",
+        ],
+        [
+          "1137",
+          "DP - 1D",
+          "N-th Tribonacci Number",
+          "n-th-tribonacci-number",
+          "Easy",
+        ],
+        [
+          "746",
+          "DP - 1D",
+          "Min Cost Climbing Stairs",
+          "min-cost-climbing-stairs",
+          "Easy",
+        ],
+        ["198", "DP - 1D", "House Robber", "house-robber", "Medium"],
+        [
+          "790",
+          "DP - 1D",
+          "Domino and Tromino Tiling",
+          "domino-and-tromino-tiling",
+          "Medium",
+        ],
+        [
+          "62",
+          "DP - Multidimensional",
+          "Unique Paths",
+          "unique-paths",
+          "Medium",
+        ],
+        [
+          "1143",
+          "DP - Multidimensional",
+          "Longest Common Subsequence",
+          "longest-common-subsequence",
+          "Medium",
+        ],
+        [
+          "714",
+          "DP - Multidimensional",
+          "Best Time to Buy and Sell Stock with Transaction Fee",
+          "best-time-to-buy-and-sell-stock-with-transaction-fee",
+          "Medium",
+        ],
+        [
+          "72",
+          "DP - Multidimensional",
+          "Edit Distance",
+          "edit-distance",
+          "Medium",
+        ],
+        ["338", "Bit Manipulation", "Counting Bits", "counting-bits", "Easy"],
+        ["136", "Bit Manipulation", "Single Number", "single-number", "Easy"],
+        [
+          "1318",
+          "Bit Manipulation",
+          "Minimum Flips to Make a OR b Equal to c",
+          "minimum-flips-to-make-a-or-b-equal-to-c",
+          "Medium",
+        ],
+        [
+          "208",
+          "Trie",
+          "Implement Trie (Prefix Tree)",
+          "implement-trie-prefix-tree",
+          "Medium",
+        ],
+        [
+          "1268",
+          "Trie",
+          "Search Suggestions System",
+          "search-suggestions-system",
+          "Medium",
+        ],
+        [
+          "435",
+          "Intervals",
+          "Non-overlapping Intervals",
+          "non-overlapping-intervals",
+          "Medium",
+        ],
+        [
+          "452",
+          "Intervals",
+          "Minimum Number of Arrows to Burst Balloons",
+          "minimum-number-of-arrows-to-burst-balloons",
+          "Medium",
+        ],
+        [
+          "739",
+          "Monotonic Stack",
+          "Daily Temperatures",
+          "daily-temperatures",
+          "Medium",
+        ],
+        [
+          "901",
+          "Monotonic Stack",
+          "Online Stock Span",
+          "online-stock-span",
+          "Medium",
+        ],
+      ].map(([number, pattern, title, slug, difficulty]) => ({
+        id: `leetcode-75-${number}`,
         source: "leetcode",
-        pattern: "Hash Map",
-        difficulty: "Easy",
-        title: "Two Sum",
-        url: "https://leetcode.com/problems/two-sum/",
-        prompt: "Given nums and target, return indices of two numbers that add up to target.",
-        starter: "def twoSum(nums, target):\n    seen = {}\n\n    # your code here\n",
-        tests: "assert sorted(twoSum([2, 7, 11, 15], 9)) == [0, 1]\nassert sorted(twoSum([3, 2, 4], 6)) == [1, 2]"
-      },
-      {
-        id: "leetcode-container",
-        source: "leetcode",
-        pattern: "Two Pointers",
-        difficulty: "Medium",
-        title: "Container With Most Water",
-        url: "https://leetcode.com/problems/container-with-most-water/",
-        prompt: "Choose two lines that hold the most water. Return the maximum area.",
-        starter: "def maxArea(height):\n    left = 0\n    right = len(height) - 1\n    best = 0\n\n    # your code here\n",
-        tests: "assert maxArea([1,8,6,2,5,4,8,3,7]) == 49\nassert maxArea([1,1]) == 1"
-      },
-      {
-        id: "leetcode-three-sum",
-        source: "leetcode",
-        pattern: "Two Pointers",
-        difficulty: "Medium",
-        title: "3Sum",
-        url: "https://leetcode.com/problems/3sum/",
-        prompt: "Return all unique triplets [a, b, c] where a + b + c == 0.",
-        starter: "def threeSum(nums):\n    nums.sort()\n    result = []\n\n    # your code here\n",
-        tests: "assert threeSum([-1,0,1,2,-1,-4]) == [[-1,-1,2],[-1,0,1]]\nassert threeSum([0,0,0,0]) == [[0,0,0]]"
-      },
-      {
-        id: "leetcode-longest-substring",
-        source: "leetcode",
-        pattern: "Sliding Window",
-        difficulty: "Medium",
-        title: "Longest Substring Without Repeating Characters",
-        url: "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
-        prompt: "Return the length of the longest substring without repeating characters.",
-        starter: "def lengthOfLongestSubstring(s):\n    left = 0\n    window = set()\n    best = 0\n\n    # your code here\n",
-        tests: "assert lengthOfLongestSubstring(\"abcabcbb\") == 3\nassert lengthOfLongestSubstring(\"bbbbb\") == 1\nassert lengthOfLongestSubstring(\"\") == 0"
-      },
-      {
-        id: "leetcode-valid-parentheses",
-        source: "leetcode",
-        pattern: "Stack",
-        difficulty: "Easy",
-        title: "Valid Parentheses",
-        url: "https://leetcode.com/problems/valid-parentheses/",
-        prompt: "Return True if brackets close in the correct order.",
-        starter: "def isValid(s):\n    pairs = {\")\": \"(\", \"]\": \"[\", \"}\": \"{\"}\n    stack = []\n\n    # your code here\n",
-        tests: "assert isValid(\"()[]{}\") is True\nassert isValid(\"([)]\") is False\nassert isValid(\"([])\") is True"
-      },
-      {
-        id: "leetcode-binary-search",
-        source: "leetcode",
-        pattern: "Binary Search",
-        difficulty: "Easy",
-        title: "Binary Search",
-        url: "https://leetcode.com/problems/binary-search/",
-        prompt: "Return the index of target in a sorted list, or -1 if not found.",
-        starter: "def search(nums, target):\n    left = 0\n    right = len(nums) - 1\n\n    # your code here\n",
-        tests: "assert search([-1,0,3,5,9,12], 9) == 4\nassert search([-1,0,3,5,9,12], 2) == -1"
-      },
-      {
-        id: "leetcode-merge-intervals",
-        source: "leetcode",
-        pattern: "Intervals",
-        difficulty: "Medium",
-        title: "Merge Intervals",
-        url: "https://leetcode.com/problems/merge-intervals/",
-        prompt: "Merge all overlapping intervals and return the result.",
-        starter: "def merge(intervals):\n    # your code here\n",
-        tests: "assert merge([[1,3],[2,6],[8,10],[15,18]]) == [[1,6],[8,10],[15,18]]\nassert merge([[1,4],[4,5]]) == [[1,5]]"
+        pattern,
+        difficulty,
+        title: `${number}. ${title}`,
+        url: `https://leetcode.com/problems/${slug}/`,
+        prompt: `Solve "${title}" on LeetCode.`,
+        starter: `# ${title}\n# Write your Python solution here\n`,
+        tests: "See the examples and constraints on LeetCode.",
+      }));
+
+      questions.push(...leetcode75Questions);
+
+      const sourceFilter = document.getElementById("source-filter");
+      const patternFilter = document.getElementById("pattern-filter");
+      const difficultyFilter = document.getElementById("difficulty-filter");
+      const searchFilter = document.getElementById("search-filter");
+      const questionList = document.getElementById("question-list");
+      const titleEl = document.getElementById("question-title");
+      const metaEl = document.getElementById("question-meta");
+      const promptEl = document.getElementById("question-prompt");
+      const starterEl = document.getElementById("starter-code");
+      const testsEl = document.getElementById("test-code");
+      const editor = document.getElementById("editor");
+      const statusEl = document.getElementById("status");
+      const externalLink = document.getElementById("external-link");
+      const saveButton = document.getElementById("save-button");
+      const resetButton = document.getElementById("reset-button");
+      const copyButton = document.getElementById("copy-button");
+      const randomButton = document.getElementById("random-button");
+      let selected = questions[0];
+
+      function storageKey(question) {
+        return `dsa-course-draft:${question.id}`;
       }
-    ];
 
-    const leetcode75Questions = [
-      ["1768", "Array / String", "Merge Strings Alternately", "merge-strings-alternately", "Easy"],
-      ["1071", "Array / String", "Greatest Common Divisor of Strings", "greatest-common-divisor-of-strings", "Easy"],
-      ["1431", "Array / String", "Kids With the Greatest Number of Candies", "kids-with-the-greatest-number-of-candies", "Easy"],
-      ["605", "Array / String", "Can Place Flowers", "can-place-flowers", "Easy"],
-      ["345", "Array / String", "Reverse Vowels of a String", "reverse-vowels-of-a-string", "Easy"],
-      ["151", "Array / String", "Reverse Words in a String", "reverse-words-in-a-string", "Medium"],
-      ["238", "Array / String", "Product of Array Except Self", "product-of-array-except-self", "Medium"],
-      ["334", "Array / String", "Increasing Triplet Subsequence", "increasing-triplet-subsequence", "Medium"],
-      ["443", "Array / String", "String Compression", "string-compression", "Medium"],
-      ["283", "Two Pointers", "Move Zeroes", "move-zeroes", "Easy"],
-      ["392", "Two Pointers", "Is Subsequence", "is-subsequence", "Easy"],
-      ["11", "Two Pointers", "Container With Most Water", "container-with-most-water", "Medium"],
-      ["1679", "Two Pointers", "Max Number of K-Sum Pairs", "max-number-of-k-sum-pairs", "Medium"],
-      ["643", "Sliding Window", "Maximum Average Subarray I", "maximum-average-subarray-i", "Easy"],
-      ["1456", "Sliding Window", "Maximum Number of Vowels in a Substring of Given Length", "maximum-number-of-vowels-in-a-substring-of-given-length", "Medium"],
-      ["1004", "Sliding Window", "Max Consecutive Ones III", "max-consecutive-ones-iii", "Medium"],
-      ["1493", "Sliding Window", "Longest Subarray of 1's After Deleting One Element", "longest-subarray-of-1s-after-deleting-one-element", "Medium"],
-      ["1732", "Prefix Sum", "Find the Highest Altitude", "find-the-highest-altitude", "Easy"],
-      ["724", "Prefix Sum", "Find Pivot Index", "find-pivot-index", "Easy"],
-      ["2215", "Hash Map / Set", "Find the Difference of Two Arrays", "find-the-difference-of-two-arrays", "Easy"],
-      ["1207", "Hash Map / Set", "Unique Number of Occurrences", "unique-number-of-occurrences", "Easy"],
-      ["1657", "Hash Map / Set", "Determine if Two Strings Are Close", "determine-if-two-strings-are-close", "Medium"],
-      ["2352", "Hash Map / Set", "Equal Row and Column Pairs", "equal-row-and-column-pairs", "Medium"],
-      ["2390", "Stack", "Removing Stars From a String", "removing-stars-from-a-string", "Medium"],
-      ["735", "Stack", "Asteroid Collision", "asteroid-collision", "Medium"],
-      ["394", "Stack", "Decode String", "decode-string", "Medium"],
-      ["933", "Queue", "Number of Recent Calls", "number-of-recent-calls", "Easy"],
-      ["649", "Queue", "Dota2 Senate", "dota2-senate", "Medium"],
-      ["2095", "Linked List", "Delete the Middle Node of a Linked List", "delete-the-middle-node-of-a-linked-list", "Medium"],
-      ["328", "Linked List", "Odd Even Linked List", "odd-even-linked-list", "Medium"],
-      ["206", "Linked List", "Reverse Linked List", "reverse-linked-list", "Easy"],
-      ["2130", "Linked List", "Maximum Twin Sum of a Linked List", "maximum-twin-sum-of-a-linked-list", "Medium"],
-      ["104", "Binary Tree - DFS", "Maximum Depth of Binary Tree", "maximum-depth-of-binary-tree", "Easy"],
-      ["872", "Binary Tree - DFS", "Leaf-Similar Trees", "leaf-similar-trees", "Easy"],
-      ["1448", "Binary Tree - DFS", "Count Good Nodes in Binary Tree", "count-good-nodes-in-binary-tree", "Medium"],
-      ["437", "Binary Tree - DFS", "Path Sum III", "path-sum-iii", "Medium"],
-      ["1372", "Binary Tree - DFS", "Longest ZigZag Path in a Binary Tree", "longest-zigzag-path-in-a-binary-tree", "Medium"],
-      ["236", "Binary Tree - DFS", "Lowest Common Ancestor of a Binary Tree", "lowest-common-ancestor-of-a-binary-tree", "Medium"],
-      ["199", "Binary Tree - BFS", "Binary Tree Right Side View", "binary-tree-right-side-view", "Medium"],
-      ["1161", "Binary Tree - BFS", "Maximum Level Sum of a Binary Tree", "maximum-level-sum-of-a-binary-tree", "Medium"],
-      ["700", "Binary Search Tree", "Search in a Binary Search Tree", "search-in-a-binary-search-tree", "Easy"],
-      ["450", "Binary Search Tree", "Delete Node in a BST", "delete-node-in-a-bst", "Medium"],
-      ["841", "Graphs - DFS", "Keys and Rooms", "keys-and-rooms", "Medium"],
-      ["547", "Graphs - DFS", "Number of Provinces", "number-of-provinces", "Medium"],
-      ["1466", "Graphs - DFS", "Reorder Routes to Make All Paths Lead to the City Zero", "reorder-routes-to-make-all-paths-lead-to-the-city-zero", "Medium"],
-      ["399", "Graphs - DFS", "Evaluate Division", "evaluate-division", "Medium"],
-      ["1926", "Graphs - BFS", "Nearest Exit from Entrance in Maze", "nearest-exit-from-entrance-in-maze", "Medium"],
-      ["994", "Graphs - BFS", "Rotting Oranges", "rotting-oranges", "Medium"],
-      ["215", "Heap / Priority Queue", "Kth Largest Element in an Array", "kth-largest-element-in-an-array", "Medium"],
-      ["2336", "Heap / Priority Queue", "Smallest Number in Infinite Set", "smallest-number-in-infinite-set", "Medium"],
-      ["2542", "Heap / Priority Queue", "Maximum Subsequence Score", "maximum-subsequence-score", "Medium"],
-      ["2462", "Heap / Priority Queue", "Total Cost to Hire K Workers", "total-cost-to-hire-k-workers", "Medium"],
-      ["374", "Binary Search", "Guess Number Higher or Lower", "guess-number-higher-or-lower", "Easy"],
-      ["2300", "Binary Search", "Successful Pairs of Spells and Potions", "successful-pairs-of-spells-and-potions", "Medium"],
-      ["162", "Binary Search", "Find Peak Element", "find-peak-element", "Medium"],
-      ["875", "Binary Search", "Koko Eating Bananas", "koko-eating-bananas", "Medium"],
-      ["17", "Backtracking", "Letter Combinations of a Phone Number", "letter-combinations-of-a-phone-number", "Medium"],
-      ["216", "Backtracking", "Combination Sum III", "combination-sum-iii", "Medium"],
-      ["1137", "DP - 1D", "N-th Tribonacci Number", "n-th-tribonacci-number", "Easy"],
-      ["746", "DP - 1D", "Min Cost Climbing Stairs", "min-cost-climbing-stairs", "Easy"],
-      ["198", "DP - 1D", "House Robber", "house-robber", "Medium"],
-      ["790", "DP - 1D", "Domino and Tromino Tiling", "domino-and-tromino-tiling", "Medium"],
-      ["62", "DP - Multidimensional", "Unique Paths", "unique-paths", "Medium"],
-      ["1143", "DP - Multidimensional", "Longest Common Subsequence", "longest-common-subsequence", "Medium"],
-      ["714", "DP - Multidimensional", "Best Time to Buy and Sell Stock with Transaction Fee", "best-time-to-buy-and-sell-stock-with-transaction-fee", "Medium"],
-      ["72", "DP - Multidimensional", "Edit Distance", "edit-distance", "Medium"],
-      ["338", "Bit Manipulation", "Counting Bits", "counting-bits", "Easy"],
-      ["136", "Bit Manipulation", "Single Number", "single-number", "Easy"],
-      ["1318", "Bit Manipulation", "Minimum Flips to Make a OR b Equal to c", "minimum-flips-to-make-a-or-b-equal-to-c", "Medium"],
-      ["208", "Trie", "Implement Trie (Prefix Tree)", "implement-trie-prefix-tree", "Medium"],
-      ["1268", "Trie", "Search Suggestions System", "search-suggestions-system", "Medium"],
-      ["435", "Intervals", "Non-overlapping Intervals", "non-overlapping-intervals", "Medium"],
-      ["452", "Intervals", "Minimum Number of Arrows to Burst Balloons", "minimum-number-of-arrows-to-burst-balloons", "Medium"],
-      ["739", "Monotonic Stack", "Daily Temperatures", "daily-temperatures", "Medium"],
-      ["901", "Monotonic Stack", "Online Stock Span", "online-stock-span", "Medium"]
-    ].map(([number, pattern, title, slug, difficulty]) => ({
-      id: `leetcode-75-${number}`,
-      source: "leetcode",
-      pattern,
-      difficulty,
-      title: `${number}. ${title}`,
-      url: `https://leetcode.com/problems/${slug}/`,
-      prompt: `Solve "${title}" on LeetCode.`,
-      starter: `# ${title}\n# Write your Python solution here\n`,
-      tests: "See the examples and constraints on LeetCode."
-    }));
-
-    questions.push(...leetcode75Questions);
-
-    const sourceFilter = document.getElementById("source-filter");
-    const patternFilter = document.getElementById("pattern-filter");
-    const difficultyFilter = document.getElementById("difficulty-filter");
-    const searchFilter = document.getElementById("search-filter");
-    const questionList = document.getElementById("question-list");
-    const titleEl = document.getElementById("question-title");
-    const metaEl = document.getElementById("question-meta");
-    const promptEl = document.getElementById("question-prompt");
-    const starterEl = document.getElementById("starter-code");
-    const testsEl = document.getElementById("test-code");
-    const editor = document.getElementById("editor");
-    const statusEl = document.getElementById("status");
-    const externalLink = document.getElementById("external-link");
-    const saveButton = document.getElementById("save-button");
-    const resetButton = document.getElementById("reset-button");
-    const copyButton = document.getElementById("copy-button");
-    let selected = questions[0];
-
-    function storageKey(question) {
-      return `dsa-course-draft:${question.id}`;
-    }
-
-    function fillPatternFilter() {
-      const patterns = [...new Set(questions.map((question) => question.pattern))].sort();
-      for (const pattern of patterns) {
-        const option = document.createElement("option");
-        option.value = pattern;
-        option.textContent = pattern;
-        patternFilter.append(option);
-      }
-    }
-
-    function matches(question) {
-      const sourceOk = sourceFilter.value === "all" || question.source === sourceFilter.value;
-      const patternOk = patternFilter.value === "all" || question.pattern === patternFilter.value;
-      const difficultyOk = difficultyFilter.value === "all" || question.difficulty === difficultyFilter.value;
-      const haystack = `${question.title} ${question.pattern} ${question.prompt}`.toLowerCase();
-      const searchOk = haystack.includes(searchFilter.value.trim().toLowerCase());
-      return sourceOk && patternOk && difficultyOk && searchOk;
-    }
-
-    function renderList() {
-      questionList.innerHTML = "";
-      const filtered = questions.filter(matches);
-
-      for (const question of filtered) {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "question-button";
-        button.setAttribute("aria-pressed", String(question.id === selected.id));
-        button.innerHTML = `<strong>${question.title}</strong><span class="question-meta">${question.source} · ${question.pattern} · ${question.difficulty}</span>`;
-        button.addEventListener("click", () => selectQuestion(question));
-        questionList.append(button);
+      function fillPatternFilter() {
+        const patterns = [
+          ...new Set(questions.map((question) => question.pattern)),
+        ].sort();
+        for (const pattern of patterns) {
+          const option = document.createElement("option");
+          option.value = pattern;
+          option.textContent = pattern;
+          patternFilter.append(option);
+        }
       }
 
-      if (filtered.length === 0) {
-        const empty = document.createElement("p");
-        empty.className = "small";
-        empty.textContent = "No questions match these filters.";
-        questionList.append(empty);
+      function matches(question) {
+        const sourceOk =
+          sourceFilter.value === "all" ||
+          question.source === sourceFilter.value;
+        const patternOk =
+          patternFilter.value === "all" ||
+          question.pattern === patternFilter.value;
+        const difficultyOk =
+          difficultyFilter.value === "all" ||
+          question.difficulty === difficultyFilter.value;
+        const haystack =
+          `${question.title} ${question.pattern} ${question.prompt}`.toLowerCase();
+        const searchOk = haystack.includes(
+          searchFilter.value.trim().toLowerCase(),
+        );
+        return sourceOk && patternOk && difficultyOk && searchOk;
       }
-    }
 
-    function selectQuestion(question) {
-      selected = question;
-      titleEl.textContent = question.title;
-      metaEl.textContent = `${question.source} · ${question.pattern} · ${question.difficulty}`;
-      promptEl.textContent = question.prompt;
-      starterEl.textContent = question.starter;
-      testsEl.textContent = question.tests;
-      editor.value = localStorage.getItem(storageKey(question)) || question.starter;
-      externalLink.href = question.url;
-      externalLink.textContent = question.source === "leetcode" ? "Open LeetCode" : "Open Lesson";
-      statusEl.textContent = "Draft loaded.";
-      renderList();
-    }
+      function renderList() {
+        questionList.innerHTML = "";
+        const filtered = questions.filter(matches);
 
-    function saveDraft() {
-      localStorage.setItem(storageKey(selected), editor.value);
-      statusEl.textContent = "Draft saved in this browser.";
-    }
+        for (const question of filtered) {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "question-button";
+          button.setAttribute(
+            "aria-pressed",
+            String(question.id === selected.id),
+          );
+          button.innerHTML = `<strong>${question.title}</strong><span class="question-meta">${question.source} · ${question.pattern} · ${question.difficulty}</span>`;
+          button.addEventListener("click", () => selectQuestion(question));
+          questionList.append(button);
+        }
 
-    function resetStarter() {
-      editor.value = selected.starter;
-      saveDraft();
-      statusEl.textContent = "Starter restored.";
-    }
-
-    async function copySolution() {
-      await navigator.clipboard.writeText(editor.value);
-      statusEl.textContent = "Solution copied.";
-    }
-
-    function handleTab(event) {
-      if (event.key !== "Tab") {
-        return;
+        if (filtered.length === 0) {
+          const empty = document.createElement("p");
+          empty.className = "small";
+          empty.textContent = "No questions match these filters.";
+          questionList.append(empty);
+        }
       }
-      event.preventDefault();
-      const start = editor.selectionStart;
-      const end = editor.selectionEnd;
-      editor.value = `${editor.value.slice(0, start)}    ${editor.value.slice(end)}`;
-      editor.selectionStart = start + 4;
-      editor.selectionEnd = start + 4;
-    }
 
-    fillPatternFilter();
-    selectQuestion(selected);
-    sourceFilter.addEventListener("change", renderList);
-    patternFilter.addEventListener("change", renderList);
-    difficultyFilter.addEventListener("change", renderList);
-    searchFilter.addEventListener("input", renderList);
-    saveButton.addEventListener("click", saveDraft);
-    resetButton.addEventListener("click", resetStarter);
-    copyButton.addEventListener("click", copySolution);
-    editor.addEventListener("keydown", handleTab);
-    editor.addEventListener("input", () => {
-      localStorage.setItem(storageKey(selected), editor.value);
-      statusEl.textContent = "Draft autosaved.";
-    });
-  </script>
-</body>
+      function chooseRandomQuestion() {
+        const pool = questions.filter(matches);
+        if (pool.length === 0) {
+          statusEl.textContent = "No questions match these filters.";
+          return;
+        }
+
+        const choices =
+          pool.length > 1
+            ? pool.filter((question) => question.id !== selected.id)
+            : pool;
+        const question = choices[Math.floor(Math.random() * choices.length)];
+        selectQuestion(question);
+      }
+
+      function selectQuestion(question) {
+        selected = question;
+        titleEl.textContent = question.title;
+        metaEl.textContent = `${question.source} · ${question.pattern} · ${question.difficulty}`;
+        promptEl.textContent = question.prompt;
+        starterEl.textContent = question.starter;
+        testsEl.textContent = question.tests;
+        editor.value =
+          localStorage.getItem(storageKey(question)) || question.starter;
+        externalLink.href = question.url;
+        externalLink.textContent =
+          question.source === "leetcode" ? "Open LeetCode" : "Open Lesson";
+        statusEl.textContent = "Draft loaded.";
+        renderList();
+      }
+
+      function saveDraft() {
+        localStorage.setItem(storageKey(selected), editor.value);
+        statusEl.textContent = "Draft saved in this browser.";
+      }
+
+      function resetStarter() {
+        editor.value = selected.starter;
+        saveDraft();
+        statusEl.textContent = "Starter restored.";
+      }
+
+      async function copySolution() {
+        await navigator.clipboard.writeText(editor.value);
+        statusEl.textContent = "Solution copied.";
+      }
+
+      function handleTab(event) {
+        if (event.key !== "Tab") {
+          return;
+        }
+        event.preventDefault();
+        const start = editor.selectionStart;
+        const end = editor.selectionEnd;
+        editor.value = `${editor.value.slice(0, start)}    ${editor.value.slice(end)}`;
+        editor.selectionStart = start + 4;
+        editor.selectionEnd = start + 4;
+      }
+
+      fillPatternFilter();
+      selectQuestion(selected);
+      sourceFilter.addEventListener("change", renderList);
+      patternFilter.addEventListener("change", renderList);
+      difficultyFilter.addEventListener("change", renderList);
+      searchFilter.addEventListener("input", renderList);
+      saveButton.addEventListener("click", saveDraft);
+      resetButton.addEventListener("click", resetStarter);
+      copyButton.addEventListener("click", copySolution);
+      randomButton.addEventListener("click", chooseRandomQuestion);
+      editor.addEventListener("keydown", handleTab);
+      editor.addEventListener("input", () => {
+        localStorage.setItem(storageKey(selected), editor.value);
+        statusEl.textContent = "Draft autosaved.";
+      });
+    </script>
+  </body>
 </html>
